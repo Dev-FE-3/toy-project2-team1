@@ -11,11 +11,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "components": "^0.1.0",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "morgan": "^1.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "styled": "^1.0.0",
     "vite-plugin-static-copy": "^2.2.0"
   },
   "devDependencies": {
