@@ -14,8 +14,8 @@ ${reset}
 
 :root {
   font-family: "Inter", sans-serif;
-  --background_sub: #F7F2FF;
-  --background_main: #F3F4F6;
+  --background-sub: #F7F2FF;
+  --background-main: #F3F4F6;
   --box-container: #FFFFFF;
   --font-main: #2D3648;
   --font-sub: #7A7E87;
@@ -23,6 +23,10 @@ ${reset}
   --point-gray: #BDBDBD;
   --point-red: #EE534F;
   --point-yellow: #FBC02D;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -34,7 +38,7 @@ body {
   font-family: "Inter", sans-serif;
   font-weight: 400;
   font-variation-settings: "wght" 400;
-  background-color: var(--background_main);
+  background-color: var(--background-main);
 }
 `
 
