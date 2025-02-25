@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.REACT_APP_API_KEY,
@@ -13,21 +13,12 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app); // 인증
-export const storage = getStorage(app); // 데이터베이스
+export const db = getFirestore(app); // 데이터베이스
 
-// 파일 업로드와 URL 얻기 함수 정의
-export const uploadFile = async (fileData, path) => {
-  const { ref, uploadString, getDownloadURL } = await import(
-    "firebase/storage"
-  );
-  const fileRef = ref(storage, path);
-  const response = await uploadString(fileRef, fileData, "data_url");
-  const url = await getDownloadURL(fileRef);
-
-  console.log("Upload metadata:", response.metadata);
-
-  return {
-    url,
-    metadata: response.metadata,
-  };
+// Firestore 문서 추가 예시
+export const addDocument = async (collectionName, data) => {
+  const { collection, addDoc } = await import("firebase/firestore");
+  const docRef = await addDoc(collection(db, collectionName), data);
+  console.log("Document written with ID: ", docRef.id);
+  return docRef.id;
 };
