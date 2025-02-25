@@ -14,6 +14,7 @@
     "components": "^0.1.0",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "firebase": "^11.3.1",
     "morgan": "^1.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
