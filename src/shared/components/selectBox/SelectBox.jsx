@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import iconSelectBox from '../../../assets/icon-selectBox.png'
+import iconSelectBox from '@/assets/icon-selectBox.png'
 
 //firebase 나오기 전까지 dummy
 const dummyArr = [

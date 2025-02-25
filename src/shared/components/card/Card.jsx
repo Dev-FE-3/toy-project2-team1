@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import CardDetail from '../../../assets/icon-card-detail.png'
-import CardPlus from '../../../assets/icon-card-plus.png'
+import CardDetail from '@/assets/icon-card-detail.png'
+import CardPlus from '@/assets/icon-card-plus.png'
 
 const CardWrapper = styled.div`
   width: 50rem;
