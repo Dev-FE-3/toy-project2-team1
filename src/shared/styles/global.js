@@ -40,6 +40,20 @@ body {
   font-variation-settings: "wght" 400;
   background-color: var(--background-main);
 }
+
+::-webkit-scrollbar {
+    width: .6rem;
+    height: .6rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #9E9E9E; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+::-webkit-scrollbar-track {
+    background: #D9D9D9;  /*스크롤바 뒷 배경 색상*/
+}
 `
 
 export default GlobalStyle
