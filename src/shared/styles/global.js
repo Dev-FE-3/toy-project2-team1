@@ -38,7 +38,7 @@ body {
   font-size: 1.4rem;
   font-family: "Inter", sans-serif;
   font-weight: 400;
-  font-variation-settings: "wght" 400;
+  font-variation-settings: normal;
   background-color: var(--background-main);
 }
 
