@@ -24,7 +24,8 @@ const CardTitle = styled.p`
 const CardIcon = styled.div`
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${(props) => (props.detail === 'detail' ? CardDetail : CardPlus)});
+  background-image: url(${(props) => (props.icon === 'more' ? CardDetail : CardPlus)});
+  background-repeat: no-repeat;
 
   &:hover {
     cursor: pointer;
@@ -40,7 +41,7 @@ function Card({ children, ...props }) {
       <CardWrapper col={props.col} row={props.row}>
         <CardTop>
           <CardTitle>{props.title}</CardTitle>
-          {props.detail && <CardIcon detail={props.detail}></CardIcon>}
+          {props.icon && <CardIcon icon={props.icon}></CardIcon>}
         </CardTop>
         <CardBottom>{children}</CardBottom>
       </CardWrapper>
