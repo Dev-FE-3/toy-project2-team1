@@ -3,10 +3,10 @@ import LogoImage from '@/assets/logo.svg'
 import IconSmile from '@/assets/icon-smile.svg'
 
 export const Header = styled.header`
-  width: 100%;
+  width: 100vw;
   height: 100px;
   background-color: var(--box-container);
-  border-bottom: 1px solid #C3C3C3;
+  border-bottom: 1px solid #c3c3c3;
 `
 export const Wrapper = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
 export const Logo = styled.div`
   width: 200px;
   height: 50px;
-  background: url("${LogoImage}") center center no-repeat;
+  background: url('${LogoImage}') center center no-repeat;
   border: none;
 `
 
@@ -39,6 +39,6 @@ export const UserName = styled.p`
 export const GreetingIcon = styled.div`
   width: 20px;
   height: 20px;
-  background: url("${IconSmile}") center center no-repeat;
+  background: url('${IconSmile}') center center no-repeat;
   background-size: cover;
 `
