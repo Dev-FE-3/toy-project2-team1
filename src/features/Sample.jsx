@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import Button from '@/shared/components/button/Button'
+import { useCallback, useState } from 'react'
+import Modal from '@/shared/components/modal/Modal'
 
 const ContentWrap = styled.div`
   width: 100%;
@@ -8,33 +10,59 @@ const ContentWrap = styled.div`
   border-radius: 1.2rem;
   padding: 4rem;
 `
+const H2 = styled.h2`
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 1rem 0;
+`
 
 export default function Sample() {
+  // 모달 예시
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const handleOpenModal = useCallback(() => {
+    setIsModalOpen(true)
+  }, [])
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false)
+  }, [])
+
   return (
     <>
       <ContentWrap>
         샘플페이지
-        <div style={{ margin: '1rem 0' }}>
+        <div style={{ margin: '3rem 0' }}>
+          <H2>모달 예시</H2>
+          <Button onClick={handleOpenModal}>모달 열기</Button>
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="모달 제목" width="600px">
+            <h3>모달 내용</h3>
+            <p>여기에 원하는 내용을 넣을 수 있습니다.</p>
+            <div style={{ marginTop: '20px' }}>
+              <Button onClick={handleCloseModal}>닫기</Button>
+            </div>
+          </Modal>
+        </div>
+        <div style={{ margin: '3rem 0' }}>
+          <H2>버튼 예시</H2>
           <Button type="button" variant="secondary">
-            버튼 테스트
+            secondary
           </Button>
           <Button type="button" variant="primary">
-            버튼 테스트
+            primary
           </Button>
           <Button type="button" variant="danger">
-            버튼 테스트
+            danger
           </Button>
           <Button type="button" variant="secondary" disabled>
-            비활성 테스트
+            disabled
           </Button>
           <Button type="button" variant="secondary" onClick={() => alert('hi')}>
-            이벤트 테스트
+            onClick
           </Button>
-        </div>
-        <div style={{ margin: '1rem 0' }}>
-          <Button type="button" fullWidth>
-            어느정도너비까지늘어나는거예요
-          </Button>
+          <div style={{ margin: '1rem 0' }}>
+            <Button type="button" fullWidth>
+              어느정도너비까지늘어나는거예요
+            </Button>
+          </div>
         </div>
       </ContentWrap>
     </>
