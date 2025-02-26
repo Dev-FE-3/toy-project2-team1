@@ -6,14 +6,14 @@ const InputBox = styled.input`
   position: relative;
   width: 38rem;
   height: 5.6rem;
-  padding: 1.8rem 1.7rem 1.8rem 3.6rem;
+  padding: 1.5rem 1.5rem 1.5rem 3.6rem;
   border-radius: 0.9rem;
   border: 1px solid #d9d9d9;
-  background: var(--box-container);
+  background-color: var(--box-container);
   background-repeat: no-repeat;
   background-position: 0.8rem center;
+  background-size: 1.7rem;
   font-weight: 700;
-  letter-spacing: -0.014rem;
 
   ${(props) =>
     props.icon === 'login'

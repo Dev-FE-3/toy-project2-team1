@@ -11,16 +11,15 @@ const dummyArr = [
 const Select = styled.select`
   color: var(--font-main);
   text-align: center;
-  font-size: ${(props) => (props.filter === 'filter' ? '1.4rem' : '1.1rem')};
+  font-size: ${(props) => props.size !== 'b' && '1.2rem'};
   font-weight: 400;
-  width: ${(props) => (props.filter === 'filter' ? '12rem' : '7.2rem')};
-  height: ${(props) => (props.filter === 'filter' ? '4.6rem' : '3.6rem')};
-  padding: ${(props) =>
-    props.filter === 'filter' ? '1.2rem 1.2rem 1.2rem 1.6rem;' : '1.2rem 1rem 1.2rem 1.2rem'};
+  width: ${(props) => (props.size === 'b' ? '12rem' : '7.2rem')};
+  height: ${(props) => (props.size === 'b' ? '4.6rem' : '3.6rem')};
+  padding: ${(props) => (props.size === 'b' ? '1.2rem 1.2rem 1.2rem 1.6rem;' : '1rem')};
   border: 1px solid #cbd2e0;
   border-radius: 0.6rem;
   background: var(--box-container) url('${iconSelectBox}') no-repeat 89% 50%/${(props) =>
-  props.filter === 'filter' ? '2.4rem' : '1.6rem'}; auto;
+  props.size === 'b' ? '2.4rem' : '1.6rem'}; auto;
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
@@ -30,14 +29,14 @@ const Select = styled.select`
 
 const Option = styled.option``
 
-function SelectBox({ value, onValueChange, filter }) {
+function SelectBox({ value, onValueChange, size }) {
   const handleChange = (event) => {
     onValueChange(event.target.value)
   }
 
   return (
     <>
-      <Select onChange={handleChange} value={value} filter={filter}>
+      <Select onChange={handleChange} value={value} size={size}>
         <Option value="">선택</Option>
         {dummyArr.map((items) => (
           <Option key={items.id} value={items.id}>

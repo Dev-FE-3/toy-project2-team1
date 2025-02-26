@@ -26,6 +26,7 @@ ${reset}
 }
 
 * {
+  font-size: 1.4rem;
   box-sizing: border-box;
 }
 
