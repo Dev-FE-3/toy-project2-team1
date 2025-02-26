@@ -1,21 +1,21 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from './firebase'
 
 export const signIn = (email, password) => {
-  const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // 로그인 성공
-      const user = userCredential.user;
-      console.log("로그인 성공:", user);
+      const user = userCredential.user
+      console.log('로그인 성공:', user)
       // 여기에 로그인 성공 후 수행할 작업을 추가
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error("로그인 실패:", errorCode, errorMessage);
+      const errorCode = error.code
+      const errorMessage = error.message
+      console.error('로그인 실패:', errorCode, errorMessage)
       // 여기에 로그인 실패 시 수행할 작업을 추가
-    });
-};
+    })
+}
 
 // 사용 예시
 /*
