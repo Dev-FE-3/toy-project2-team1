@@ -31,14 +31,9 @@ export const NavContainer = styled.nav`
 
 export const NavItem = styled(NavLink)`
   ${NavItemStyle}
+  ${({ $indent }) => $indent && 'padding-left: 9rem;'}
 
-  &.sub-menu {
-    padding-left: 9rem;
-  }
-  &.active {
-    background-color: var(--background-sub);
-  }
-  &:hover {
+  &.active, &:hover {
     background-color: var(--background-sub);
   }
 `
