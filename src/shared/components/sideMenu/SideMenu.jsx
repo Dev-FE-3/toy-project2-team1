@@ -1,7 +1,7 @@
 import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
-import { MENU_LIST } from '@/constant/menuList'
-import { ADMIN_MENUS } from '@/constant/menuList'
+import { MENU_LIST } from '@/constants/menu/menuList'
+import { ADMIN_MENUS } from '@/constants/menu/menuList'
 import AdminMenuIcon from '@/assets/icon-user.svg'
 
 export default function SideMenu() {
