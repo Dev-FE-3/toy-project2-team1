@@ -60,8 +60,13 @@ const router = createBrowserRouter([
 
   // 샘플 페이지
   {
-    path: '/sample',
-    element: <Sample />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: '/sample',
+        element: <Sample />,
+      },
+    ],
   },
 ])
 

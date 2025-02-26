@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import MainLayout from '@/app/layout/MainLayout'
 import Button from '@/shared/components/button/Button'
 
 const ContentWrap = styled.div`
@@ -13,7 +12,6 @@ const ContentWrap = styled.div`
 export default function Sample() {
   return (
     <>
-      <MainLayout />
       <ContentWrap>
         샘플페이지
         <div style={{ margin: '1rem 0' }}>
