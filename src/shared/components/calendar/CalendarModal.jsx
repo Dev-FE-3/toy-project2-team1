@@ -72,12 +72,11 @@ const CalendarMonth = styled.div`
     `}
 `
 
-const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
 function CalendarModal({ display, onChange }) {
   const [year, setYear] = useState(getDate('year'))
   const currentMonth = useRef(getDate('month'))
   const currentYear = useRef(getDate('year'))
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] //상수화?
 
   const handleMonthClick = (monthValue) => {
     onChange(monthValue)
