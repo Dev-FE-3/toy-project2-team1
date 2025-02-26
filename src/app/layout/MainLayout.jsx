@@ -12,6 +12,7 @@ const MainContent = styled.main`
   width: calc(100% - 280px);
   max-height: calc(1080px - 80px);
   display: flex;
+  flex-wrap: wrap;
   gap: 2.4rem;
   padding: 4rem 4rem;
 `
