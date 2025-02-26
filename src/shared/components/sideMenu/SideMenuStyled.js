@@ -6,7 +6,7 @@ const NavItemStyle = `
   align-items: center;
   width: 100%;
   height: 56px;
-  padding: 1.6rem 6rem;
+  padding: 1.6rem 4rem;
   background-color: var(--box-container);
   text-decoration: none;
   color: var(--font-main);
@@ -16,8 +16,8 @@ export const NavContainer = styled.nav`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 350px;
-  height: calc(100vh - 100px);
+  width: 280px;
+  height: calc(100vh - 80px);
   padding-top: 2.2rem;
   background-color: var(--box-container);
   border-right: 1px solid #c3c3c3;
@@ -31,7 +31,7 @@ export const NavContainer = styled.nav`
 
 export const NavItem = styled(NavLink)`
   ${NavItemStyle}
-  ${({ $indent }) => $indent && 'padding-left: 9rem;'}
+  ${({ $indent }) => $indent && 'padding-left: 7rem;'}
 
   &.active, &:hover {
     background-color: var(--background-sub);

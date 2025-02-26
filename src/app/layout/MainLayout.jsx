@@ -9,9 +9,9 @@ const LayoutContainer = styled.div`
   height: 100vh;
 `
 const MainContent = styled.main`
-  width: calc(100% - 350px);
-  max-height: calc(1080px - 100px);
-  padding: 4rem 8rem;
+  width: calc(100% - 280px);
+  max-height: calc(1080px - 80px);
+  padding: 4rem 4rem;
 `
 const FlexContainer = styled.div`
   display: flex;

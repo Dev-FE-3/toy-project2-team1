@@ -3,7 +3,7 @@ import LogoImage from '@/assets/logo.svg'
 
 export const Header = styled.header`
   width: 100vw;
-  height: 100px;
+  height: 80px;
   background-color: var(--box-container);
   border-bottom: 1px solid #c3c3c3;
 `
@@ -18,8 +18,8 @@ export const Wrapper = styled.div`
 `
 
 export const Logo = styled.div`
-  width: 200px;
-  height: 50px;
+  width: 140px;
+  height: 36px;
   background: url('${LogoImage}') center center no-repeat;
   border: none;
 `
