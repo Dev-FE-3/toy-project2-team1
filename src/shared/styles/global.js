@@ -23,6 +23,7 @@ ${reset}
   --point-gray: #BDBDBD;
   --point-red: #EE534F;
   --point-yellow: #FBC02D;
+  --gutter:2.4rem;
 }
 
 * {

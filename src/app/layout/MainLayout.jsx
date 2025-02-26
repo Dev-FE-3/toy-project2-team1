@@ -11,6 +11,8 @@ const LayoutContainer = styled.div`
 const MainContent = styled.main`
   width: calc(100% - 280px);
   max-height: calc(1080px - 80px);
+  display: flex;
+  gap: 2.4rem;
   padding: 4rem 4rem;
 `
 const FlexContainer = styled.div`

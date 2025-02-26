@@ -3,7 +3,10 @@ import CardDetail from '@/assets/icon-card-detail.png'
 import CardPlus from '@/assets/icon-card-plus.png'
 
 const CardWrapper = styled.div`
-  width: 50rem;
+  width: ${(props) =>
+    `calc(${Number(
+      props.size,
+    )} * 8.33333333% - var(--gutter))`}; /* calc를 문자열로 감싸야 합니다 */
   height: 20rem;
   padding: 24px;
   border-radius: 1.2rem;
@@ -38,7 +41,7 @@ const CardBottom = styled.div`
 function Card({ children, ...props }) {
   return (
     <>
-      <CardWrapper col={props.col} row={props.row}>
+      <CardWrapper size={props.size}>
         <CardTop>
           <CardTitle>{props.title}</CardTitle>
           {props.icon && <CardIcon icon={props.icon}></CardIcon>}
