@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import LogoImage from '@/assets/logo.svg'
-import IconSmile from '@/assets/icon-smile.svg'
 
 export const Header = styled.header`
   width: 100vw;
@@ -36,9 +35,7 @@ export const UserName = styled.p`
   font-weight: 700;
 `
 
-export const GreetingIcon = styled.div`
+export const GreetingIcon = styled.img`
   width: 20px;
   height: 20px;
-  background: url('${IconSmile}') center center no-repeat;
-  background-size: cover;
 `
