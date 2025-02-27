@@ -33,7 +33,7 @@ export default function SideMenu() {
           </li>
         )}
       </ul>
-      <S.Logout>로그아웃</S.Logout>
+      <S.Logout to="/logout">로그아웃</S.Logout>
     </S.NavContainer>
   )
 }
