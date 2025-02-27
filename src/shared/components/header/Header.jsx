@@ -5,7 +5,7 @@ export default function Header({ userName }) {
   return (
     <S.Header>
       <S.Wrapper>
-        <S.Logo />
+        <S.Logo to="/" />
         <S.Greeting>
           안녕하세요, <S.UserName>{userName}</S.UserName>님
           <S.GreetingIcon src={IconSmile} />
