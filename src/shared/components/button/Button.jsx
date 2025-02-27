@@ -23,7 +23,7 @@ const variantStyles = {
 
 const StyledButton = styled.button`
   ${({ $variant }) => variantStyles[$variant]};
-  width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
+  width: ${({ $isFullWidth }) => ($isFullWidth ? '100%' : 'auto')};
 
   display: inline-flex;
   align-items: center;
@@ -46,7 +46,7 @@ const StyledButton = styled.button`
 export default function Button({
   children,
   variant = 'primary',
-  fullWidth = false,
+  isFullWidth = false,
   disabled = false,
   onClick,
   ...props
@@ -54,7 +54,7 @@ export default function Button({
   return (
     <StyledButton
       $variant={variant}
-      $fullWidth={fullWidth}
+      $isFullWidth={isFullWidth}
       disabled={disabled}
       onClick={onClick}
       {...props}

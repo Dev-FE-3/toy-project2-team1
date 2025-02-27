@@ -58,9 +58,11 @@ export default function Sample() {
           <Button type="button" variant="secondary" onClick={() => alert('hi')}>
             onClick
           </Button>
-          <div style={{ margin: '1rem 0' }}>
-            <Button type="button" fullWidth>
+          <div style={{ margin: '1rem 0', width: '500px' }}>
+            <Button type="button" isFullWidth>
               어느정도너비까지늘어나는거예요
+              <br />
+              (부모 너비에 맞게 늘어납니다)
             </Button>
           </div>
         </div>
