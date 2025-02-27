@@ -1,4 +1,4 @@
-import { collection, addDoc, getDoc, getDocs, doc } from "firebase/firestore";
+import { collection, addDoc, getDoc, getDocs, doc, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 
 // Create (문서 추가)
@@ -16,7 +16,8 @@ export const addDocument = async (collectionName, data) => {
 // Read (단일 문서 읽기)
 export const getDocument = async (collectionName, docId) => {
   try {
-    const docSnap = await getDoc(doc(db, collectionName, docId));
+    const docRef = doc(db, collectionName, docId);
+    const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
     } else {
@@ -28,6 +29,22 @@ export const getDocument = async (collectionName, docId) => {
     throw e;
   }
 };
+
+// Read (특정 조건에 맞는 문서 읽어오기)
+export const getDocumentsWithCondition = async (collectionName, fieldName, condition, value) => {
+  try {
+    const q = query(collection(db, collectionName), where(fieldName, condition, value));
+    const querySnapshot = await getDocs(q);
+    const documents = [];
+    querySnapshot.forEach((doc) => {
+      documents.push({ id: doc.id, ...doc.data() });
+    });
+    return documents
+  } catch (e) {
+    console.error('조건에 맞는 문서 가져오기 중 오류 발생:', e);
+    throw e;
+  }
+}
 
 // Read (컬렉션 전체 읽기)
 export const getCollection = async (collectionName) => {
