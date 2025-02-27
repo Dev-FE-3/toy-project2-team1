@@ -43,7 +43,7 @@ export default function Modal({
           {title !== '' && <S.Title $isDecorated={isDecorated}>{title}</S.Title>}
           <S.CloseIcon onClick={onClose} />
         </S.Header>
-        <S.Content>{children}</S.Content>
+        <S.Content $title={title}>{children}</S.Content>
       </S.ModalContainer>
     </S.Overlay>,
     document.querySelector('main'),

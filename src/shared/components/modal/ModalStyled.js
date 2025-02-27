@@ -34,23 +34,17 @@ export const Header = styled.div`
 `
 
 export const Title = styled.h2`
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 24px;
   line-height: 24px;
   font-size: 2.4rem;
   font-weight: bold;
   padding-left: ${({ $isDecorated }) => ($isDecorated ? '1.5rem' : '0')};
-  margin-bottom: 2.4rem;
-  padding-bottom: 2.4rem;
 
   &::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%); // 수직정렬
+    top: 0;
     width: 3px;
     height: 24px;
     background-color: var(--main);
@@ -70,6 +64,8 @@ export const CloseIcon = styled.img.attrs({
 `
 
 export const Content = styled.div`
+  min-height: 100px;
   max-height: calc(90% - 11.2rem);
   overflow: auto;
+  margin-top: ${({ $title }) => ($title ? '2.4rem' : 0)};
 `
