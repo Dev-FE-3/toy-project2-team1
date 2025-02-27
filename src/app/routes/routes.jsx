@@ -9,11 +9,17 @@ import MyDocument from '@/features/users/my-document/MyDocument'
 import Approval from '@/features/admin/approval/Approval'
 import PayStubManagement from '@/features/admin/pay-stub-management/PayStubManagement'
 import DesignGuide from '@/features/design-guide/DesignGuide'
+import ProtectedRoute from './ProtectedRoute'
+import PublicRoute from './PublicRoute'
 
 const router = createBrowserRouter([
   // 인증 필요없는 라우트 (로그인,회원가입)
   {
-    element: <AuthLayout />,
+    element: (
+      <PublicRoute>
+        <AuthLayout />
+      </PublicRoute>
+    ),
     children: [
       {
         path: '/login',
@@ -24,7 +30,11 @@ const router = createBrowserRouter([
 
   // 인증이 필요한 라우트 (로그인 후 접속가능)
   {
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: '/',
