@@ -22,13 +22,13 @@ const variantStyles = {
 }
 
 const StyledButton = styled.button`
-  ${({ $variant }) => variantStyles[$variant]}
+  ${({ $variant }) => variantStyles[$variant]};
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: .8rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   border: none;
   border-radius: 0.8rem;
   text-align: center;
