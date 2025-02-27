@@ -8,7 +8,7 @@ import PayStub from '@/features/users/pay-stub/PayStub'
 import MyDocument from '@/features/users/my-document/MyDocument'
 import Approval from '@/features/admin/approval/Approval'
 import PayStubManagement from '@/features/admin/pay-stub-management/PayStubManagement'
-import Sample from '@/features/Sample'
+import DesignGuide from '@/features/design-guide/DesignGuide'
 
 const router = createBrowserRouter([
   // 인증 필요없는 라우트 (로그인,회원가입)
@@ -63,8 +63,8 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '/sample',
-        element: <Sample />,
+        path: '/design-guide',
+        element: <DesignGuide />,
       },
     ],
   },
