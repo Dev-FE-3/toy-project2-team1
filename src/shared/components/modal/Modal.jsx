@@ -2,7 +2,14 @@ import * as S from './ModalStyled'
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-export default function Modal({ isOpen, onClose, title, children, width = 'auto' }) {
+export default function Modal({
+  isOpen,
+  onClose,
+  title = '',
+  isDecorated = true,
+  children,
+  width = 'auto',
+}) {
   useEffect(() => {
     // ESC 키로 모달 닫기
     const handleKeyDown = (e) => {
@@ -33,7 +40,7 @@ export default function Modal({ isOpen, onClose, title, children, width = 'auto'
         onClick={(event) => event.stopPropagation()} // 모달 내부 클릭해도 닫히지 않게
       >
         <S.Header>
-          <S.Title>{title}</S.Title>
+          {title !== '' && <S.Title $isDecorated={isDecorated}>{title}</S.Title>}
           <S.CloseIcon onClick={onClose} />
         </S.Header>
         <S.Content>{children}</S.Content>

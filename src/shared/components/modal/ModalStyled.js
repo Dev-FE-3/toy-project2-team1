@@ -27,19 +27,23 @@ export const ModalContainer = styled.div`
 `
 
 export const Header = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.4rem;
 `
 
 export const Title = styled.h2`
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 24px;
   line-height: 24px;
   font-size: 2.4rem;
   font-weight: bold;
-  padding-left: 1.5rem;
+  padding-left: ${({ $isDecorated }) => ($isDecorated ? '1.5rem' : '0')};
+  margin-bottom: 2.4rem;
+  padding-bottom: 2.4rem;
 
   &::before {
     content: '';
@@ -50,6 +54,7 @@ export const Title = styled.h2`
     width: 3px;
     height: 24px;
     background-color: var(--main);
+    display: ${({ $isDecorated }) => ($isDecorated ? 'block' : 'none')};
   }
 `
 
@@ -57,6 +62,9 @@ export const CloseIcon = styled.img.attrs({
   src: closeIcon,
   alt: '닫기',
 })`
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 24px;
   heigh: 24px;
 `
