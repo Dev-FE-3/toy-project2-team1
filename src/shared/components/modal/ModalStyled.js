@@ -15,6 +15,8 @@ export const Overlay = styled.div`
 `
 
 export const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: var(--box-container);
   border-radius: 1.2rem;
   box-shadow: 0px 0px 0.5rem 0.3rem rgba(0, 0, 0, 0.1);
@@ -61,4 +63,5 @@ export const CloseIcon = styled.img.attrs({
 
 export const Content = styled.div`
   max-height: calc(90% - 11.2rem);
+  overflow: auto;
 `
