@@ -4,6 +4,8 @@ import ModalGuide from './ModalGuide'
 import CalendarModalGuide from './CalendarModalGuide'
 import CardGuide from './CardGuide'
 import SelectBoxGuide from './SelectBoxGuide'
+import InputGuide from './InputGuide'
+import ScrollGuide from './ScrollGuide'
 
 const ContentWrap = styled.div`
   width: 100%;
@@ -45,6 +47,14 @@ export default function DesignGuide() {
       <Example>
         <H2>셀렉트박스 예시</H2>
         <SelectBoxGuide />
+      </Example>
+      <Example>
+        <H2>인풋 예시</H2>
+        <InputGuide />
+      </Example>
+      <Example>
+        <H2>스크롤 예시</H2>
+        <ScrollGuide />
       </Example>
     </ContentWrap>
   )
