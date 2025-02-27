@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, signOut as firebaseSignOut } from 'firebase/auth'
 import { auth } from './firebase'
 
 export const signIn = (email, password) => {
@@ -17,11 +17,14 @@ export const signIn = (email, password) => {
     })
 }
 
-// 사용 예시
-/*
-const handleLogin = () => {
-  const email = "user@example.com"; // 실제 사용 시 사용자 입력값으로 대체
-  const password = "password123"; // 실제 사용 시 사용자 입력값으로 대체
-  signIn(email, password);
-};
-*/
+export const signOut = () => {
+  firebaseSignOut(auth)
+    .then(() => {
+      console.log('로그아웃 성공')
+      // 여기에 로그아웃 성공 후 수행할 작업을 추가
+    })
+    .catch((error) => {
+      console.error('로그아웃 실패:', error)
+      // 여기에 로그아웃 실패 시 수행할 작업을 추가
+    })
+}
