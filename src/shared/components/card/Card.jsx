@@ -35,13 +35,13 @@ const CardBottom = styled.div`
   display: flex;
 `
 
-function Card({ children, ...props }) {
+function Card({ children, title, size = 3, icon }) {
   return (
     <>
-      <CardWrapper $size={props.size}>
+      <CardWrapper $size={size}>
         <CardTop>
-          <CardTitle>{props.title}</CardTitle>
-          {props.icon && <CardIcon $icon={props.icon}></CardIcon>}
+          <CardTitle>{title}</CardTitle>
+          {icon && <CardIcon $icon={icon}></CardIcon>}
         </CardTop>
         <CardBottom>{children}</CardBottom>
       </CardWrapper>

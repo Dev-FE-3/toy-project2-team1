@@ -3,7 +3,9 @@ import { styled, css } from 'styled-components'
 import getDate from '../../utils/utils'
 
 const CalendarDialog = styled.dialog`
-  display: ${(props) => (props.$display ? 'block' : 'none')};
+  display: ${({ $display }) => ($display ? 'block' : 'none')};
+  top: ${({ $top }) => ($top ? $top + 'rem' : '0')};
+  left: ${({ $left }) => ($left ? $left + 'rem' : '0')};
   position: absolute;
   padding: 2rem;
   background: var(--box-container);
@@ -58,11 +60,11 @@ const CalendarMonth = styled.div`
   align-items: center;
   margin: 1rem;
   border-radius: 0.8rem;
-  color: ${({ value, current }) =>
-    Number(value) > Number(current) ? 'var(--point-gray)' : 'var(--font-main)'};
+  color: ${({ $value, $current }) =>
+    Number($value) > Number($current) ? 'var(--point-gray)' : 'var(--font-main)'};
 
-  ${({ value, current }) =>
-    Number(value) <= Number(current) &&
+  ${({ $value, $current }) =>
+    Number($value) <= Number($current) &&
     css`
       &:hover {
         cursor: pointer;
@@ -72,7 +74,7 @@ const CalendarMonth = styled.div`
     `}
 `
 
-function CalendarModal({ display, onChange }) {
+function CalendarModal({ display, onChange, top, left }) {
   const [year, setYear] = useState(getDate('year'))
   const currentMonth = useRef(getDate('month'))
   const currentYear = useRef(getDate('year'))
@@ -101,7 +103,7 @@ function CalendarModal({ display, onChange }) {
 
   return (
     <>
-      <CalendarDialog $display={display}>
+      <CalendarDialog $display={display} $top={top} $left={left}>
         <CalendarContainer>
           <CalendarTop>
             <CalendarBackward onClick={() => changeYear('prev')}>
@@ -150,8 +152,8 @@ function CalendarModal({ display, onChange }) {
                       return (
                         <CalendarMonth
                           key={m}
-                          value={monthValue}
-                          current={`${currentYear.current}${String(currentMonth.current).padStart(
+                          $value={monthValue}
+                          $current={`${currentYear.current}${String(currentMonth.current).padStart(
                             2,
                             '0',
                           )}`}

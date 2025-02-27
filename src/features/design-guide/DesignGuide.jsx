@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import ButtonGuide from './ButtonGuide'
 import ModalGuide from './ModalGuide'
+import CalendarModalGuide from './CalendarModalGuide'
+import CardGuide from './CardGuide'
+import SelectBoxGuide from './SelectBoxGuide'
 
 const ContentWrap = styled.div`
   width: 100%;
-  height: 100%;
   background-color: var(--box-container);
   border-radius: 1.2rem;
   padding: 4rem;
@@ -31,6 +33,18 @@ export default function DesignGuide() {
       <Example>
         <H2>모달 예시</H2>
         <ModalGuide />
+      </Example>
+      <Example>
+        <H2>캘린더 모달 예시</H2>
+        <CalendarModalGuide />
+      </Example>
+      <Example>
+        <H2>카드 예시</H2>
+        <CardGuide />
+      </Example>
+      <Example>
+        <H2>셀렉트박스 예시</H2>
+        <SelectBoxGuide />
       </Example>
     </ContentWrap>
   )

@@ -2,11 +2,20 @@ import styled from 'styled-components'
 import iconSelectBox from '@/assets/icon-selectBox.png'
 
 // Firebase 나오기 전까지 사용할 더미 데이터
-const DUMMY_OPTIONS = [
-  { id: 1, name: '결제 전' },
-  { id: 2, name: '승인' },
-  { id: 3, name: '반려' },
+const COMMON_OPTIONS = [
+  { id: 1, name: '승인' },
+  { id: 2, name: '반려' },
 ]
+
+const DUMMY_OPTIONS1 = [{ id: 0, name: '-' }, ...COMMON_OPTIONS]
+const DUMMY_OPTIONS2 = [{ id: 0, name: '결제 전' }, ...COMMON_OPTIONS]
+const DUMMY_OPTIONS3 = [{ id: 0, name: '결제대기' }, ...COMMON_OPTIONS]
+
+const OPTIONS_MAP = {
+  1: DUMMY_OPTIONS1,
+  2: DUMMY_OPTIONS2,
+  3: DUMMY_OPTIONS3,
+}
 
 const Select = styled.select`
   color: var(--font-main);
@@ -29,15 +38,14 @@ const Select = styled.select`
 
 const Option = styled.option``
 
-function SelectBox({ value, onValueChange, size = 's' }) {
+function SelectBox({ value, onValueChange, size = 's', options = 1 }) {
   const handleChange = (event) => {
     onValueChange(event.target.value)
   }
 
   return (
     <Select onChange={handleChange} value={value} $size={size}>
-      <Option value="">선택</Option>
-      {DUMMY_OPTIONS.map(({ id, name }) => (
+      {OPTIONS_MAP[options].map(({ id, name }) => (
         <Option key={id} value={id}>
           {name}
         </Option>
