@@ -3,7 +3,7 @@ import CardDetail from '@/assets/icon-card-detail.png'
 import CardPlus from '@/assets/icon-card-plus.png'
 
 const CardWrapper = styled.div`
-  width: ${(props) => `calc(${Number(props.size)} * 8.33333333% - var(--gutter))`};
+  width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
   height: 20rem;
   padding: 24px;
   border-radius: 1.2rem;
@@ -24,7 +24,7 @@ const CardTitle = styled.p`
 const CardIcon = styled.div`
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${(props) => (props.icon === 'more' ? CardDetail : CardPlus)});
+  background-image: url(${(props) => (props.$icon === 'more' ? CardDetail : CardPlus)});
   background-repeat: no-repeat;
 
   &:hover {
@@ -38,10 +38,10 @@ const CardBottom = styled.div`
 function Card({ children, ...props }) {
   return (
     <>
-      <CardWrapper size={props.size}>
+      <CardWrapper $size={props.size}>
         <CardTop>
           <CardTitle>{props.title}</CardTitle>
-          {props.icon && <CardIcon icon={props.icon}></CardIcon>}
+          {props.icon && <CardIcon $icon={props.icon}></CardIcon>}
         </CardTop>
         <CardBottom>{children}</CardBottom>
       </CardWrapper>

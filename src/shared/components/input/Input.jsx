@@ -16,7 +16,7 @@ const InputBox = styled.input`
   font-weight: 700;
 
   ${(props) =>
-    props.icon === 'login'
+    props.$icon === 'login'
       ? `background-image: url(${iconMail});`
       : `background-image: url(${iconPassword});
    `}
@@ -36,7 +36,7 @@ function Input({ type, placeholder, icon, value, onValueChange }) {
       <InputBox
         type={type}
         placeholder={placeholder}
-        icon={icon}
+        $icon={icon}
         value={value}
         onChange={handleChange}
       ></InputBox>

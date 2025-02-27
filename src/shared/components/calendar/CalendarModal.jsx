@@ -3,7 +3,7 @@ import { styled, css } from 'styled-components'
 import getDate from '../../utils/utils'
 
 const CalendarDialog = styled.dialog`
-  display: ${(props) => (props.display ? 'block' : 'none')};
+  display: ${(props) => (props.$display ? 'block' : 'none')};
   position: absolute;
   padding: 2rem;
   background: var(--box-container);
@@ -101,7 +101,7 @@ function CalendarModal({ display, onChange }) {
 
   return (
     <>
-      <CalendarDialog display={display}>
+      <CalendarDialog $display={display}>
         <CalendarContainer>
           <CalendarTop>
             <CalendarBackward onClick={() => changeYear('prev')}>
