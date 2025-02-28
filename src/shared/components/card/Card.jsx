@@ -15,7 +15,7 @@ export default function Card({ children, title, size = 3, icon }) {
 const CardWrapper = styled.div`
   width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
   height: 20rem;
-  flex-grow: 1;
+  flex: 0 0 auto;
   padding: 24px;
   border-radius: 1.2rem;
   box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.05);
