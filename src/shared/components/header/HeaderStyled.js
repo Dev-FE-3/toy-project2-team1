@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import LogoImage from '@/assets/logo.svg'
 import { NavLink } from 'react-router-dom'
 
 export const Header = styled.header`
@@ -21,7 +20,7 @@ export const Wrapper = styled.div`
 export const Logo = styled(NavLink)`
   width: 140px;
   height: 36px;
-  background: url('${LogoImage}') center center no-repeat;
+  background: url('/public/images/logo.svg') center center no-repeat;
   border: none;
 `
 

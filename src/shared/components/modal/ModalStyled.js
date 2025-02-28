@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import closeIcon from '@/assets/icon-x.svg'
 
 export const Overlay = styled.div`
   position: absolute;
@@ -53,7 +52,7 @@ export const Title = styled.h2`
 `
 
 export const CloseIcon = styled.img.attrs({
-  src: closeIcon,
+  src: '/public/images/icon-x.svg',
   alt: '닫기',
 })`
   position: absolute;

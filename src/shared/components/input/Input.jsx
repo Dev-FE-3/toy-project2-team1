@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import iconMail from '@/assets/icon-input-mail.png'
-import iconPassword from '@/assets/icon-input-password.png'
 
 const InputStyle = styled.input`
   width: 38rem;
@@ -16,8 +14,8 @@ const InputStyle = styled.input`
 
   ${(props) =>
     props.$icon === 'login'
-      ? `background-image: url(${iconMail});`
-      : `background-image: url(${iconPassword});
+      ? `background-image: url('/public/images/icon-input-mail.png');`
+      : `background-image: url('/public/images/icon-input-password.png');
    `}
 
   &::placeholder {

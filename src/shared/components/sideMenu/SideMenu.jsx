@@ -2,7 +2,6 @@ import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/constants/menu/menuList'
 import { ADMIN_MENUS } from '@/constants/menu/menuList'
-import AdminMenuIcon from '@/assets/icon-user.svg'
 
 export default function SideMenu() {
   const isAdmin = true
@@ -20,7 +19,7 @@ export default function SideMenu() {
         {isAdmin && (
           <li>
             <S.AdminMenuWrap>
-              <S.Icon src={AdminMenuIcon} alt="관리자 메뉴 아이콘" />
+              <S.Icon src="/public/images/icon-user.svg" alt="관리자 메뉴 아이콘" />
               관리자 메뉴
             </S.AdminMenuWrap>
             <ul>

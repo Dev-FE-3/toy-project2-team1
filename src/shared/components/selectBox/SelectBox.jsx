@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import iconSelectBox from '@/assets/icon-selectBox.png'
 
 // Firebase 나오기 전까지 사용할 더미 데이터
 const COMMON_OPTIONS = [
@@ -27,7 +26,7 @@ const Select = styled.select`
   padding: ${({ $size }) => ($size === 'big' ? '1.2rem 1.2rem 1.2rem 1.6rem' : '1rem')};
   border: 1px solid #cbd2e0;
   border-radius: 0.6rem;
-  background: var(--box-container) url('${iconSelectBox}') no-repeat 89% 50% /
+  background: var(--box-container) url('/public/images/icon-selectBox.png') no-repeat 89% 50% /
     ${({ $size }) => ($size === 'b' ? '2.4rem' : '1.6rem')};
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /* for firefox */

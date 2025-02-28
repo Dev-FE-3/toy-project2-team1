@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-import CardDetail from '@/assets/icon-card-detail.png'
-import CardPlus from '@/assets/icon-card-plus.png'
 
 const CardWrapper = styled.div`
   width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
@@ -25,7 +23,10 @@ const CardTitle = styled.p`
 const CardIcon = styled.div`
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${(props) => (props.$icon === 'more' ? CardDetail : CardPlus)});
+  background-image: url(${(props) =>
+    props.$icon === 'more'
+      ? '/public/images/icon-card-detail.png'
+      : '/public/images/icon-card-plus.png'});
   background-repeat: no-repeat;
 
   &:hover {

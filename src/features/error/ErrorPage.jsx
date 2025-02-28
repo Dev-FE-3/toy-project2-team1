@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { useNavigate, useRouteError } from 'react-router-dom'
-import errorImage from '@/assets/error.svg'
 import Button from '@/shared/components/button/Button'
 
 const ErrorContainer = styled.div`
@@ -17,7 +16,7 @@ const ErrorImage = styled.div`
   height: 20vw;
   min-width: 200px;
   min-height: 200px;
-  background: url('${errorImage}') no-repeat center/cover;
+  background: url('/public/images/error.svg') no-repeat center/cover;
 `
 const FlexContainer = styled.div`
   display: flex;
