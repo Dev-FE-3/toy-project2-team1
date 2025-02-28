@@ -11,70 +11,77 @@ import PayStubManagement from '@/features/admin/pay-stub-management/PayStubManag
 import DesignGuide from '@/features/design-guide/DesignGuide'
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
+import ErrorPage from '@/features/error/ErrorPage'
 
 const router = createBrowserRouter([
-  // 인증 필요없는 라우트 (로그인,회원가입)
   {
-    element: (
-      <PublicRoute>
-        <AuthLayout />
-      </PublicRoute>
-    ),
+    path: '/',
+    errorElement: <ErrorPage />,
     children: [
+      // 인증 필요없는 라우트 (로그인,회원가입)
       {
-        path: '/login',
-        element: <Login />,
-      },
-    ],
-  },
-
-  // 인증이 필요한 라우트 (로그인 후 접속가능)
-  {
-    element: (
-      <ProtectedRoute>
-        <MainLayout />
-      </ProtectedRoute>
-    ),
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: 'work-schedule',
-        element: <WorkSchedule />,
-      },
-      {
-        path: 'pay-stub',
-        element: <PayStub />,
-      },
-      {
-        path: 'my-document',
-        element: <MyDocument />,
-      },
-      {
-        path: 'admin/',
+        element: (
+          <PublicRoute>
+            <AuthLayout />
+          </PublicRoute>
+        ),
         children: [
           {
-            path: 'approval',
-            element: <Approval />,
-          },
-          {
-            path: 'pay-stub-management',
-            element: <PayStubManagement />,
+            path: 'login',
+            element: <Login />,
           },
         ],
       },
-    ],
-  },
 
-  // 샘플 페이지
-  {
-    element: <MainLayout />,
-    children: [
+      // 인증이 필요한 라우트 (로그인 후 접속가능)
       {
-        path: '/design-guide',
-        element: <DesignGuide />,
+        element: (
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: '',
+            element: <Home />,
+          },
+          {
+            path: 'work-schedule',
+            element: <WorkSchedule />,
+          },
+          {
+            path: 'pay-stub',
+            element: <PayStub />,
+          },
+          {
+            path: 'my-document',
+            element: <MyDocument />,
+          },
+          {
+            path: 'admin',
+            children: [
+              {
+                path: 'approval',
+                element: <Approval />,
+              },
+              {
+                path: 'pay-stub-management',
+                element: <PayStubManagement />,
+              },
+            ],
+          },
+        ],
+      },
+
+      // 샘플 페이지
+      {
+        element: <MainLayout />,
+        children: [
+          {
+            path: 'design-guide',
+            element: <DesignGuide />,
+          },
+        ],
       },
     ],
   },
