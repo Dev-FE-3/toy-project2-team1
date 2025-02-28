@@ -23,9 +23,9 @@ export default function SideMenu() {
               관리자 메뉴
             </S.AdminMenuWrap>
             <ul>
-              {ADMIN_MENUS.map((menu) => (
-                <li key={menu.path}>
-                  <MenuItem {...menu} indent={true} />
+              {ADMIN_MENUS.map((item) => (
+                <li key={item.path}>
+                  <MenuItem {...item} indent={true} />
                 </li>
               ))}
             </ul>
