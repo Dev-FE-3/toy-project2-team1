@@ -2,8 +2,7 @@ import styled from 'styled-components'
 import iconMail from '@/assets/icon-input-mail.png'
 import iconPassword from '@/assets/icon-input-password.png'
 
-const InputBox = styled.input`
-  position: relative;
+const InputStyle = styled.input`
   width: 38rem;
   height: 5.6rem;
   padding: 1.5rem 1.5rem 1.5rem 3.6rem;
@@ -26,22 +25,8 @@ const InputBox = styled.input`
   }
 `
 
-function Input({ type, placeholder, icon, value, onValueChange }) {
-  const handleChange = (event) => {
-    onValueChange(event.target.value)
-  }
-
-  return (
-    <>
-      <InputBox
-        type={type}
-        placeholder={placeholder}
-        $icon={icon}
-        value={value}
-        onChange={handleChange}
-      ></InputBox>
-    </>
-  )
+function Input({ icon }) {
+  return <InputStyle $icon={icon} />
 }
 
 export default Input

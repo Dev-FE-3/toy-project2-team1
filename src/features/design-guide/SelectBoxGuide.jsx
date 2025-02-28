@@ -20,11 +20,11 @@ function SelectBoxGuide() {
 
   return (
     <>
-      <SelectBox value={selectValue1} onValueChange={handleSelectBox1} size="s" options="1" />{' '}
+      <SelectBox value={selectValue1} onChange={handleSelectBox1} size="small" options="1" />{' '}
       {selectValue1}
-      <SelectBox value={selectValue2} onValueChange={handleSelectBox2} size="b" options="2" />{' '}
+      <SelectBox value={selectValue2} onChange={handleSelectBox2} size="big" options="2" />{' '}
       {selectValue2}
-      <SelectBox value={selectValue3} onValueChange={handleSelectBox3} size="b" options="3" />{' '}
+      <SelectBox value={selectValue3} onChange={handleSelectBox3} size="big" options="3" />{' '}
       {selectValue3}
     </>
   )

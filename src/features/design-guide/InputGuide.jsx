@@ -15,20 +15,8 @@ function InputGuide() {
 
   return (
     <>
-      <Input
-        type="text"
-        placeholder="이메일 주소"
-        icon="login"
-        value={id}
-        onValueChange={handleId}
-      ></Input>
-      <Input
-        type="password"
-        placeholder="비밀번호"
-        icon=""
-        value={pw}
-        onValueChange={handlePw}
-      ></Input>
+      <Input type="text" placeholder="이메일 주소" icon="login" value={id} onChange={handleId} />
+      <Input type="password" placeholder="비밀번호" icon="" value={pw} onChange={handlePw} />
     </>
   )
 }

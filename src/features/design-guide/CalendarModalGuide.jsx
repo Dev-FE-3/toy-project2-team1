@@ -23,7 +23,7 @@ function CalendarModalGuide() {
     <>
       <button onClick={handleCalendar}>Click!</button>
       <CalendarModal
-        display={show}
+        isShow={show}
         onChange={handleYearAndMonth}
         top="17"
         left="-148"

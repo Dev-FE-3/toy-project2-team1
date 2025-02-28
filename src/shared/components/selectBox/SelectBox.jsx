@@ -20,11 +20,11 @@ const OPTIONS_MAP = {
 const Select = styled.select`
   color: var(--font-main);
   text-align: center;
-  font-size: ${({ $size }) => ($size !== 'b' ? '1.2rem' : 'inherit')};
+  font-size: ${({ $size }) => ($size !== 'big' ? '1.2rem' : 'inherit')};
   font-weight: 400;
-  width: ${({ $size }) => ($size === 'b' ? '12rem' : '7.2rem')};
-  height: ${({ $size }) => ($size === 'b' ? '4.6rem' : '3.6rem')};
-  padding: ${({ $size }) => ($size === 'b' ? '1.2rem 1.2rem 1.2rem 1.6rem' : '1rem')};
+  width: ${({ $size }) => ($size === 'big' ? '12rem' : '7.2rem')};
+  height: ${({ $size }) => ($size === 'big' ? '4.6rem' : '3.6rem')};
+  padding: ${({ $size }) => ($size === 'big' ? '1.2rem 1.2rem 1.2rem 1.6rem' : '1rem')};
   border: 1px solid #cbd2e0;
   border-radius: 0.6rem;
   background: var(--box-container) url('${iconSelectBox}') no-repeat 89% 50% /
@@ -38,13 +38,13 @@ const Select = styled.select`
 
 const Option = styled.option``
 
-function SelectBox({ value, onValueChange, size = 's', options = 1 }) {
-  const handleChange = (event) => {
-    onValueChange(event.target.value)
+function SelectBox({ value, onChange, size = 'small', options = 1 }) {
+  const getSelectedValue = (event) => {
+    onChange(event.target.value)
   }
 
   return (
-    <Select onChange={handleChange} value={value} $size={size}>
+    <Select $size={size} value={value} onChange={getSelectedValue}>
       {OPTIONS_MAP[options].map(({ id, name }) => (
         <Option key={id} value={id}>
           {name}

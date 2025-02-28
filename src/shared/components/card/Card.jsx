@@ -5,6 +5,7 @@ import CardPlus from '@/assets/icon-card-plus.png'
 const CardWrapper = styled.div`
   width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
   height: 20rem;
+  flex-grow: 1;
   padding: 24px;
   border-radius: 1.2rem;
   box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.05);
@@ -37,15 +38,13 @@ const CardBottom = styled.div`
 
 function Card({ children, title, size = 3, icon }) {
   return (
-    <>
-      <CardWrapper $size={size}>
-        <CardTop>
-          <CardTitle>{title}</CardTitle>
-          {icon && <CardIcon $icon={icon}></CardIcon>}
-        </CardTop>
-        <CardBottom>{children}</CardBottom>
-      </CardWrapper>
-    </>
+    <CardWrapper $size={size}>
+      <CardTop>
+        <CardTitle>{title}</CardTitle>
+        {icon && <CardIcon $icon={icon}></CardIcon>}
+      </CardTop>
+      <CardBottom>{children}</CardBottom>
+    </CardWrapper>
   )
 }
 

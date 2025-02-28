@@ -3,7 +3,7 @@ import { styled, css } from 'styled-components'
 import getDate from '../../utils/utils'
 
 const CalendarDialog = styled.dialog`
-  display: ${({ $display }) => ($display ? 'block' : 'none')};
+  display: ${({ $isShow }) => ($isShow ? 'block' : 'none')};
   top: ${({ $top }) => ($top ? $top + 'rem' : '0')};
   left: ${({ $left }) => ($left ? $left + 'rem' : '0')};
   position: absolute;
@@ -74,7 +74,7 @@ const CalendarMonth = styled.div`
     `}
 `
 
-function CalendarModal({ display, onChange, top, left }) {
+function CalendarModal({ isShow, onChange, top, left }) {
   const [year, setYear] = useState(getDate('year'))
   const currentMonth = useRef(getDate('month'))
   const currentYear = useRef(getDate('year'))
@@ -103,7 +103,7 @@ function CalendarModal({ display, onChange, top, left }) {
 
   return (
     <>
-      <CalendarDialog $display={display} $top={top} $left={left}>
+      <CalendarDialog $isShow={isShow} $top={top} $left={left}>
         <CalendarContainer>
           <CalendarTop>
             <CalendarBackward onClick={() => changeYear('prev')}>
