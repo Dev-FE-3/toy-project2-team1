@@ -27,6 +27,7 @@ function CalendarModalGuide() {
         onChange={handleYearAndMonth}
         top="17"
         left="-148"
+        date={date}
       ></CalendarModal>
       <span> 그대가 선택한 날짜: {date}</span>
     </>

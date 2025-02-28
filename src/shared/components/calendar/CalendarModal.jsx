@@ -2,14 +2,22 @@ import { useRef, useState } from 'react'
 import { styled, css } from 'styled-components'
 import getDate from '../../utils/utils'
 
-export default function CalendarModal({ isShow, onChange, top, left }) {
+export default function CalendarModal({ isShow, onChange, top, left, date }) {
   const [year, setYear] = useState(getDate('year'))
+  const [selectDate, setSelectDate] = useState(date)
   const currentMonth = useRef(getDate('month'))
   const currentYear = useRef(getDate('year'))
   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] //상수화?
 
   const handleMonthClick = (monthValue) => {
     onChange(monthValue)
+  }
+
+  const handleMouseEnter = (monthValue) => {
+    setSelectDate(monthValue)
+  }
+  const handleMouseLeave = () => {
+    setSelectDate(date)
   }
 
   const changeYear = (options) => {
@@ -85,7 +93,10 @@ export default function CalendarModal({ isShow, onChange, top, left }) {
                             2,
                             '0',
                           )}`}
+                          $selected={selectDate}
                           onClick={() => isClickable && handleMonthClick(monthValue)}
+                          onMouseEnter={() => isClickable && handleMouseEnter(monthValue)}
+                          onMouseLeave={() => isClickable && handleMouseLeave(monthValue)}
                         >
                           {m}월
                         </CalendarMonth>
@@ -171,5 +182,12 @@ const CalendarMonth = styled.div`
         color: var(--box-container);
         background-color: var(--main);
       }
+    `}
+
+  ${({ $value, $selected }) =>
+    $value === $selected &&
+    css`
+      color: var(--box-container);
+      background-color: var(--main);
     `}
 `
