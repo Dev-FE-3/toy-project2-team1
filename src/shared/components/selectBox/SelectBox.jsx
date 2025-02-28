@@ -1,5 +1,21 @@
 import styled from 'styled-components'
 
+export default function SelectBox({ value, onChange, size = 'small', options = 1 }) {
+  const getSelectedValue = (event) => {
+    onChange(event.target.value)
+  }
+
+  return (
+    <Select $size={size} value={value} onChange={getSelectedValue}>
+      {OPTIONS_MAP[options].map(({ id, name }) => (
+        <Option key={id} value={id}>
+          {name}
+        </Option>
+      ))}
+    </Select>
+  )
+}
+
 // Firebase 나오기 전까지 사용할 더미 데이터
 const COMMON_OPTIONS = [
   { id: 1, name: '승인' },
@@ -36,21 +52,3 @@ const Select = styled.select`
 `
 
 const Option = styled.option``
-
-function SelectBox({ value, onChange, size = 'small', options = 1 }) {
-  const getSelectedValue = (event) => {
-    onChange(event.target.value)
-  }
-
-  return (
-    <Select $size={size} value={value} onChange={getSelectedValue}>
-      {OPTIONS_MAP[options].map(({ id, name }) => (
-        <Option key={id} value={id}>
-          {name}
-        </Option>
-      ))}
-    </Select>
-  )
-}
-
-export default SelectBox

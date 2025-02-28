@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export default function Input({ icon }) {
+  return <InputStyle $icon={icon} />
+}
+
 const InputStyle = styled.input`
   width: 38rem;
   height: 5.6rem;
@@ -22,9 +26,3 @@ const InputStyle = styled.input`
     color: #c3c3c3;
   }
 `
-
-function Input({ icon }) {
-  return <InputStyle $icon={icon} />
-}
-
-export default Input

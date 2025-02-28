@@ -2,79 +2,7 @@ import { useRef, useState } from 'react'
 import { styled, css } from 'styled-components'
 import getDate from '../../utils/utils'
 
-const CalendarDialog = styled.dialog`
-  display: ${({ $isShow }) => ($isShow ? 'block' : 'none')};
-  top: ${({ $top }) => ($top ? $top + 'rem' : '0')};
-  left: ${({ $left }) => ($left ? $left + 'rem' : '0')};
-  position: absolute;
-  padding: 2rem;
-  background: var(--box-container);
-  border-radius: 1.2rem;
-  box-shadow: 0px 0px 0.5rem 0.3rem rgba(0, 0, 0, 0.1);
-  border: none;
-  font-weight: 600;
-  font-size: 2rem;
-  color: var(--font-main);
-`
-
-const CalendarContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 40rem;
-`
-
-const CalendarTop = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.7rem;
-`
-const CalendarBackward = styled.div`
-  display: flex;
-  margin-right: 0.4rem;
-  cursor: pointer;
-`
-const CalendarForward = styled.div`
-  display: flex;
-  margin-left: 0.4rem;
-  cursor: pointer;
-`
-const CalendarYear = styled.div`
-  width: 5rem;
-`
-const CalendarBottom = styled.div``
-
-const CalendarUl = styled.ul``
-const CalendarLi = styled.li`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`
-const CalendarMonth = styled.div`
-  display: flex;
-  width: 12rem;
-  height: 5rem;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem;
-  border-radius: 0.8rem;
-  color: ${({ $value, $current }) =>
-    Number($value) > Number($current) ? 'var(--point-gray)' : 'var(--font-main)'};
-
-  ${({ $value, $current }) =>
-    Number($value) <= Number($current) &&
-    css`
-      &:hover {
-        cursor: pointer;
-        color: var(--box-container);
-        background-color: var(--main);
-      }
-    `}
-`
-
-function CalendarModal({ isShow, onChange, top, left }) {
+export default function CalendarModal({ isShow, onChange, top, left }) {
   const [year, setYear] = useState(getDate('year'))
   const currentMonth = useRef(getDate('month'))
   const currentYear = useRef(getDate('year'))
@@ -174,4 +102,74 @@ function CalendarModal({ isShow, onChange, top, left }) {
   )
 }
 
-export default CalendarModal
+const CalendarDialog = styled.dialog`
+  display: ${({ $isShow }) => ($isShow ? 'block' : 'none')};
+  top: ${({ $top }) => ($top ? $top + 'rem' : '0')};
+  left: ${({ $left }) => ($left ? $left + 'rem' : '0')};
+  position: absolute;
+  padding: 2rem;
+  background: var(--box-container);
+  border-radius: 1.2rem;
+  box-shadow: 0px 0px 0.5rem 0.3rem rgba(0, 0, 0, 0.1);
+  border: none;
+  font-weight: 600;
+  font-size: 2rem;
+  color: var(--font-main);
+`
+
+const CalendarContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 40rem;
+`
+
+const CalendarTop = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.7rem;
+`
+const CalendarBackward = styled.div`
+  display: flex;
+  margin-right: 0.4rem;
+  cursor: pointer;
+`
+const CalendarForward = styled.div`
+  display: flex;
+  margin-left: 0.4rem;
+  cursor: pointer;
+`
+const CalendarYear = styled.div`
+  width: 5rem;
+`
+const CalendarBottom = styled.div``
+
+const CalendarUl = styled.ul``
+const CalendarLi = styled.li`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`
+const CalendarMonth = styled.div`
+  display: flex;
+  width: 12rem;
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  border-radius: 0.8rem;
+  color: ${({ $value, $current }) =>
+    Number($value) > Number($current) ? 'var(--point-gray)' : 'var(--font-main)'};
+
+  ${({ $value, $current }) =>
+    Number($value) <= Number($current) &&
+    css`
+      &:hover {
+        cursor: pointer;
+        color: var(--box-container);
+        background-color: var(--main);
+      }
+    `}
+`

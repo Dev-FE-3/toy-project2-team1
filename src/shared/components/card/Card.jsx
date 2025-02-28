@@ -1,5 +1,17 @@
 import styled from 'styled-components'
 
+export default function Card({ children, title, size = 3, icon }) {
+  return (
+    <CardWrapper $size={size}>
+      <CardTop>
+        <CardTitle>{title}</CardTitle>
+        {icon && <CardIcon $icon={icon}></CardIcon>}
+      </CardTop>
+      <CardBottom>{children}</CardBottom>
+    </CardWrapper>
+  )
+}
+
 const CardWrapper = styled.div`
   width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
   height: 20rem;
@@ -36,17 +48,3 @@ const CardIcon = styled.div`
 const CardBottom = styled.div`
   display: flex;
 `
-
-function Card({ children, title, size = 3, icon }) {
-  return (
-    <CardWrapper $size={size}>
-      <CardTop>
-        <CardTitle>{title}</CardTitle>
-        {icon && <CardIcon $icon={icon}></CardIcon>}
-      </CardTop>
-      <CardBottom>{children}</CardBottom>
-    </CardWrapper>
-  )
-}
-
-export default Card
