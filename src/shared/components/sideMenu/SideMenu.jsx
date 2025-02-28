@@ -1,7 +1,7 @@
 import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
-import { MENU_LIST } from '@/constants/menu/menuList'
-import { ADMIN_MENUS } from '@/constants/menu/menuList'
+import { MENU_LIST } from '@/shared/constants/menu/menuList'
+import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 
 export default function SideMenu() {
   const isAdmin = true
