@@ -1,5 +1,26 @@
 import styled, { css } from 'styled-components'
 
+export default function Button({
+  children,
+  variant = 'primary',
+  isFullWidth = false,
+  disabled = false,
+  onClick,
+  ...props
+}) {
+  return (
+    <StyledButton
+      $variant={variant}
+      $isFullWidth={isFullWidth}
+      disabled={disabled}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </StyledButton>
+  )
+}
+
 const variantStyles = {
   primary: css`
     background: var(--main);
@@ -42,24 +63,3 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `
-
-export default function Button({
-  children,
-  variant = 'primary',
-  isFullWidth = false,
-  disabled = false,
-  onClick,
-  ...props
-}) {
-  return (
-    <StyledButton
-      $variant={variant}
-      $isFullWidth={isFullWidth}
-      disabled={disabled}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </StyledButton>
-  )
-}
