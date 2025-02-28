@@ -110,6 +110,7 @@ const CloseIcon = styled.img.attrs({
   right: 0;
   width: 24px;
   heigh: 24px;
+  cursor: pointer;
 `
 
 const Content = styled.div`
