@@ -2,15 +2,28 @@ import { styled } from 'styled-components'
 import Input from '@/shared/components/input/Input'
 import { useState } from 'react'
 import Button from '@/shared/components/button/Button'
-import LoginLinks from './component/LoginLinks'
+import LoginLinks from './components/LoginLinks'
+import { SignIn } from './api/loginAuth'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
+  const navigate = useNavigate()
 
-  const loginSubmit = (e) => {
+  const loginSubmit = async (e) => {
     e.preventDefault()
-    alert('로그인 로직')
+
+    try {
+      const result = await SignIn(id, pw)
+      result.user.accessToken
+      result.user.uid
+      navigate('/')
+    } catch (e) {
+      console.log(e.code)
+      console.log(e.message)
+      alert('사용자 정보가 맞지 않습니다')
+    }
   }
 
   return (
