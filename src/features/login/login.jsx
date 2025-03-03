@@ -16,9 +16,7 @@ export default function Login() {
 
     try {
       const result = await SignIn(id, pw)
-      result.user.accessToken
-      result.user.uid
-      navigate('/')
+      if (result) navigate('/')
     } catch (e) {
       console.log(e.code)
       console.log(e.message)
