@@ -2,9 +2,27 @@ import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/shared/constants/menu/menuList'
 import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
+import { getAuth, signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 export default function SideMenu() {
+  const navigate = useNavigate()
   const isAdmin = true
+
+  const logout = (event) => {
+    event.preventDefault()
+
+    const auth = getAuth()
+
+    const logout = async () => {
+      await signOut(auth)
+      console.log('사용자가 로그아웃했습니다.')
+    }
+
+    logout()
+    sessionStorage.clear()
+    navigate('/login')
+  }
 
   return (
     <S.NavContainer>
@@ -32,7 +50,7 @@ export default function SideMenu() {
           </li>
         )}
       </ul>
-      <S.Logout to="/logout">로그아웃</S.Logout>
+      <S.Logout onClick={logout}>로그아웃</S.Logout>
     </S.NavContainer>
   )
 }

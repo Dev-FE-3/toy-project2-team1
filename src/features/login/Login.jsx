@@ -1,9 +1,9 @@
 import { styled } from 'styled-components'
 import Input from '@/shared/components/input/Input'
-import { useState } from 'react'
 import Button from '@/shared/components/button/Button'
 import LoginLinks from './components/LoginLinks'
 import { SignIn } from './api/loginAuth'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
