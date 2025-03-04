@@ -1,13 +1,12 @@
-import { getAuth } from 'firebase/auth'
 import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
 export const fetchUserData = async () => {
   const db = getFirestore()
-  const auth = getAuth()
 
-  const user = auth.currentUser
-  if (user) {
-    const userRef = doc(db, 'employees', user.uid)
+  const userUid = sessionStorage.getItem('uid')
+
+  if (userUid) {
+    const userRef = doc(db, 'employees', userUid)
     const userSnap = await getDoc(userRef)
     if (userSnap.exists()) {
       console.log('User Data:', userSnap.data())

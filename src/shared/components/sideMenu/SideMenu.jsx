@@ -4,14 +4,14 @@ import { MENU_LIST } from '@/shared/constants/menu/menuList'
 import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { fetchUserData } from '../../api/firebase/fetchUserData'
 
 export default function SideMenu() {
   const navigate = useNavigate()
-  const isAdmin = true
+  const [isAdmin, setAdmin] = useState(false)
 
-  const logout = (event) => {
-    event.preventDefault()
-
+  const logout = () => {
     const auth = getAuth()
 
     const logout = async () => {
@@ -23,6 +23,14 @@ export default function SideMenu() {
     sessionStorage.clear()
     navigate('/login')
   }
+
+  useEffect(() => {
+    async function fetchAndSetUser() {
+      const user = await fetchUserData()
+      if (user.role) setAdmin(true)
+    }
+    fetchAndSetUser()
+  }, [])
 
   return (
     <S.NavContainer>
