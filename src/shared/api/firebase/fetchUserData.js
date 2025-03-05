@@ -1,4 +1,4 @@
-import { getFirestore, doc, getDoc } from 'firebase/firestore'
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'
 
 export const fetchUserData = async () => {
   const db = getFirestore()
@@ -6,14 +6,17 @@ export const fetchUserData = async () => {
   const userUid = sessionStorage.getItem('uid')
 
   if (userUid) {
-    const userRef = doc(db, 'employees', userUid)
-    const userSnap = await getDoc(userRef)
-    if (userSnap.exists()) {
-      console.log('User Data:', userSnap.data())
-      return userSnap.data()
+    const employeesRef = collection(db, 'employees')
+    const q = query(employeesRef, where('uid', '==', userUid))
+    const querySnapshot = await getDocs(q)
+
+    if (!querySnapshot.empty) {
+      const userData = querySnapshot.docs[0].data()
+      console.log('User Data:', userData)
+      return userData
     } else {
       console.log('No such user data found!')
-      return alert('사용자 정보가 없습니다!')
+      return null
     }
   }
 }

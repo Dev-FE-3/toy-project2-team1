@@ -5,22 +5,31 @@ import LoginLinks from './components/LoginLinks'
 import { SignIn } from './api/loginAuth'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import LoginError from './components/LoginError'
+import { SET_USER } from '../../shared/redux/constants/user'
+import { fetchUserData } from '../../shared/api/firebase/fetchUserData'
 
 export default function Login() {
   const [id, setId] = useState('')
   const [pw, setPw] = useState('')
+  const [loginError, setLoginError] = useState(false)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const loginSubmit = async (e) => {
     e.preventDefault()
 
     try {
       const result = await SignIn(id, pw)
-      if (result) navigate('/')
+      if (result) {
+        //sessionStorege의 값으로 fetchData하여 Redux 관리
+        dispatch({ type: SET_USER, data: await fetchUserData() })
+        navigate('/')
+      }
     } catch (e) {
-      console.log(e.code)
-      console.log(e.message)
-      alert('사용자 정보가 맞지 않습니다')
+      console.log(e.code, e.message)
+      setLoginError(true)
     }
   }
 
@@ -44,6 +53,7 @@ export default function Login() {
           value={pw}
           onChange={(event) => setPw(event.target.value)}
         />
+        {loginError && <LoginError />}
         <Button type="submit" isFullWidth style={{ height: '5.6rem', fontWeight: '700' }}>
           로그인 하기
         </Button>
@@ -74,10 +84,10 @@ const LoginBottom = styled.div`
   flex-direction: column;
 
   & > *:nth-child(1) {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
   }
 
   & > *:nth-child(2) {
-    margin-bottom: 2rem;
+    margin-bottom: 1.4rem;
   }
 `

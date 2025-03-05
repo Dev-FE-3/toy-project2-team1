@@ -4,12 +4,13 @@ import { MENU_LIST } from '@/shared/constants/menu/menuList'
 import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { fetchUserData } from '../../api/firebase/fetchUserData'
+import { useDispatch, useSelector } from 'react-redux'
+import { INITIALIZE } from '../../redux/constants/user'
 
 export default function SideMenu() {
   const navigate = useNavigate()
-  const [isAdmin, setAdmin] = useState(false)
+  const dispatch = useDispatch()
+  const isAdmin = useSelector((state) => state.user.role)
 
   const logout = () => {
     const auth = getAuth()
@@ -21,16 +22,9 @@ export default function SideMenu() {
 
     logout()
     sessionStorage.clear()
+    dispatch({ type: INITIALIZE })
     navigate('/login')
   }
-
-  useEffect(() => {
-    async function fetchAndSetUser() {
-      const user = await fetchUserData()
-      if (user.role) setAdmin(true)
-    }
-    fetchAndSetUser()
-  }, [])
 
   return (
     <S.NavContainer>
