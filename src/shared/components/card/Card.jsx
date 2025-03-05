@@ -1,21 +1,23 @@
 import styled from 'styled-components'
 
-export default function Card({ children, title, size = 3, icon }) {
+export default function Card({ children, title, icon, contentAlign, onClick }) {
   return (
-    <CardWrapper $size={size}>
+    <CardWrapper>
       <CardTop>
         <CardTitle>{title}</CardTitle>
-        {icon && <CardIcon $icon={icon}></CardIcon>}
+        {icon && <CardIcon $icon={icon} onClick={onClick}></CardIcon>}
       </CardTop>
-      <CardBottom>{children}</CardBottom>
+      <CardBottom $contentAlign={contentAlign}>{children}</CardBottom>
     </CardWrapper>
   )
 }
 
 const CardWrapper = styled.div`
-  width: ${(props) => `calc(${Number(props.$size)} * 8.33333333% - var(--gutter))`};
-  height: 20rem;
-  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
   padding: 24px;
   border-radius: 1.2rem;
   box-shadow: 0px 0px 50px 5px rgba(0, 0, 0, 0.05);
@@ -29,7 +31,7 @@ const CardTop = styled.div`
 
 const CardTitle = styled.p`
   color: var(--font-main);
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 700;
 `
 const CardIcon = styled.div`
@@ -45,6 +47,9 @@ const CardIcon = styled.div`
     cursor: pointer;
   }
 `
+
 const CardBottom = styled.div`
   display: flex;
+  justify-content: ${({ $contentAlign }) => ($contentAlign ? $contentAlign : 'flex-start')};
+  height: 100%;
 `
