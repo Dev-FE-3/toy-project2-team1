@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-export default function Input({ icon }) {
-  return <InputStyle $icon={icon} />
+export default function Input({ icon, ...props }) {
+  return <InputStyle $icon={icon} {...props} />
 }
 
 const InputStyle = styled.input`
