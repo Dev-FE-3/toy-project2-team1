@@ -44,13 +44,13 @@ export const Pagination = ({
       <ArrowButton
         direction='prev'
         onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-        disable={currentPage === 1}
+        disabled={currentPage === 1}
       />
       {renderPageNumbers()}
       <ArrowButton
         direction='next'
         onClick={() => handlePageChange(Math.max(1, currentPage + 1))}
-        disable={currentPage === totalPages}
+        disabled={currentPage === totalPages}
       />
     </PaginationContainer>
   )
@@ -74,6 +74,14 @@ const PageButton = styled.button`
   &:hover, &.active {
     background-color:var(--background-sub);
   }
+
+  &:disabled {
+    cursor: auto;
+    opacity: 0.5;
+    &:hover {
+      background-color: transparent;
+    }
+  }
 `;
 
 const ArrowButton = styled(PageButton)`
@@ -82,4 +90,9 @@ const ArrowButton = styled(PageButton)`
   background-position: center;
   width: 3rem;
   height: 3rem;
+
+  &:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
 `;
