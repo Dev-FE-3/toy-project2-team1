@@ -1,8 +1,15 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-export const Pagination = ({  totalItems, itemsPerPage = 10, pageUnit = 5, onPageChange }) => {
+export const Pagination = ({
+  totalItems,
+  itemsPerPage = 10,
+  pageUnit = 5,
+  onPageChange
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
+
+  // 전체 페이지 수 계산
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const handlePageChange = (page) => {
@@ -12,8 +19,10 @@ export const Pagination = ({  totalItems, itemsPerPage = 10, pageUnit = 5, onPag
     }
   };
 
+  // 페이지 번호 계산 로직 - 현재 페이지 중심으로 5개의 페이지 번호 계산
   const renderPageNumbers = () => {
     const startPage = Math.floor((currentPage - 1) / pageUnit) * pageUnit + 1;
+    // 시작 페이지부터 5개의 페이지 계산 but 전체 페이지 수 초과하지 않도록
     const endPage = Math.min(startPage + pageUnit - 1, totalPages);
 
     return Array.from({ length: endPage - startPage + 1 }, (_,index) => {
