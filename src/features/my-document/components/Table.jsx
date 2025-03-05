@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
+import { Pagination } from './Pagination';
 import styled from 'styled-components'
 
 export function Table({ filterValue }) {
@@ -8,6 +9,8 @@ export function Table({ filterValue }) {
   const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // 페이지 당 아이템 수
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,34 +82,54 @@ export function Table({ filterValue }) {
     }
   };
 
+  // 현재 페이지의 데이터만 슬라이싱
+  const getCurrentPageData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredData.slice(startIndex, endIndex)
+  }
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
+
   if (isLoading) return console.log('로딩중입니다.')
   if (error) return console.error('error: ',error)
 
   return (
-    <TableContainer>
-      <TableWrap>
-        <Thead>
-          <Tr>
-            <Th width='10%'><span>분류</span></Th>
-            <Th width='16%'><span>신청일</span></Th>
-            <Th width='62%'><span>내용</span></Th>
-            <Th width='10rem'><span>결재상태</span></Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {filteredData.map((item) => (
-            <Tr key={item.id}>
-              <Td width='10%'><span>{item.requestType}</span></Td>
-              <Td width='16%'><span>{formatDate(item.requestDate)}</span></Td>
-              <Td width='62%'><span>{item.requestContent}</span></Td>
-              <Td width='10rem'>
-                <Label color={getColorByStatus(item.approvalStatus)}>{item.approvalStatus}</Label>
-              </Td>
+    <>
+      <TableContainer>
+        <TableWrap>
+          <Thead>
+            <Tr>
+              <Th width='10%'><span>분류</span></Th>
+              <Th width='16%'><span>신청일</span></Th>
+              <Th width='62%'><span>내용</span></Th>
+              <Th width='10rem'><span>결재상태</span></Th>
             </Tr>
-          ))}
-        </Tbody>
-      </TableWrap>
-    </TableContainer>
+          </Thead>
+          <Tbody>
+            {getCurrentPageData().map((item) => (
+              <Tr key={item.id}>
+                <Td width='10%'><span>{item.requestType}</span></Td>
+                <Td width='16%'><span>{formatDate(item.requestDate)}</span></Td>
+                <Td width='62%'><span>{item.requestContent}</span></Td>
+                <Td width='10rem'>
+                  <Label color={getColorByStatus(item.approvalStatus)}>{item.approvalStatus}</Label>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </TableWrap>
+      </TableContainer>
+      <Pagination
+        totalItems={filteredData.length}
+        itemsPerPage={itemsPerPage}
+        pageUnit={5}
+        onPageChange={handlePageChange}
+      />
+    </>
   )
 }
 
