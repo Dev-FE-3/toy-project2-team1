@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { collection, query, getDocs, where } from 'firebase/firestore';
+import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
 import styled from 'styled-components'
 
-export function Table() {
+export function Table({ filterValue }) {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,16 +14,20 @@ export function Table() {
       try {
         setIsLoading(true);
         const employeeId = 'EMP011'; // 추후 로그인 정보에서 employeeId 값 가져올 예정
-        const q = query(
+
+        let q = query(
           collection(db, "payrollCorrections"),
           where('employeeId', '==', employeeId),
-        )
+          orderBy('requestDate', 'desc'), // 날짜 기준 내림차순
+        );
+
         const querySnapshot = await getDocs(q);
         
         const fetchedData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
+
         setData(fetchedData);
       } catch (err) {
         setError(err.message);
@@ -33,6 +38,22 @@ export function Table() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    // filterValue에 따라 데이터 필터링
+    const filterData = () => {
+      const filtered = data.filter(item => {
+        if (filterValue === 0) return true; // 전체보기
+        if (filterValue === 1) return item.approvalStatus === '결재대기';
+        if (filterValue === 2) return item.approvalStatus === '승인';
+        if (filterValue === 3) return item.approvalStatus === '반려';
+        return true; // 기본적으로 모든 데이터 표시
+      });
+      setFilteredData(filtered);
+    };
+
+    filterData();
+  }, [data, filterValue]);
 
   // timestamp => 'yyyy.mm.dd' 변환 함수
   const formatDate = (timestamp) => {
@@ -73,7 +94,7 @@ export function Table() {
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item) => (
+          {filteredData.map((item) => (
             <Tr key={item.id}>
               <Td width='10%'><span>{item.requestType}</span></Td>
               <Td width='16%'><span>{formatDate(item.requestDate)}</span></Td>
@@ -91,7 +112,7 @@ export function Table() {
 
 const TableContainer = styled.div`
   margin-top: 1.2rem;
-  max-height: 58rem;
+  min-height: 58rem;
   overflow-y: auto;
   overflow-x: hidden;
 `

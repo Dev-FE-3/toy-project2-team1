@@ -34,13 +34,13 @@ export default function SelectBox({ value, onChange, size = 'small', options = 1
 
 // 더미 데이터 (Firebase 나오기 전까지)
 const COMMON_OPTIONS = [
-  { id: 1, name: '승인' },
-  { id: 2, name: '반려' },
+  { id: 2, name: '승인' },
+  { id: 3, name: '반려' },
 ]
 
 const DUMMY_OPTIONS1 = [{ id: 0, name: '-' }, ...COMMON_OPTIONS]
-const DUMMY_OPTIONS2 = [{ id: 0, name: '결제 전' }, ...COMMON_OPTIONS]
-const DUMMY_OPTIONS3 = [{ id: 0, name: '결제대기' }, ...COMMON_OPTIONS]
+const DUMMY_OPTIONS2 = [{ id: 0, name: '결재 전' }, ...COMMON_OPTIONS]
+const DUMMY_OPTIONS3 = [{ id: 0, name: '전체보기' }, { id: 1, name: '결재대기' }, ...COMMON_OPTIONS]
 
 const OPTIONS_MAP = {
   1: DUMMY_OPTIONS1,

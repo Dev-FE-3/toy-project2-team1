@@ -18,7 +18,7 @@ export default function MyDocument() {
         size='big'
         options='3'
       />
-      <Table />
+      <Table filterValue={selectValue} />
     </ContentWrap>
   )
 }
