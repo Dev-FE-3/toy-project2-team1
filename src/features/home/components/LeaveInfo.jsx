@@ -1,26 +1,26 @@
 import Card from '@/shared/components/card/Card'
 import styled from 'styled-components'
 
-export default function LeaveInfo() {
+export default function LeaveInfo({ totalLeave, usedLeave }) {
   return (
     <Card title={'휴가정보'} contentAlign={'center'}>
       <LeaveStatusContainer>
         <LeaveStatus>
           <div className="label">발생</div>
           <StatusValue $color={'--font-sub'}>
-            <span>{15}</span>
+            <span>{totalLeave}</span>
           </StatusValue>
         </LeaveStatus>
         <LeaveStatus>
           <div className="label">사용</div>
           <StatusValue $color={'--point-red'}>
-            <span>{5}</span>
+            <span>{usedLeave}</span>
           </StatusValue>
         </LeaveStatus>
         <LeaveStatus>
           <div className="label">잔여</div>
           <StatusValue $color={'--point-yellow'}>
-            <span>{10}</span>
+            <span>{totalLeave - usedLeave}</span>
           </StatusValue>
         </LeaveStatus>
       </LeaveStatusContainer>
@@ -52,8 +52,7 @@ const StatusValue = styled.div`
   align-items: center;
   justify-content: center;
   height: calc(100% - 3rem);
-  min-width: 105px;
-  min-height: 90px;
+  min-width: 90px;
   border-radius: 0.9rem;
   background: var(--background-main);
   position: relative;

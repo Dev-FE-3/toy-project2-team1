@@ -1,23 +1,23 @@
 import Card from '@/shared/components/card/Card'
 import styled from 'styled-components'
 
-export default function EmployeeInfo() {
+export default function EmployeeInfo({ employee }) {
   return (
     <Card title={'개인정보'}>
       <ProfileImage />
       <InfoWrap>
         <div>
-          <p className="department">경영지원본부 인사팀</p>
+          <p className="department">{employee.department}</p>
           <div className="d-flex">
-            <span className="employee-name">홍길동</span>
-            <span className="position">매니저</span>
+            <span className="employee-name">{employee.name}</span>
+            <span className="position">{employee.jobTitle}</span>
           </div>
         </div>
         <div className="d-flex etc">
-          <p>1년 6개월 근무</p>
+          <p>{employee.serviceDuration} 근무</p>
           <div className="d-flex">
-            <p className="etc-phone">010-1234-5676</p>
-            <p className="etc-email">gildong@mail.com</p>
+            <p className="etc-phone">{employee.phoneNumber}</p>
+            <p className="etc-email">{employee.emailAddress}</p>
           </div>
         </div>
       </InfoWrap>
