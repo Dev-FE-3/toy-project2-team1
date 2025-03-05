@@ -85,8 +85,6 @@ const legendColors = {
 
 const ChartContainer = styled.div`
   width: 100%;
-  height: 100%;
-  min-height: 300px;
   padding: 0 2rem;
 `
 
@@ -134,9 +132,9 @@ const WorkTime = styled.div`
 
 const ChartContent = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-end;
-  gap: 5rem;
+  gap: 1.5rem;
   margin-top: 2rem;
 `
 
@@ -162,8 +160,7 @@ const BarStack = styled.div`
   flex-direction: column-reverse;
   width: 1.5vw;
   min-width: 20px;
-  height: 200px;
-
+  height: 100px;
   &.team {
     opacity: 0.8;
   }
