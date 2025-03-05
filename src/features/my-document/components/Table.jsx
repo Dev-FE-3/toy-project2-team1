@@ -1,22 +1,54 @@
+import { useEffect, useState } from 'react';
+import { collection, query, getDocs, where } from 'firebase/firestore';
+import { db } from '@/shared/api/firebase/firebase'
 import styled from 'styled-components'
 
 export function Table() {
-  const data = [
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '결재대기' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '결재대기' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '결재대기' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '반려' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '승인' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '승인' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '승인' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '반려' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '승인' },
-    { category: '급여정정', date: '2025.02.24', content: '지난달 근무 내역 확인 요청', status: '승인' },
-  ]
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const employeeId = 'EMP011'; // 추후 로그인 정보에서 employeeId 값 가져올 예정
+        const q = query(
+          collection(db, "payrollCorrections"),
+          where('employeeId', '==', employeeId),
+        )
+        const querySnapshot = await getDocs(q);
+        
+        const fetchedData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setData(fetchedData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // timestamp => 'yyyy.mm.dd' 변환 함수
+  const formatDate = (timestamp) => {
+    if(!timestamp || !timestamp.toDate) {
+      return ''; // 유효하지 않은 timestamp일 경우 빈 문자열 반환
+    }
+    const date = timestamp.toDate();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  }
 
   // 상태에 따라 라벨 색상 결정
-  const getColorByStatus = (status) => {
-    switch (status) {
+  const getColorByStatus = (approvalStatus) => {
+    switch (approvalStatus) {
       case "승인":
         return "purple";
       case "반려":
@@ -25,6 +57,9 @@ export function Table() {
         return "gray"; // 기본 색상
     }
   };
+
+  if (isLoading) return console.log('로딩중입니다.')
+  if (error) return console.error('error: ',error)
 
   return (
     <TableContainer>
@@ -38,14 +73,13 @@ export function Table() {
           </Tr>
         </Thead>
         <Tbody>
-          {/* firebase 데이터 불러올 예정 */}
-          {data.slice(0, 10).map((item, index) => (
-            <Tr key={index}>
-              <Td width='10%'><span>{item.category}</span></Td>
-              <Td width='16%'><span>{item.date}</span></Td>
-              <Td width='62%'><span>{item.content}</span></Td>
+          {data.map((item) => (
+            <Tr key={item.id}>
+              <Td width='10%'><span>{item.requestType}</span></Td>
+              <Td width='16%'><span>{formatDate(item.requestDate)}</span></Td>
+              <Td width='62%'><span>{item.requestContent}</span></Td>
               <Td width='10rem'>
-                <Label color={getColorByStatus(item.status)}>{item.status}</Label>
+                <Label color={getColorByStatus(item.approvalStatus)}>{item.approvalStatus}</Label>
               </Td>
             </Tr>
           ))}
@@ -56,8 +90,8 @@ export function Table() {
 }
 
 const TableContainer = styled.div`
-  margin-top: 1.8rem;
-  max-height: 60rem;
+  margin-top: 1.2rem;
+  max-height: 58rem;
   overflow-y: auto;
   overflow-x: hidden;
 `
@@ -75,7 +109,7 @@ const Tbody = styled.tbody`
 const Tr = styled.tr`
   display: flex;
   align-items: center;
-  height: 5.4rem;
+  height: 5.2rem;
   border-bottom: 1px solid var(--point-gray);
   &:last-child td {
     border-bottom: none;
