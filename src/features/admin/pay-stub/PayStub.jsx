@@ -4,13 +4,15 @@ import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
 import Button from '@/shared/components/button/Button'
 import { useRef, useState } from 'react'
 import getDate from '../../../shared/utils/date'
+import useThrottle from '../../../shared/hooks/useThrottle'
 
 export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
+  const changeYear = useThrottle((options) => handleMonth(options), 1000)
 
-  const changeYear = (options) => {
+  function handleMonth(options) {
     if (options === 'next' && currentDate.current === [year, month].join('')) return
 
     let newMonth = month
