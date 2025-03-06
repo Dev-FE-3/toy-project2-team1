@@ -4,7 +4,9 @@ export default function ComtentWrap({ children }) {
   return <ContentWrap>{children}</ContentWrap>
 }
 
-const ContentWrap = styled.div`
+const ContentWrap = styled.div.withConfig({
+  displayName: 'ContentWrap',
+})`
   width: 100%;
   max-height: calc(100vh - 80px - 8rem);
   background-color: var(--box-container);

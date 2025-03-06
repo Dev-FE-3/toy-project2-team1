@@ -1,3 +1,274 @@
+import { useState, useCallback } from 'react'
+import { thisYear, thisMonth, eventCategories } from './constants'
+import styled from 'styled-components'
+import Calendar from './components/Calendar'
+import CalendarHeader from './components/CalendarHeader'
+import EventSidebar from './components/EventSidebar'
+import AddEventModal from './components/AddEventModal'
+import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
 export default function WorkSchedule() {
-  return <></>
+  const [currentYear, setCurrentYear] = useState(() => thisYear) // 현재 연도
+  const [currentMonth, setCurrentMonth] = useState(() => thisMonth) // 현재 달
+  const [selectedDate, setSelectedDate] = useState(null) // 선택된 날짜
+  const [isModalOpen, setIsModalOpen] = useState(false) // 모달 열림 여부
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true) // 사이드바 열림 여부
+  const [selectedCategory, setSelectedCategory] = useState('work') // 선택된 카테고리
+  // 이벤트 목록
+  const [calendarEvents, setCalendarEvents] = useState([
+    {
+      id: '1',
+      title: 'King Julien',
+      year: thisYear,
+      month: 2,
+      day: 3,
+      eventCategory: 'work',
+      description: '오늘은 9to6 근무입니다.',
+    },
+  ])
+
+  // 달 이동
+  const handleMoveMonth = useCallback(
+    (direction) => {
+      if (direction === 'prevMonth') {
+        // 1월에서 이전 달로 가면 전년도 12월로
+        if (currentMonth === 0) {
+          setCurrentMonth(11)
+          setCurrentYear((prevYear) => prevYear - 1)
+        } else {
+          setCurrentMonth((prev) => prev - 1)
+        }
+      } else if (direction === 'nextMonth') {
+        // 12월에서 다음 달로 가면 다음 연도 1월로
+        if (currentMonth === 11) {
+          setCurrentMonth(0)
+          setCurrentYear((prevYear) => prevYear + 1)
+        } else {
+          setCurrentMonth((prev) => prev + 1)
+        }
+      }
+    },
+    [currentYear, currentMonth],
+  )
+
+  // 오늘 날짜로 이동
+  const handleMoveToToday = useCallback(() => {
+    setCurrentYear(thisYear)
+    setCurrentMonth(thisMonth)
+  }, [])
+
+  // 날짜 셀 클릭
+  const handleDayClick = useCallback(
+    (e, { selectedMonth, selectedDay, selectedWeekDay }) => {
+      e.preventDefault()
+
+      setIsSidebarOpen(true)
+      setSelectedDate({
+        day: selectedDay,
+        month: selectedMonth,
+        year: currentYear,
+        weekday: selectedWeekDay,
+      })
+    },
+    [currentYear],
+  )
+
+  // 모달 열기
+  const handleModalOpen = useCallback(
+    (e, { selectedMonth, selectedDay, selectedWeekDay }) => {
+      e.preventDefault()
+      e.stopPropagation() // 날짜 셀 클릭 이벤트 방지
+
+      setIsModalOpen(true)
+      setSelectedDate({
+        year: currentYear,
+        month: selectedMonth,
+        day: selectedDay,
+        weekday: selectedWeekDay,
+      })
+    },
+    [currentYear],
+  )
+
+  // 모달 닫기
+  const handleModalClose = useCallback((e) => {
+    e.preventDefault()
+
+    setIsModalOpen(false)
+  }, [])
+
+  // 토글 핸들러 추가
+  const handleToggleSidebar = useCallback(() => {
+    setIsSidebarOpen((prev) => !prev)
+    if (isSidebarOpen) {
+      // 사이드바 닫을 때 선택된 날짜 초기화
+      setSelectedDate(null)
+    }
+  }, [isSidebarOpen])
+
+  // 이벤트 추가
+  const handleAddEvent = useCallback(
+    (e) => {
+      e.preventDefault()
+      const { year, month, day } = selectedDate
+
+      setCalendarEvents((prev) => [
+        ...prev,
+        {
+          id: `${prev.length + 1}`,
+          title: 'Choi',
+          year,
+          month,
+          day,
+          eventCategory: selectedCategory, // 선택된 카테고리 추가
+        },
+      ])
+      setIsModalOpen(false)
+    },
+    [selectedDate, selectedCategory],
+  )
+
+  // 이벤트 삭제
+  const handleDeleteEvent = useCallback((eventId) => {
+    setCalendarEvents((prev) => prev.filter((event) => event.id !== eventId))
+  }, [])
+
+  return (
+    <ContentWrap>
+      <MainCalendarContainer $isSidebarOpen={isSidebarOpen}>
+        <CalendarHeader
+          currentYear={currentYear}
+          currentMonth={currentMonth}
+          handleMoveMonth={handleMoveMonth}
+          handleMoveToToday={handleMoveToToday}
+        />
+        <CalendarContent>
+          <Calendar
+            currentYear={currentYear}
+            currentMonth={currentMonth}
+            calendarEvents={calendarEvents}
+            handleDayClick={handleDayClick}
+            handleModalOpen={handleModalOpen}
+            eventCategories={eventCategories}
+          />
+        </CalendarContent>
+      </MainCalendarContainer>
+
+      {/* 일별 이벤트 사이드바 토글 버튼 */}
+      <FloatingButton
+        onClick={handleToggleSidebar}
+        $isSidebarOpen={isSidebarOpen}
+        type="button"
+        aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </FloatingButton>
+
+      {/* 일별 이벤트 목록 */}
+      <EventSidebar
+        isOpen={isSidebarOpen}
+        selectedDate={selectedDate}
+        currentYear={currentYear}
+        currentMonth={currentMonth}
+        calendarEvents={calendarEvents}
+        onDeleteEvent={handleDeleteEvent}
+      />
+
+      {/* 이벤트 추가 모달 */}
+      <AddEventModal
+        isOpen={isModalOpen}
+        selectedDate={selectedDate}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+        onClose={handleModalClose}
+        onAddEvent={handleAddEvent}
+      />
+    </ContentWrap>
+  )
 }
+
+// 달력 컨테이너
+const CalendarContainer = styled.div.withConfig({
+  displayName: 'CalendarContainer',
+})`
+  display: flex;
+  width: 90vw;
+  height: 90vh;
+  max-height: 90%;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  background-color: white;
+  padding-bottom: 2.5rem;
+  color: #1e293b;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  position: relative;
+`
+
+const MainCalendarContainer = styled.div.withConfig({
+  displayName: 'MainCalendarContainer',
+})`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: margin-right 0.3s ease-in-out;
+  margin-right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '30%' : '0')};
+`
+
+// 캘린더 컨텐츠
+const CalendarContent = styled.div`
+  flex: 1;
+  width: 100%;
+  padding: 1rem 1.25rem 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @media (min-width: 640px) {
+    padding: 1.5rem 2rem 0 2rem;
+  }
+`
+// 플로팅 버튼
+const FloatingButton = styled.button`
+  position: fixed;
+  right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '25%' : '0')};
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 48px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '1px solid #e2e8f0' : 'none')};
+  border-radius: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '4px 0 0 4px' : '4px')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 40;
+  transition: right 0.3s ease-in-out;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 0;
+
+  &:hover {
+    background-color: #f8fafc;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transform: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
+    transition: transform 0.3s ease-in-out;
+    stroke: #64748b;
+  }
+`
