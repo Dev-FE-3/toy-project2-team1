@@ -1,7 +1,10 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-export default function Header({ userName }) {
+export default function Header() {
+  const userName = useSelector((state) => state.user.name)
+
   return (
     <StyledHeader>
       <Wrapper>
