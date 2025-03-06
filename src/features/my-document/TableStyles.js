@@ -7,11 +7,12 @@ export const TableWrap = styled.div`
   height: 58rem;
   overflow-y: auto;
   overflow-x: hidden;
-  border-top: 1px solid var(--point-gray);
+  scrollbar-gutter: stable;
 `
 export const TableContent = styled.table`
   width: 100%;
   font-size: 1.4rem;
+  border-bottom: 1px solid var(--point-gray);
 `
 export const Thead = styled.thead`
   position: sticky;
@@ -26,7 +27,7 @@ export const Tr = styled.tr`
   display: flex;
   align-items: center;
   height: 5.2rem;
-  border-bottom: 1px solid var(--point-gray);
+  border-top: 1px solid var(--point-gray);
   &:last-child td {
     border-bottom: none;
   }
@@ -79,7 +80,7 @@ export const ExpandedTr = styled.tr`
   display: flex;
   align-items: center;
   height: 8.2rem;
-  border-bottom: 1px solid var(--point-gray);
+  border-top: 1px solid var(--point-gray);
   background-color:var(--background-main);
 `
 export const ExpandedTd = styled.td`

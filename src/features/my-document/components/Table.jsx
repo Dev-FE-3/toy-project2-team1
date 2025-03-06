@@ -61,10 +61,17 @@ export function Table({ filterValue }) {
         return true; // 기본적으로 모든 데이터 표시
       });
       setFilteredData(filtered);
+      setExpandedId(null); // 필터링 시 expandedId 초기화
+      setCurrentPage(1); // 필터링 시 첫 페이지로 이동
     };
 
     filterData();
   }, [data, filterValue]);
+
+  // 페이지 변경 시 expandedId 초기화를 위한 새로운 useEffect
+  useEffect(() => {
+    setExpandedId(null);
+  }, [currentPage]);
 
   // 현재 페이지의 데이터만 슬라이싱
   const getCurrentPageData = () => {
