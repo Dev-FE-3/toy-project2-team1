@@ -10,6 +10,7 @@ import PayDetail from './components/PayDetail'
 
 export default function PayStub() {
   const [filterData, setFilterData] = useState(null)
+  const [isNoData, setIsNoData] = useState(false)
   const [isShow, setIsShow] = useState(false)
   const [date, setDate] = useState({
     year: getDate('year'),
@@ -39,6 +40,11 @@ export default function PayStub() {
     }
   }, [date, data])
 
+  useEffect(() => {
+    if (filterData) setIsNoData(false)
+    else setIsNoData(true)
+  }, [filterData])
+
   if (isLoading) return <LoadingSpinner />
   if (error) return <div>{error}</div>
 
@@ -50,6 +56,7 @@ export default function PayStub() {
           date={date}
           handleCalendar={handleCalendar}
           handleUpdateDate={handleUpdateDate}
+          isNoData={isNoData}
         ></Header>
         {filterData ? (
           <>
