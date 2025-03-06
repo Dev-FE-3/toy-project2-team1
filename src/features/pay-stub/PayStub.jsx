@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import getDate from '@/shared/utils/utils'
 import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+import LoadingSpinner from '@/shared/components/loading-spinner/LoadingSpinner'
+import useFetchPayStub from './hooks/useFetchPayStub'
 import Header from './components/Header'
 import Summary from './components/Summary'
-import useFetchPayStub from './hooks/useFetchPayStub'
-import { useEffect, useState } from 'react'
-import getDate from '@/shared/utils/utils'
 import PayDetail from './components/PayDetail'
 
 export default function PayStub() {
@@ -38,8 +39,8 @@ export default function PayStub() {
     }
   }, [date, data])
 
-  if (isLoading) return <div>로딩중...</div>
-  if (error) return <div>오류발생...{error}</div>
+  if (isLoading) return <LoadingSpinner />
+  if (error) return <div>{error}</div>
 
   return (
     <ContentWrap>
