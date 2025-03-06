@@ -28,9 +28,6 @@ export const Tr = styled.tr`
   align-items: center;
   height: 5.2rem;
   border-top: 1px solid var(--point-gray);
-  &:last-child td {
-    border-bottom: none;
-  }
 `
 export const Th = styled.th`
   flex: ${props => props.width ? `0 0 ${props.width}` : '1'};
