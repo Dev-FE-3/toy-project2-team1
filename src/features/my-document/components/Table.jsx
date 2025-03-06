@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
 import { Pagination } from './Pagination';
+import formatDate from '@/shared/utils/dateUtils';
+import getColorByStatus from '@/shared/utils/statusUtils';
 import styled from 'styled-components'
 
 export function Table({ filterValue }) {
@@ -57,30 +59,6 @@ export function Table({ filterValue }) {
 
     filterData();
   }, [data, filterValue]);
-
-  // timestamp => 'yyyy.mm.dd' 변환 함수
-  const formatDate = (timestamp) => {
-    if(!timestamp || !timestamp.toDate) {
-      return ''; // 유효하지 않은 timestamp일 경우 빈 문자열 반환
-    }
-    const date = timestamp.toDate();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}.${month}.${day}`;
-  }
-
-  // 상태에 따라 라벨 색상 결정
-  const getColorByStatus = (approvalStatus) => {
-    switch (approvalStatus) {
-      case "승인":
-        return "purple";
-      case "반려":
-        return "red";
-      default:
-        return "gray"; // 기본 색상
-    }
-  };
 
   // 현재 페이지의 데이터만 슬라이싱
   const getCurrentPageData = () => {
