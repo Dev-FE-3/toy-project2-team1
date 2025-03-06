@@ -60,7 +60,7 @@ const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: .7rem;
 `;
 
 const PageButton = styled.button`

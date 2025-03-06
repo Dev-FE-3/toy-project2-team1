@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
+import { TableHeader } from './TableHeader';
+import { TableRow } from './TableRow.jsx';
+import { ExpandedRow } from './ExpandedRow';
 import { Pagination } from './Pagination';
-import formatDate from '@/shared/utils/dateUtils';
-import getColorByStatus from '@/shared/utils/statusUtils';
-import styled from 'styled-components'
+import { Container, TableWrap, TableContent, Tbody } from '../TableStyles';
 
 export function Table({ filterValue }) {
   const [data, setData] = useState([]);
@@ -12,7 +13,12 @@ export function Table({ filterValue }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [expandedId, setExpandedId] = useState(null);
   const itemsPerPage = 10; // 페이지 당 아이템 수
+  
+  const toggleRow = (id) => {
+    setExpandedId(prevId => prevId === id ? null : id);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,30 +83,25 @@ export function Table({ filterValue }) {
 
   return (
     <>
-      <TableContainer>
+      <Container>
         <TableWrap>
-          <Thead>
-            <Tr>
-              <Th width='10%'><span>분류</span></Th>
-              <Th width='16%'><span>신청일</span></Th>
-              <Th width='62%'><span>내용</span></Th>
-              <Th width='10rem'><span>결재상태</span></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {getCurrentPageData().map((item) => (
-              <Tr key={item.id}>
-                <Td width='10%'><span>{item.requestType}</span></Td>
-                <Td width='16%'><span>{formatDate(item.requestDate)}</span></Td>
-                <Td width='62%'><span>{item.requestContent}</span></Td>
-                <Td width='10rem'>
-                  <Label color={getColorByStatus(item.approvalStatus)}>{item.approvalStatus}</Label>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
+          <TableContent>
+            <TableHeader />
+            <Tbody>
+              {getCurrentPageData().map((item) => (
+                <React.Fragment key={item.id}>
+                  <TableRow
+                    item={item}
+                    $isExpanded={expandedId === item.id}
+                    onToggle={() => toggleRow(item.id)}
+                  />
+                  {expandedId === item.id && <ExpandedRow content={item.requestContent} />}
+                </React.Fragment>
+              ))}
+            </Tbody>
+          </TableContent>
         </TableWrap>
-      </TableContainer>
+      </Container>
       <Pagination
         totalItems={filteredData.length}
         itemsPerPage={itemsPerPage}
@@ -110,65 +111,3 @@ export function Table({ filterValue }) {
     </>
   )
 }
-
-const TableContainer = styled.div`
-  margin-top: 1.2rem;
-  min-height: 58rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-`
-const TableWrap = styled.table`
-  width: 100%;
-  font-size: 1.4rem;
-`
-const Thead = styled.thead`
-  background-color: var(--background-main);
-  font-weight: 600;
-  border-top: 1px solid var(--point-gray);
-`
-const Tbody = styled.tbody`
-`
-const Tr = styled.tr`
-  display: flex;
-  align-items: center;
-  height: 5.2rem;
-  border-bottom: 1px solid var(--point-gray);
-  &:last-child td {
-    border-bottom: none;
-  }
-`
-const Th = styled.th`
-  flex: ${props => props.width ? `0 0 ${props.width}` : '1'};
-  text-align: center;
-  
-`
-const Td = styled.td`
-  flex: ${props => props.width ? `0 0 ${props.width}` : '1'};
-  text-align: center;
-`
-const Label = styled.span`
-  border-radius: .4rem;
-  display: inline-block;
-  width: 9rem;
-  padding: .6rem 0;
-  font-weight: 500;
-  ${props => {
-  switch(props.color) {
-    case 'red':
-      return `
-        background-color:rgba(238, 83, 79, 0.10);
-        color:var(--point-red);
-      `;
-    case 'purple':
-      return `
-        background-color:var(--background-sub);
-        color:var(--main);
-      `;
-    default:
-      return `
-        background-color: var(--background-main);
-        color: var(--font-sub);
-      `;
-  }
-}}
-`
