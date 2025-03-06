@@ -2,30 +2,34 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
 import { useSelector } from 'react-redux'
-
-async function getUsers(payDate) {
-  await getCollectionWithFilter('payrollManagement', payDate)
-}
+import { formatNumberWithComma } from '@/shared/utils/comma'
 
 export default function PayStubTable() {
+  const cols = 11
+
+  const [users, setUsers] = useState([])
+  const [rows, setRows] = useState(1)
   const date = useSelector((state) => state.payStub.date)
 
-  const rows = 20
-  const cols = 11
-  // 초기 데이터 생성
-  const initialData = Array.from({ length: rows }, () => Array(cols).fill(''))
+  const handleCellChange = (rowIndex, field, value) => {
+    const rawValue = value.replace(/,/g, '')
+    const formattedValue = formatNumberWithComma(rawValue)
 
-  const [data, setData] = useState(initialData)
+    const updatedUsers = [...users]
+    updatedUsers[rowIndex][field] = formattedValue
 
-  // 셀 값 변경 핸들러
-  const handleCellChange = (row, col, value) => {
-    const newData = [...data]
-    newData[row][col] = value
-    setData(newData)
+    setUsers(updatedUsers)
   }
 
   useEffect(() => {
-    console.log(date)
+    async function getUsers(payDate) {
+      const data = await getCollectionWithFilter('payrollManagement', payDate)
+
+      setUsers(data)
+      setRows(data.length)
+    }
+
+    getUsers(date)
   }, [date])
 
   return (
@@ -53,31 +57,33 @@ export default function PayStubTable() {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, rowIndex) => (
+          {users.map((user, rowIndex) => (
             <tr key={rowIndex}>
-              {/* 체크박스 컬럼 */}
-              <StyledTd width="9rem">
+              <StyledTd>
                 <input type="checkbox" />
               </StyledTd>
-
-              {/* 실제 데이터 컬럼 (체크박스 제외) */}
-              {row.slice(1).map((cell, colIndex) => {
-                // Determine if this column should render an Input component
-                const isEditable = colIndex === 1 || colIndex === 3 // 기본급 (2), 추가수당 (4)
-
-                return (
-                  <StyledTd key={colIndex + 1} width={getColumnWidth(colIndex + 1)}>
-                    {isEditable ? (
-                      <Input
-                        value={cell}
-                        onChange={(e) => handleCellChange(rowIndex, colIndex + 1, e.target.value)}
-                      />
-                    ) : (
-                      (cell, '더미') // Render just the text for other columns
-                    )}
-                  </StyledTd>
-                )
-              })}
+              <StyledTd>{formatNumberWithComma(user.employeeName)}</StyledTd>
+              <StyledTd>
+                <Input
+                  value={formatNumberWithComma(user.basicSalary)}
+                  onChange={(e) => handleCellChange(rowIndex, 'basicSalary', e.target.value)}
+                />
+              </StyledTd>
+              <StyledTd>{formatNumberWithComma(user.mealAllowance)}</StyledTd>
+              <StyledTd>
+                <Input
+                  value={formatNumberWithComma(user.additionalAllowance)}
+                  onChange={(e) =>
+                    handleCellChange(rowIndex, 'additionalAllowance', e.target.value)
+                  }
+                />
+              </StyledTd>
+              <StyledTd>{formatNumberWithComma(user.nationalPension)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.healthInsurance)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.longTermCareInsurance)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.employmentInsurance)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.incomeTax)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.localIncomeTax)}</StyledTd>
             </tr>
           ))}
         </tbody>
@@ -86,35 +92,13 @@ export default function PayStubTable() {
             <StyledTd>합계</StyledTd>
             <StyledTd className="footer-point-color">{rows}명</StyledTd>
             {Array.from({ length: cols - 2 }).map((_, index) => (
-              <StyledTd key={index} width="1.8rem">
-                계산
-              </StyledTd>
+              <StyledTd key={index}>계산</StyledTd>
             ))}
           </FooterRow>
         </tfoot>
       </StyledTable>
     </TableContainer>
   )
-}
-
-// 각 열의 width를 반환하는 함수
-const getColumnWidth = (colIndex) => {
-  switch (colIndex) {
-    case 1:
-      return '10.3rem'
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-    case 10:
-      return '18rem'
-    default:
-      return 'auto'
-  }
 }
 
 // 테이블 컨테이너 스타일
@@ -136,6 +120,10 @@ const StyledTable = styled.table`
   thead th {
     vertical-align: middle;
   }
+
+  // tbody tr td {
+  //   width: 9rem;
+  // }
 `
 
 const StyledTh = styled.th`
@@ -147,7 +135,6 @@ const StyledTh = styled.th`
 const StyledTd = styled.td`
   border: 1px solid var(--point-gray);
   padding: 1.8rem 2rem;
-  width: ${(props) => props.width || 'auto'}; // width 값 적용
 `
 
 const Input = styled.input`
