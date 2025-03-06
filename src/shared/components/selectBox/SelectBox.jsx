@@ -51,7 +51,7 @@ const OPTIONS_MAP = {
 const DropdownContainer = styled.div`
   position: relative;
   width: ${({ $size }) => ($size === 'big' ? '12rem' : '7.2rem')};
-  height: ${({ $size }) => ($size === 'big' ? '4.6rem' : '3.6rem')};
+  height: ${({ $size }) => ($size === 'big' ? '4.2rem' : '3.6rem')};
 `
 
 const DropdownButton = styled.button`
