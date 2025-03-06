@@ -5,12 +5,11 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { INITIALIZE } from '../../redux/constants/user'
 
 export default function SideMenu() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const isAdmin = useSelector((state) => state.user.role)
+  const dispatch = useDispatch()
 
   const logout = () => {
     const auth = getAuth()
@@ -21,8 +20,8 @@ export default function SideMenu() {
     }
 
     logout()
+    dispatch({ type: 'INIT' })
     sessionStorage.clear()
-    dispatch({ type: INITIALIZE })
     navigate('/login')
   }
 

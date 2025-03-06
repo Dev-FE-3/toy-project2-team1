@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
+import { useSelector } from 'react-redux'
 
-const dummyUser = [
-  {
-    name: '홍길동',
-  },
-]
+async function getUsers(payDate) {
+  await getCollectionWithFilter('payrollManagement', payDate)
+}
 
 export default function PayStubTable() {
+  const date = useSelector((state) => state.payStub.date)
+
   const rows = 20
   const cols = 11
   // 초기 데이터 생성
@@ -21,6 +23,10 @@ export default function PayStubTable() {
     newData[row][col] = value
     setData(newData)
   }
+
+  useEffect(() => {
+    console.log(date)
+  }, [date])
 
   return (
     <TableContainer>

@@ -2,15 +2,18 @@ import styled from 'styled-components'
 import PayStubTable from './components/PayStubTable'
 import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
 import Button from '@/shared/components/button/Button'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import getDate from '../../../shared/utils/date'
 import useThrottle from '../../../shared/hooks/useThrottle'
+import { useDispatch } from 'react-redux'
+import { SET_DATE } from '../../../shared/redux/constants/payStub'
 
 export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
+  const dispatch = useDispatch()
 
   function handleMonth(options) {
     if (options === 'next' && currentDate.current === [year, month].join('')) return
@@ -44,6 +47,12 @@ export default function PayStub() {
     setMonth(newMonth)
     setYear(newYear)
   }
+
+  useEffect(() => {
+    const date = year + String(month).padStart(2, '0')
+
+    dispatch({ type: SET_DATE, data: { date } })
+  }, [dispatch, year, month])
 
   return (
     <ContentWrap>

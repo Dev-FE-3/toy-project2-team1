@@ -1,4 +1,4 @@
-import { INITIALIZE, SET_USER } from '../constants/user'
+import { SET_USER } from '../constants/user'
 
 const initialState = {
   uid: null,
@@ -20,9 +20,6 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         ...action.data,
       }
-
-    case INITIALIZE:
-      return initialState
   }
 
   return { ...state }
