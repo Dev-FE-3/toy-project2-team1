@@ -2,9 +2,29 @@ import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/shared/constants/menu/menuList'
 import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
+import { getAuth, signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { INITIALIZE } from '../../redux/constants/user'
 
 export default function SideMenu() {
-  const isAdmin = true
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const isAdmin = useSelector((state) => state.user.role)
+
+  const logout = () => {
+    const auth = getAuth()
+
+    const logout = async () => {
+      await signOut(auth)
+      console.log('사용자가 로그아웃했습니다.')
+    }
+
+    logout()
+    sessionStorage.clear()
+    dispatch({ type: INITIALIZE })
+    navigate('/login')
+  }
 
   return (
     <S.NavContainer>
@@ -32,7 +52,7 @@ export default function SideMenu() {
           </li>
         )}
       </ul>
-      <S.Logout to="/logout">로그아웃</S.Logout>
+      <S.Logout onClick={logout}>로그아웃</S.Logout>
     </S.NavContainer>
   )
 }
