@@ -95,7 +95,9 @@ export default function PayStub() {
           급여마감
         </Button>
       </Title>
-      <PayStubTable></PayStubTable>
+      <Contents>
+        <PayStubTable></PayStubTable>
+      </Contents>
     </ContentWrap>
   )
 }
@@ -122,4 +124,8 @@ const Title = styled.div`
     font-size: 2.4rem;
     font-weight: 600;
   }
+`
+const Contents = styled.div`
+  overflow: auto;
+  margin-top: 2rem;
 `
