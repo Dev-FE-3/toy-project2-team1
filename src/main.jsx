@@ -1,11 +1,4 @@
 import { createRoot } from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import router from '@/app/routes/routes'
-import GlobalStyle from '@/shared/styles/global'
+import App from './App'
 
-createRoot(document.getElementById('root')).render(
-  <>
-    <GlobalStyle />
-    <RouterProvider router={router} />
-  </>,
-)
+createRoot(document.getElementById('root')).render(<App />)
