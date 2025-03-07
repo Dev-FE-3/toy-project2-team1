@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
 import { TableHeader } from './TableHeader';
-import { TableRow } from './TableRow.jsx';
+import { TableRow } from './TableRow';
 import { ExpandedRow } from './ExpandedRow';
-import { Pagination } from '@/shared/components/pagination/Pagination.jsx';
-import * as Common from '../TableCommonStyles.js';
+import { Pagination } from '@/shared/components/pagination/Pagination';
+import LoadingSpinner from '@/shared/components/loading-spinner/LoadingSpinner';
+import * as Common from '../TableCommonStyles';
 
 export function Table({ filterValue }) {
   const [data, setData] = useState([]); // 전체 데이터 저장
@@ -41,11 +42,13 @@ export function Table({ filterValue }) {
           ...doc.data()
         }));
 
-        setData(fetchedData); // 전체 데이터 설정
+        // 로딩스피터 노출을 위한 딜레이 추가
+        setTimeout(() => {
+          setData(fetchedData); // 전체 데이터 설정
+          setIsLoading(false);
+        }, 1000)
       } catch (err) {
         setError(err.message);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -93,7 +96,7 @@ export function Table({ filterValue }) {
     ));
   };
 
-  if (isLoading) return console.log('로딩중입니다.')
+  if (isLoading) return <LoadingSpinner />;
   if (error) return console.error('error: ',error)
 
   return (

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { db } from '@/shared/api/firebase/firebase'
 import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
 import { TableHeader } from './TableHeader';
-import { TableRow } from './TableRow.jsx';
+import { TableRow } from './TableRow';
 import { ExpandedRow } from '@/features/admin/approval/components/ExpandedRow';
 import { Pagination } from '@/shared/components/pagination/Pagination';
+import LoadingSpinner from '@/shared/components/loading-spinner/LoadingSpinner';
 import * as Common from '@/features/admin/approval/TableCommonStyles';
 
 export function Table({ filterValue }) {
+  const { uid } = useSelector(state => state.user); // 리덕스 스토어에서 uid 가져오기
   const [data, setData] = useState([]); // 전체 데이터 저장
   const [filteredData, setFilteredData] = useState([]) // 필터링 된 데이터 저장
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
@@ -26,10 +29,9 @@ export function Table({ filterValue }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const uid = sessionStorage.getItem('uid'); // 세션 스토리지에서 uid 가져오기
 
         if (!uid) {
-          throw new Error('세션스토리지에서 유저의 uid를 찾을 수 없습니다.')
+          throw new Error('유저의 uid를 찾을 수 없습니다.')
         }
 
         // uid를 사용하여 특정 직원의 데이터를 가져옴
@@ -47,16 +49,20 @@ export function Table({ filterValue }) {
           ...doc.data()
         }));
 
-        setData(fetchedData); // 전체 데이터 설정
+        // 로딩스피너 노출을 위한 딜레이 추가
+        setTimeout(() => {
+          setData(fetchedData); // 전체 데이터 설정
+          setIsLoading(false);
+        }, 1000)
       } catch (err) {
         setError(err.message);
-      } finally {
-        setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, []); // 컴포넌트 처음 렌더링 시 실행
+    if (uid) {
+      fetchData();
+    }
+  }, [uid]); // uid가 변경될 때마다 실행
 
   // filterValue에 따라 데이터 필터링
   useEffect(() => {
@@ -93,7 +99,7 @@ export function Table({ filterValue }) {
     setCurrentPage(page);
   }
 
-  if (isLoading) return console.log('로딩중입니다.')
+  if (isLoading) return <LoadingSpinner />;
   if (error) return console.error('error: ',error)
 
   return (
