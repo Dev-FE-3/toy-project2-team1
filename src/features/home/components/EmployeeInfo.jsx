@@ -11,20 +11,20 @@ export default function EmployeeInfo({ employee }) {
     <Card title={'개인정보'}>
       <ProfileImage />
       <InfoWrap>
-        <div>
+        <li>
           <p className="department">{employee.department}</p>
           <div className="d-flex">
             <span className="employee-name">{employee.name}</span>
             <span className="position">{employee.jobTitle}</span>
           </div>
-        </div>
-        <div className="d-flex etc">
+        </li>
+        <li className="d-flex etc">
           <p>{`${serviceDuration.years}년 ${serviceDuration.months}개월`} 근무</p>
           <div className="d-flex">
             <p className="etc-phone">{employee.phoneNumber}</p>
             <p className="etc-email">{employee.email}</p>
           </div>
-        </div>
+        </li>
       </InfoWrap>
     </Card>
   )
@@ -38,7 +38,7 @@ const ProfileImage = styled.div`
   background-color: var(--point-gray);
   background: url('/public/images/home-profile.png') center/cover;
 `
-const InfoWrap = styled.div`
+const InfoWrap = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
