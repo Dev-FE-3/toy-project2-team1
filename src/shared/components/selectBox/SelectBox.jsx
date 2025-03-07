@@ -39,7 +39,7 @@ const COMMON_OPTIONS = [
 ]
 
 const DUMMY_OPTIONS1 = [{ id: 0, name: '-' }, ...COMMON_OPTIONS]
-const DUMMY_OPTIONS2 = [{ id: 0, name: '결재 전' }, ...COMMON_OPTIONS]
+const DUMMY_OPTIONS2 = [{ id: 0, name: '전체보기' }, { id: 1, name: '결재 전' }, ...COMMON_OPTIONS]
 const DUMMY_OPTIONS3 = [{ id: 0, name: '전체보기' }, { id: 1, name: '결재대기' }, ...COMMON_OPTIONS]
 
 const OPTIONS_MAP = {
