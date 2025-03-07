@@ -4,10 +4,9 @@ import getDate from '../../shared/utils/utils'
 
 function CalendarModalGuide() {
   const [show, setShow] = useState(false)
-  const [date, setDate] = useState(() => {
-    const year = getDate('year')
-    const month = String(getDate('month')).padStart(2, '0')
-    return `${year}${month}`
+  const [date, setDate] = useState({
+    year: getDate('year'),
+    month: getDate('month'),
   })
 
   const handleCalendar = () => {
@@ -20,17 +19,19 @@ function CalendarModalGuide() {
   }
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <button onClick={handleCalendar}>Click!</button>
       <CalendarModal
         isShow={show}
-        onChange={handleYearAndMonth}
-        top="0"
+        handleUpdateDate={handleYearAndMonth}
+        top="3"
         left="0"
         date={date}
       ></CalendarModal>
-      <span> 그대가 선택한 날짜: {date}</span>
-    </>
+      <span>
+        그대가 선택한 날짜: {date.year}년 {date.month}월
+      </span>
+    </div>
   )
 }
 
