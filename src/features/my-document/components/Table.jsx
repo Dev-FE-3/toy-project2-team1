@@ -26,12 +26,16 @@ export function Table({ filterValue }) {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const employeeId = 'EMP011'; // 추후 로그인 정보에서 employeeId 값 가져올 예정
+        const uid = sessionStorage.getItem('uid'); // 세션 스토리지에서 uid 가져오기
 
-        // 특정 직원의 데이터를 가져옴
+        if (!uid) {
+          throw new Error('세션스토리지에서 유저의 uid를 찾을 수 없습니다.')
+        }
+
+        // uid를 사용하여 특정 직원의 데이터를 가져옴
         let q = query(
           collection(db, "payrollCorrections"),
-          where('employeeId', '==', employeeId),
+          where('uid', '==', uid),
           orderBy('requestDate', 'desc'), // 신청일 내림차순
         );
 
