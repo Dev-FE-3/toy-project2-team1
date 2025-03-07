@@ -8,7 +8,6 @@ export default function PayStubTable() {
   // const cols = 11
 
   const [users, setUsers] = useState([])
-  const [rows, setRows] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
   const [checkedUsers, setCheckedUsers] = useState([])
@@ -65,7 +64,6 @@ export default function PayStubTable() {
       const data = await getCollectionWithFilter('payrollManagement', payDate)
 
       setUsers(data)
-      setRows(data.length)
     }
 
     getUsers(date)
@@ -75,13 +73,14 @@ export default function PayStubTable() {
     setCheckedUsers(checkedRows.map((index) => users[index]))
   }, [checkedRows, users]) // users도 의존성 배열에 포함!
 
+  console.log('checkedUsers', checkedUsers)
   return (
     <TableContainer>
       <StyledTable>
         <thead>
           <tr>
             <StyledTh rowSpan="2" style={{ width: '90px' }}>
-              <input type="checkbox" onClick={checkAll} checked={isChecked} />
+              <input type="checkbox" checked={isChecked} onChange={checkAll} />
             </StyledTh>
             <StyledTh rowSpan="2" style={{ width: '103px' }}>
               이름
