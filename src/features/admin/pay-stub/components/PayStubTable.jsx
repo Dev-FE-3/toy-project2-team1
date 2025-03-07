@@ -4,13 +4,10 @@ import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
 import { useSelector } from 'react-redux'
 import { formatNumberWithComma } from '@/shared/utils/comma'
 
-export default function PayStubTable() {
-  // const cols = 11
-
+export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
   const [users, setUsers] = useState([])
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
-  const [checkedUsers, setCheckedUsers] = useState([])
   const date = useSelector((state) => state.payStub.date)
 
   const checkAll = () => {
@@ -52,13 +49,6 @@ export default function PayStubTable() {
     setUsers(updatedUsers)
   }
 
-  const handleSubmit = () => {
-    const selectedUsers = users.filter((_, index) => checkedRows.includes(index))
-    console.log('선택된 사용자:', selectedUsers)
-
-    // 여기에서 API 요청으로 데이터 전송 가능
-  }
-
   useEffect(() => {
     async function getUsers(payDate) {
       const data = await getCollectionWithFilter('payrollManagement', payDate)
@@ -70,10 +60,10 @@ export default function PayStubTable() {
   }, [date])
 
   useEffect(() => {
-    setCheckedUsers(checkedRows.map((index) => users[index]))
-  }, [checkedRows, users]) // users도 의존성 배열에 포함!
+    setCheckedUsers(users.filter((_, index) => checkedRows.includes(index)))
+    // setCheckedUsers(checkedRows.map((index) => users[index]))
+  }, [checkedRows, users, setCheckedUsers])
 
-  console.log('checkedUsers', checkedUsers)
   return (
     <TableContainer>
       <StyledTable>

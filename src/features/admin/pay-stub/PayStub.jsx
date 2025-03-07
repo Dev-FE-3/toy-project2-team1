@@ -13,6 +13,7 @@ export default function PayStub() {
   const [month, setMonth] = useState(getDate('month'))
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
+  const [checkedUsers, setCheckedUsers] = useState([])
   const dispatch = useDispatch()
 
   function handleMonth(options) {
@@ -46,6 +47,12 @@ export default function PayStub() {
 
     setMonth(newMonth)
     setYear(newYear)
+  }
+
+  const sendUsersPayStub = () => {
+    console.log(checkedUsers)
+
+    alert('api 전송')
   }
 
   useEffect(() => {
@@ -100,12 +107,12 @@ export default function PayStub() {
             </svg>
           </div>
         </div>
-        <Button type="button" variant="primary" onClick={() => alert('hi')}>
+        <Button type="button" variant="primary" onClick={sendUsersPayStub}>
           급여마감
         </Button>
       </Title>
       <Contents>
-        <PayStubTable></PayStubTable>
+        <PayStubTable checkedUsers={checkedUsers} setCheckedUsers={setCheckedUsers}></PayStubTable>
       </Contents>
     </ContentWrap>
   )
