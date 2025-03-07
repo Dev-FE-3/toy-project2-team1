@@ -13,7 +13,7 @@ export default function Home() {
     <Container>
       <EmployeeInfo employee={userData} />
       <LeaveInfo totalLeave={userData.totalLeaves} usedLeave={userData.usedLeaves} />
-      <AverageWorkTime />
+      <AverageWorkTime employeeName={userData.name}/>
       <CheckList />
       <DocumentList />
     </Container>
