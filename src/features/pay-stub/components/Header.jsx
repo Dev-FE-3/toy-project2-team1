@@ -28,7 +28,7 @@ export default function Header({ isShow, date, handleCalendar, handleUpdateDate,
     try {
       const docId = await addDocument('payrollCorrections', {
         approvalStatus: '결재대기',
-        employeeId: userData.uid,
+        uid: userData.uid,
         employeeName: userData.name,
         requestContent: textareaRef.current.value,
         requestDate: new Date(),
