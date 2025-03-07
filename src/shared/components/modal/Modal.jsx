@@ -64,6 +64,7 @@ const Overlay = styled.div`
 `
 
 const ModalContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   background-color: var(--box-container);
