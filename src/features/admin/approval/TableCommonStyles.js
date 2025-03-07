@@ -10,6 +10,7 @@ export const TableWrap = styled.div`
   scrollbar-gutter: stable;
 `
 export const TableContent = styled.table`
+  table-layout: fixed;
   width: 100%;
   font-size: 1.4rem;
   border-bottom: 1px solid var(--point-gray);
@@ -45,6 +46,7 @@ export const ExpandedTd = styled.td`
   white-space: pre-wrap;
   word-break: break-word;
   padding: 1rem 7rem;
+  line-height: 2.4rem;
 `
 export const ToggleImage = styled.img`
   width: 2.4rem;

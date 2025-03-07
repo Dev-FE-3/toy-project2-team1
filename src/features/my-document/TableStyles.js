@@ -7,8 +7,8 @@ export const Td = styled.td`
   &:nth-child(3) {
     padding: 0 7rem;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
   &:last-child {
     cursor: pointer;
