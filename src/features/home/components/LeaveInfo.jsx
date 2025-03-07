@@ -28,7 +28,7 @@ export default function LeaveInfo({ totalLeave, usedLeave }) {
   )
 }
 
-const LeaveStatusContainer = styled.div`
+const LeaveStatusContainer = styled.ul`
   display: flex;
   .label {
     color: var(--font-sub);
@@ -37,7 +37,7 @@ const LeaveStatusContainer = styled.div`
     line-height: 2rem;
   }
 `
-const LeaveStatus = styled.div`
+const LeaveStatus = styled.li`
   height: 100%;
   padding: 1rem 2.5rem;
   border-right: 1px solid var(--background-main);
