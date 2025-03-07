@@ -65,7 +65,7 @@ export default function CheckList() {
                   onBlur={() => handleBlurEditContent(item.id)}
                 />
               ) : (
-                <Content $isChekcked={item.checked} onClick={() => handleClickEditContent(item)}>
+                <Content $isChecked={item.checked} onClick={() => handleClickEditContent(item)}>
                   {item.content}
                 </Content>
               )}
@@ -96,8 +96,7 @@ const CheckListContainer = styled.ul`
 const Content = styled.p`
   font-size: 1.6rem;
   line-height: 2.2rem;
-  height: 2.2rem;
-  ${({ $isChekcked }) => ($isChekcked ? 'text-decoration: line-through;' : '')}
+  ${({ $isChecked }) => ($isChecked ? 'text-decoration: line-through;' : '')}
 `
 
 const EditInputStyles = `
