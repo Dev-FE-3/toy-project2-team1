@@ -1,7 +1,12 @@
 import Card from '@/shared/components/card/Card'
 import styled from 'styled-components'
+import calcServiceDuration from '../utils/calcServiceDuration'
 
 export default function EmployeeInfo({ employee }) {
+  const today = new Date()
+  const hireDate = new Date(employee.hireDate)
+  const serviceDuration = calcServiceDuration(today, hireDate)
+
   return (
     <Card title={'개인정보'}>
       <ProfileImage />
@@ -14,10 +19,10 @@ export default function EmployeeInfo({ employee }) {
           </div>
         </div>
         <div className="d-flex etc">
-          <p>{employee.serviceDuration} 근무</p>
+          <p>{`${serviceDuration.years}년 ${serviceDuration.months}개월`} 근무</p>
           <div className="d-flex">
             <p className="etc-phone">{employee.phoneNumber}</p>
-            <p className="etc-email">{employee.emailAddress}</p>
+            <p className="etc-email">{employee.email}</p>
           </div>
         </div>
       </InfoWrap>

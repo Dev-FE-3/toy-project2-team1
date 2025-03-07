@@ -51,13 +51,13 @@ const StatusValue = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100% - 3rem);
   min-width: 90px;
   border-radius: 0.9rem;
   background: var(--background-main);
   position: relative;
   overflow: hidden;
   margin-top: 1rem;
+  aspect-ratio: 1 / 1;
 
   &::before {
     content: '';
