@@ -1,10 +1,11 @@
-import { Tr, Td, ToggleImage } from '../TableStyles'
+import { useEffect, useState } from 'react';
+import { db } from '@/shared/api/firebase/firebase'
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import SelectBox from '@/shared/components/SelectBox/SelectBox';
 import Button from '@/shared/components/button/Button';
 import formatDate from '@/shared/utils/dateUtils'
-import { useEffect, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '@/shared/api/firebase/firebase'
+import { Tr, ToggleImage } from '../TableCommonStyles'
+import { Td } from '../TableStyles';
 
 // 값을 텍스트로 변환하는 함수
 const getStatusText = (value) => {

@@ -1,4 +1,4 @@
-import ContentWrap from '@/shared/components/Contemt-wrap/ContentWrap'
+import ContentWrap from '@/shared/components/Content-wrap/ContentWrap'
 import SelectBox from '@/shared/components/SelectBox/SelectBox'
 import { Table } from './components/Table';
 import { useState } from "react";

@@ -5,7 +5,7 @@ import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow.jsx';
 import { ExpandedRow } from './ExpandedRow';
 import { Pagination } from '@/shared/components/pagination/Pagination.jsx';
-import { Container, TableWrap, TableContent, Tbody } from '../TableStyles';
+import * as Common from '../TableCommonStyles.js';
 
 export function Table({ filterValue }) {
   const [data, setData] = useState([]); // 전체 데이터 저장
@@ -98,12 +98,12 @@ export function Table({ filterValue }) {
 
   return (
     <>
-      <Container>
-        <TableWrap>
-          <TableContent>
+      <Common.Container>
+        <Common.TableWrap>
+          <Common.TableContent>
             {/* 테이블 헤더 */}
             <TableHeader />
-            <Tbody>
+            <Common.Tbody>
               {/* 현재 페이지의 데이터를 렌더링 */}
               {getCurrentPageData().map((item) => (
                 <React.Fragment key={item.id}>
@@ -118,10 +118,10 @@ export function Table({ filterValue }) {
                   {expandedId === item.id && <ExpandedRow content={item.requestContent} />}
                 </React.Fragment>
               ))}
-            </Tbody>
-          </TableContent>
-        </TableWrap>
-      </Container>
+            </Common.Tbody>
+          </Common.TableContent>
+        </Common.TableWrap>
+      </Common.Container>
       {/* 페이지네이션 */}
       <Pagination
         totalItems={filteredData.length} // 전체 항목 수 전달

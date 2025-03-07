@@ -1,6 +1,7 @@
-import { Tr, Td, Label, ToggleImage } from '../TableStyles'
 import formatDate from '@/shared/utils/dateUtils'
 import getColorByStatus from '@/shared/utils/statusUtils'
+import { Tr, ToggleImage } from '@/features/admin/approval/TableCommonStyles'
+import { Td, Label } from '../TableStyles.js'
 
 export const TableRow = ({ item, $isExpanded, onToggle }) => (
   <Tr>

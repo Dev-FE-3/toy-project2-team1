@@ -1,4 +1,4 @@
-import { ExpandedTr, ExpandedTd } from '../TableStyles'
+import { ExpandedTr, ExpandedTd } from '../TableCommonStyles'
 
 export const ExpandedRow = ({ content }) => (
   <ExpandedTr>
