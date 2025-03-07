@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import getDate from '@/shared/utils/utils'
-import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+import ContentWrap from '@/shared/components/content-wrap/ContentWrap'
 import LoadingSpinner from '@/shared/components/loading-spinner/LoadingSpinner'
 import useFetchPayStub from './hooks/useFetchPayStub'
 import Header from './components/Header'
