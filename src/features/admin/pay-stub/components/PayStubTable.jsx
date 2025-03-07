@@ -5,33 +5,56 @@ import { useSelector } from 'react-redux'
 import { formatNumberWithComma } from '@/shared/utils/comma'
 
 export default function PayStubTable() {
-  const cols = 11
+  // const cols = 11
 
   const [users, setUsers] = useState([])
   const [rows, setRows] = useState(0)
-  const [checkedList, setCheckedList] = useState([])
+  const [isChecked, setIsChecked] = useState(false)
+  const [checkedRows, setcheckedRows] = useState([])
+  const [checkedUsers, setCheckedUsers] = useState([])
   const date = useSelector((state) => state.payStub.date)
+
+  const checkAll = () => {
+    if (!isChecked) {
+      const length = users.length
+      setcheckedRows(Array.from({ length }, (_, i) => i))
+    } else {
+      setcheckedRows([])
+    }
+    setIsChecked((prev) => !prev)
+  }
 
   const checkHandler = (e, rowIndex) => {
     if (e.target.checked) {
-      setCheckedList((prev) => [...prev, rowIndex]) // 체크된 row 추가
+      setcheckedRows((prev) => [...prev, rowIndex]) // 체크된 row 추가
     } else {
-      setCheckedList((prev) => prev.filter((index) => index !== rowIndex)) // 체크 해제된 row 제거
+      setcheckedRows((prev) => prev.filter((index) => index !== rowIndex)) // 체크 해제된 row 제거
     }
   }
 
   const handleCellChange = (rowIndex, field, value) => {
     const rawValue = value.replace(/,/g, '')
-    const formattedValue = formatNumberWithComma(rawValue)
 
     const updatedUsers = [...users]
-    updatedUsers[rowIndex][field] = formattedValue
+    updatedUsers[rowIndex][field] = rawValue
+
+    const paymentItems =
+      +updatedUsers[rowIndex]['basicSalary'] +
+      +updatedUsers[rowIndex]['mealAllowance'] +
+      +updatedUsers[rowIndex]['additionalAllowance']
+
+    updatedUsers[rowIndex]['nationalPension'] = Math.ceil(paymentItems * 0.045) // 국민연금
+    updatedUsers[rowIndex]['healthInsurance'] = Math.ceil(paymentItems * 0.03545) // 건강보험
+    updatedUsers[rowIndex]['longTermCareInsurance'] = Math.ceil(paymentItems * 0.00459) // 장기요양보험
+    updatedUsers[rowIndex]['employmentInsurance'] = Math.ceil(paymentItems * 0.009) // 고용보험
+    updatedUsers[rowIndex]['incomeTax'] = Math.ceil(paymentItems * 0.05) // 근로소득세
+    updatedUsers[rowIndex]['localIncomeTax'] = Math.ceil(paymentItems * 0.005) // 지방소득세
 
     setUsers(updatedUsers)
   }
 
   const handleSubmit = () => {
-    const selectedUsers = users.filter((_, index) => checkedList.includes(index))
+    const selectedUsers = users.filter((_, index) => checkedRows.includes(index))
     console.log('선택된 사용자:', selectedUsers)
 
     // 여기에서 API 요청으로 데이터 전송 가능
@@ -48,13 +71,17 @@ export default function PayStubTable() {
     getUsers(date)
   }, [date])
 
+  useEffect(() => {
+    setCheckedUsers(checkedRows.map((index) => users[index]))
+  }, [checkedRows, users]) // users도 의존성 배열에 포함!
+
   return (
     <TableContainer>
       <StyledTable>
         <thead>
           <tr>
             <StyledTh rowSpan="2" style={{ width: '90px' }}>
-              <input type="checkbox" />
+              <input type="checkbox" onClick={checkAll} checked={isChecked} />
             </StyledTh>
             <StyledTh rowSpan="2" style={{ width: '103px' }}>
               이름
@@ -84,42 +111,86 @@ export default function PayStubTable() {
               <StyledTd>
                 <input
                   type="checkbox"
-                  checked={checkedList.includes(rowIndex)}
+                  checked={checkedRows.includes(rowIndex)}
                   onChange={(e) => checkHandler(e, rowIndex)}
                 />
               </StyledTd>
               <StyledTd>{formatNumberWithComma(user.employeeName)}</StyledTd>
               <StyledTd>
                 <Input
-                  value={formatNumberWithComma(user.basicSalary)}
+                  value={formatNumberWithComma(user.basicSalary) /*기본급*/}
                   onChange={(e) => handleCellChange(rowIndex, 'basicSalary', e.target.value)}
                 />
               </StyledTd>
-              <StyledTd>{formatNumberWithComma(user.mealAllowance)}</StyledTd>
+              <StyledTd>
+                {formatNumberWithComma(user.mealAllowance) /*식비 user.mealAllowance*/}
+              </StyledTd>
               <StyledTd>
                 <Input
-                  value={formatNumberWithComma(user.additionalAllowance)}
+                  value={formatNumberWithComma(user.additionalAllowance) /*추가수당*/}
                   onChange={(e) =>
                     handleCellChange(rowIndex, 'additionalAllowance', e.target.value)
                   }
                 />
               </StyledTd>
-              <StyledTd>{formatNumberWithComma(user.nationalPension)}</StyledTd>
-              <StyledTd>{formatNumberWithComma(user.healthInsurance)}</StyledTd>
-              <StyledTd>{formatNumberWithComma(user.longTermCareInsurance)}</StyledTd>
-              <StyledTd>{formatNumberWithComma(user.employmentInsurance)}</StyledTd>
-              <StyledTd>{formatNumberWithComma(user.incomeTax)}</StyledTd>
-              <StyledTd>{formatNumberWithComma(user.localIncomeTax)}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.nationalPension) /*국민연금*/}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.healthInsurance) /*건강보험*/} </StyledTd>
+              <StyledTd>
+                {formatNumberWithComma(user.longTermCareInsurance) /*장기요양보험*/}
+              </StyledTd>
+              <StyledTd>{formatNumberWithComma(user.employmentInsurance) /*고용보험*/}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.incomeTax) /*근로소득세*/}</StyledTd>
+              <StyledTd>{formatNumberWithComma(user.localIncomeTax) /*지방소득세*/}</StyledTd>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <FooterRow>
             <StyledTd>합계</StyledTd>
-            <StyledTd className="footer-point-color">{rows}명</StyledTd>
-            {Array.from({ length: cols - 2 }).map((_, index) => (
-              <StyledTd key={index}>계산</StyledTd>
-            ))}
+            <StyledTd className="footer-point-color">{checkedRows.length}명</StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.basicSalary, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.mealAllowance, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.additionalAllowance, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.nationalPension, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.healthInsurance, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.longTermCareInsurance, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.employmentInsurance, 0),
+              )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(checkedUsers.reduce((acc, user) => acc + +user.incomeTax, 0))}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(
+                checkedUsers.reduce((acc, user) => acc + +user.localIncomeTax, 0),
+              )}
+            </StyledTd>
           </FooterRow>
         </tfoot>
       </StyledTable>
@@ -162,6 +233,7 @@ const StyledTd = styled.td`
 const Input = styled.input`
   width: 14rem;
   height: 3.4rem;
+  padding-left: 1rem;
   border-radius: 0.8rem;
   border: 1px solid #d9d9d9;
   color: var(--font-sub);

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import PayStubTable from './components/PayStubTable'
-import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+import ContentWrap from '@/shared/components/content-wrap/ContentWrap'
 import Button from '@/shared/components/button/Button'
 import { useEffect, useRef, useState } from 'react'
 import getDate from '../../../shared/utils/date'
