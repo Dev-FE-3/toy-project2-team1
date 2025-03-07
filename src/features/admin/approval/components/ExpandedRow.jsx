@@ -2,10 +2,7 @@ import { ExpandedTr, ExpandedTd } from '../TableStyles'
 
 export const ExpandedRow = ({ content }) => (
   <ExpandedTr>
-    <ExpandedTd width='10%'>
-      <span>내용</span>
-    </ExpandedTd>
-    <ExpandedTd width='90%'>
+    <ExpandedTd>
       <span>{content}</span>
     </ExpandedTd>
   </ExpandedTr>

@@ -3,7 +3,7 @@ import SelectBox from '@/shared/components/SelectBox/SelectBox';
 import Button from '@/shared/components/button/Button';
 import formatDate from '@/shared/utils/dateUtils'
 import { useEffect, useState } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '@/shared/api/firebase/firebase'
 
 // 값을 텍스트로 변환하는 함수
@@ -29,17 +29,28 @@ const getStatusValue = (text) => {
   }
 };
 
-export const TableRow = ({ item, $isExpanded, onToggle }) => {
+export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
   const [approvalStatus, setApprovalStatus] = useState(item.approvalStatus); // 결재 상태 관리
   const [isDisabled, setIsDisabled] = useState(false); // 셀렉트 박스와 버튼 비활성화 상태 관리
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
-    // 초기 상태가 '승인' 또는 '반려'인 경우 비활성화
-    if (approvalStatus === '승인' || approvalStatus === '반려') {
-      setIsDisabled(true);
-    }
-  }, []);
+    const fetchLatestData = async () => {
+      try {
+        const docRef = doc(db, 'payrollCorrections', item.id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const latestStatus = docSnap.data().approvalStatus;
+          setApprovalStatus(latestStatus);
+          setIsDisabled(latestStatus === '승인' || latestStatus === '반려');
+        }
+      } catch (error) {
+        console.error('데이터 가져오기 오류: ',error);
+      }
+    };
+
+    fetchLatestData();
+  }, [item.id]);
 
   const handleStatusChange = (value) => {
     if (!isDisabled) {
@@ -57,8 +68,9 @@ export const TableRow = ({ item, $isExpanded, onToggle }) => {
       const docRef = doc(db, 'payrollCorrections', item.id); // firestore 문서 참조
       await updateDoc(docRef, { approvalStatus }); // firestore 값 업데이트
       setIsDisabled(true); // 업데이트 후 셀렉트 버튼 비활성화
+      updateStatus(item.id, approvalStatus); // 상위 컴포넌트의 상태 업데이트
     } catch (error) {
-      console.error('에러: ',error);
+      console.error('업데이트 오류: ',error);
     }
   };
 

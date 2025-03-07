@@ -4,7 +4,7 @@ import { db } from '@/shared/api/firebase/firebase'
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow.jsx';
 import { ExpandedRow } from './ExpandedRow';
-import { Pagination } from './Pagination';
+import { Pagination } from '@/shared/components/pagination/Pagination.jsx';
 import { Container, TableWrap, TableContent, Tbody } from '../TableStyles';
 
 export function Table({ filterValue }) {
@@ -87,6 +87,12 @@ export function Table({ filterValue }) {
     setCurrentPage(page);
   }
 
+  const updateItemStatus = (id, newStatus) => {
+    setData(prevData => prevData.map(item => 
+      item.id === id ? { ...item, approvalStatus: newStatus } : item
+    ));
+  };
+
   if (isLoading) return console.log('로딩중입니다.')
   if (error) return console.error('error: ',error)
 
@@ -106,6 +112,7 @@ export function Table({ filterValue }) {
                     item={item}
                     $isExpanded={expandedId === item.id} // 현재 행이 열려있는지 여부 전달
                     onToggle={() => toggleRow(item.id)} // 행 클릭 시 토글 함수 호출
+                    updateStatus={updateItemStatus} // 새로운 prop 전달
                   />
                   {/* 확장된 행 */}
                   {expandedId === item.id && <ExpandedRow content={item.requestContent} />}
