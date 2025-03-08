@@ -1,7 +1,7 @@
 import moment from 'moment'
 import styled from 'styled-components'
-import { monthNames } from '../constants'
-
+import { monthNames } from '@/features/work-schedule/constants'
+import { getEventCategoryColor } from '@/features/work-schedule/utils'
 const DayCell = ({
   cellMonth,
   cellDay,
@@ -28,7 +28,6 @@ const DayCell = ({
 
   // 요일에 따른 배경색 스타일
   const getDayStyle = () => {
-    console.log('weekdayIdx: ', weekdayIdx)
     // 토요일이나 일요일이면 연한 회색
     if (weekdayIdx === 6 || weekdayIdx === 0) {
       return { backgroundColor: '#f5f5f5' }
@@ -60,17 +59,18 @@ const DayCell = ({
         <EventsContainer>
           {/* 이벤트 목록 중 처음 2개만 표시 */}
           {dayEvents?.slice(0, 2).map((item) => (
-            <div
+            <EventItem
               className="eventItem"
               key={item.id}
+              $categoryColor={getEventCategoryColor(eventCategories, item.eventCategory)}
               style={{
                 backgroundColor:
                   eventCategories.find((cat) => cat.eventCategory === item.eventCategory)
-                    ?.categoryColor || '#3b82f6',
+                    ?.categoryStyle || '#3b82f6',
               }}
             >
               {item.title}
-            </div>
+            </EventItem>
           ))}
           {/* 이벤트 개수가 2개 이상인 경우 더보기 레이블 표시 */}
           {dayEvents.length > 2 && (
@@ -109,17 +109,16 @@ export default DayCell
 const StyledDayCell = styled.div`
   position: relative;
   z-index: 10;
-  margin: -0.5px;
   aspect-ratio: 1 / 1;
   width: calc(100% / 7);
   height: auto;
-  cursor: pointer;
   border-radius: 0.75rem;
   border: 1px solid #e2e8f0;
   font-weight: 500;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+  cursor: pointer;
 
   &:hover {
     z-index: 20;
@@ -127,13 +126,9 @@ const StyledDayCell = styled.div`
   }
 
   @media (min-width: 640px) {
-    margin: -1px;
-    border-radius: 1rem;
-    border-width: 2px;
   }
 
   @media (min-width: 1024px) {
-    border-radius: 1rem;
   }
 `
 
@@ -211,23 +206,23 @@ const EventsContainer = styled.div`
   gap: 0.25rem;
   overflow: hidden;
 
-  .eventItem {
-    border-radius: 0.5rem;
-    background-color: #dbeafe;
-    padding: 0.25rem 0.5rem;
-    font-size: 1.2rem;
-    color: #fff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .eventsCountLabel {
     text-align: left;
     font-size: 1.2rem;
     color: #64748b;
     padding: 0 0.5rem;
   }
+`
+
+const EventItem = styled.div`
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.2rem;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: ${({ $categoryColor }) => $categoryColor};
 `
 
 const AddButtonIcon = styled.button`

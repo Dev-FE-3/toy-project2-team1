@@ -6,13 +6,13 @@ import CalendarHeader from './components/CalendarHeader'
 import EventSidebar from './components/EventSidebar'
 import AddEventModal from './components/AddEventModal'
 import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+
 export default function WorkSchedule() {
   const [currentYear, setCurrentYear] = useState(() => thisYear) // 현재 연도
   const [currentMonth, setCurrentMonth] = useState(() => thisMonth) // 현재 달
   const [selectedDate, setSelectedDate] = useState(null) // 선택된 날짜
   const [isModalOpen, setIsModalOpen] = useState(false) // 모달 열림 여부
   const [isSidebarOpen, setIsSidebarOpen] = useState(true) // 사이드바 열림 여부
-  const [selectedCategory, setSelectedCategory] = useState('work') // 선택된 카테고리
   // 이벤트 목록
   const [calendarEvents, setCalendarEvents] = useState([
     {
@@ -107,9 +107,11 @@ export default function WorkSchedule() {
 
   // 이벤트 추가
   const handleAddEvent = useCallback(
-    (e) => {
+    (e, scheduleData) => {
       e.preventDefault()
+      // console.log(' WorkSchedule ~ scheduleData: ', scheduleData)
       const { year, month, day } = selectedDate
+      const { eventCategory, description } = scheduleData
 
       setCalendarEvents((prev) => [
         ...prev,
@@ -119,12 +121,13 @@ export default function WorkSchedule() {
           year,
           month,
           day,
-          eventCategory: selectedCategory, // 선택된 카테고리 추가
+          eventCategory,
+          description,
         },
       ])
       setIsModalOpen(false)
     },
-    [selectedDate, selectedCategory],
+    [selectedDate],
   )
 
   // 이벤트 삭제
@@ -159,19 +162,7 @@ export default function WorkSchedule() {
         $isSidebarOpen={isSidebarOpen}
         type="button"
         aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M9 18l6-6-6-6" />
-        </svg>
-      </FloatingButton>
+      />
 
       {/* 일별 이벤트 목록 */}
       <EventSidebar
@@ -187,8 +178,6 @@ export default function WorkSchedule() {
       <AddEventModal
         isOpen={isModalOpen}
         selectedDate={selectedDate}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
         onClose={handleModalClose}
         onAddEvent={handleAddEvent}
       />
@@ -242,7 +231,7 @@ const CalendarContent = styled.div`
 // 플로팅 버튼
 const FloatingButton = styled.button`
   position: fixed;
-  right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '25%' : '0')};
+  right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '30%' : '0')};
   top: 50%;
   transform: translateY(-50%);
   width: 24px;
@@ -260,15 +249,19 @@ const FloatingButton = styled.button`
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   padding: 0;
 
-  &:hover {
-    background-color: #f8fafc;
-  }
-
-  svg {
+  &::before {
+    content: '';
     width: 16px;
     height: 16px;
-    transform: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
-    transition: transform 0.3s ease-in-out;
-    stroke: #64748b;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transform: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 'rotate(180deg)' : 'rotate(0)')};
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    background-color: #f8fafc;
   }
 `

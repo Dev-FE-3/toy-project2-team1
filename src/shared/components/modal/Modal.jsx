@@ -113,7 +113,9 @@ const CloseIcon = styled.img.attrs({
   cursor: pointer;
 `
 
-const Content = styled.div`
+const Content = styled.div.withConfig({
+  displayName: 'Modal-Content',
+})`
   min-height: 100px;
   max-height: calc(90% - 11.2rem);
   overflow: auto;

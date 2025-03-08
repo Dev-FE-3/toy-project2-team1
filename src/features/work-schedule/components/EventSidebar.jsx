@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { monthNames, weekDays } from '../constants'
-import EventItem from './EventItem'
+import SidebarEventItem from './SidebarEventItem'
 
 const EventSidebar = ({
   isOpen,
@@ -40,7 +40,7 @@ const EventSidebar = ({
           isEventList.length > 0 ? (
             // 선택된 날짜에 이벤트가 있는 경우
             isEventList.map((event) => (
-              <EventItem key={event.id} event={event} onDelete={onDeleteEvent} />
+              <SidebarEventItem key={event.id} event={event} onDelete={onDeleteEvent} />
             ))
           ) : (
             // 선택된 날짜에 이벤트가 없는 경우

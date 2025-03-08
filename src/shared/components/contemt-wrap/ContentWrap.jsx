@@ -7,6 +7,7 @@ export default function ComtentWrap({ children }) {
 const ContentWrap = styled.div.withConfig({
   displayName: 'ContentWrap',
 })`
+  position: relative;
   width: 100%;
   max-height: calc(100vh - 80px - 8rem);
   background-color: var(--box-container);

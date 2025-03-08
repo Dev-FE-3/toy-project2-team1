@@ -1,9 +1,15 @@
-import styled from 'styled-components'
+git import styled from 'styled-components'
 import { eventCategories } from '../constants'
+import { getEventCategoryColor } from '../utils'
 
-const EventItem = ({ event, onDelete }) => {
+const SidebarEventItem = ({ event, onDelete }) => {
+  console.log(' EventItem ~ categoryColor: ', event)
   return (
-    <StyledEventItem key={event.id} className="eventItem" $eventCategory={event.eventCategory}>
+    <StyledEventItem
+      key={event.id}
+      className="eventItem"
+      $categoryColor={getEventCategoryColor(eventCategories, event.eventCategory)}
+    >
       <span className="eventDot" aria-hidden="true" />
       <article className="eventInfo">
         <header>
@@ -31,7 +37,7 @@ const EventItem = ({ event, onDelete }) => {
   )
 }
 
-export default EventItem
+export default SidebarEventItem
 
 const StyledEventItem = styled.article.withConfig({
   displayName: 'StyledEventItem',
@@ -49,10 +55,7 @@ const StyledEventItem = styled.article.withConfig({
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 50%;
-    background-color: ${({ $eventCategory }) => {
-      const cat = eventCategories.find((c) => c.eventCategory === $eventCategory)
-      return cat ? cat.categoryColor : '#3b82f6'
-    }};
+    background-color: ${({ $categoryColor }) => ($categoryColor ? $categoryColor : '#3b82f6')};
   }
 
   .eventInfo {
@@ -72,31 +75,20 @@ const StyledEventItem = styled.article.withConfig({
   }
 
   .deleteButton {
-    position: absolute;
-    right: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.5rem;
-    height: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ef4444;
+    width: 3rem;
+    /* height: 3.5rem; */
+    color: var(--point-gray);
+    background-color: transparent;
     border-radius: 0.375rem;
-    opacity: 0;
     transition: all 0.2s;
+    border: none;
+    cursor: pointer;
 
     &:hover {
-      background-color: #fee2e2;
+      color: var(--point-red);
     }
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-
-  &:hover .deleteButton {
-    opacity: 1;
   }
 `

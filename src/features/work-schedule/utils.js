@@ -53,7 +53,16 @@ export const generateCalendarWeeks = (data) => {
 }
 
 // 이벤트 카테고리 색상 반환 함수
-export const getEventCategoryColor = (eventCategory, categories) => {
-  const cat = categories.find((c) => c.eventCategory === eventCategory)
-  return cat ? cat.categoryColor : '#676767'
+export const getEventCategoryColor = (eventCategories, category) => {
+  const cat = eventCategories.find((c) => c.eventCategory === category)
+  switch (cat.categoryStyle) {
+    case 'primary':
+      return '#3b82f6'
+    case 'secondary':
+      return '#ffb200'
+    case 'danger':
+      return '#d92722'
+    default:
+      return '#676767'
+  }
 }

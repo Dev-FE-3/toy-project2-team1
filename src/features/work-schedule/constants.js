@@ -26,7 +26,7 @@ export const weekDays = ['일', '월', '화', '수', '목', '금', '토']
 
 // 이벤트 분류
 export const eventCategories = [
-  { eventCategory: 'personal', categoryName: '개인 일정', categoryColor: '#ef4444' },
-  { eventCategory: 'work', categoryName: '업무', categoryColor: '#3b82f6' },
-  { eventCategory: 'closed', categoryName: '휴무', categoryColor: '#44e93c' },
+  { eventCategory: 'personal', categoryName: '개인 일정', categoryStyle: 'primary' },
+  { eventCategory: 'work', categoryName: '업무', categoryStyle: 'secondary' },
+  { eventCategory: 'closed', categoryName: '휴무', categoryStyle: 'danger' },
 ]
