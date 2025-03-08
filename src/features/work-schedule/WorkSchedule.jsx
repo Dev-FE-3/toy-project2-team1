@@ -130,6 +130,14 @@ export default function WorkSchedule() {
     [selectedDate],
   )
 
+  // 이벤트 수정
+  const handleEditEvent = useCallback((eventId, updatedEvent) => {
+    console.log(' 수정 ~ eventId: ', eventId)
+    // setCalendarEvents((prev) =>
+    //   prev.map((event) => (event.id === eventId ? updatedEvent : event)),
+    // )
+  }, [])
+
   // 이벤트 삭제
   const handleDeleteEvent = useCallback((eventId) => {
     setCalendarEvents((prev) => prev.filter((event) => event.id !== eventId))
@@ -171,6 +179,7 @@ export default function WorkSchedule() {
         currentYear={currentYear}
         currentMonth={currentMonth}
         calendarEvents={calendarEvents}
+        onEditEvent={handleEditEvent}
         onDeleteEvent={handleDeleteEvent}
       />
 

@@ -2,14 +2,14 @@ import styled from 'styled-components'
 import { eventCategories } from '../constants'
 import { getEventCategoryColor } from '../utils'
 
-const SidebarEventItem = ({ event, onDelete }) => {
-  console.log(' EventItem ~ categoryColor: ', event)
+const SidebarEventItem = ({ event, onEditEvent, onDeleteEvent }) => {
   return (
     <StyledEventItem
       key={event.id}
       className="eventItem"
       $categoryColor={getEventCategoryColor(eventCategories, event.eventCategory)}
     >
+      {/* 일정 카테고리에 따른 색상 표현 */}
       <span className="eventDot" aria-hidden="true" />
       <article className="eventInfo">
         <header>
@@ -17,22 +17,39 @@ const SidebarEventItem = ({ event, onDelete }) => {
         </header>
         <p className="eventDescription">{event.description || '설명이 없습니다.'}</p>
       </article>
-      <button className="deleteButton" onClick={() => onDelete(event.id)} aria-label="일정 삭제">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
+      {/* 일정 수정 버튼 */}
+      <div className="btnContainer">
+        <button className="editButton" onClick={() => onEditEvent(event.id)} aria-label="일정 수정">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={`2`}
+            aria-hidden="true"
+          >
+            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+          </svg>
+        </button>
+        {/* 일정 삭제 버튼 */}
+        <button
+          className="deleteButton"
+          onClick={() => onDeleteEvent(event.id)}
+          aria-label="일정 삭제"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
             strokeWidth={2}
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
-      </button>
+            aria-hidden="true"
+          >
+            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
     </StyledEventItem>
   )
 }
@@ -45,22 +62,26 @@ const StyledEventItem = styled.article.withConfig({
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem;
+  padding: 1.8rem;
   background-color: white;
   border-radius: 0.5rem;
   border: 1px solid #e2e8f0;
   position: relative;
 
   .eventDot {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 1rem;
+    height: 1rem;
     border-radius: 50%;
     background-color: ${({ $categoryColor }) => ($categoryColor ? $categoryColor : '#3b82f6')};
   }
 
   .eventInfo {
     flex: 1;
-    padding-right: 2rem;
+    margin-left: 0.8rem;
+
+    & header {
+      margin-bottom: 0.8rem;
+    }
 
     .eventTitle {
       font-weight: 500;
@@ -74,21 +95,34 @@ const StyledEventItem = styled.article.withConfig({
     }
   }
 
-  .deleteButton {
+  .btnContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    /* height: 3.5rem; */
-    color: var(--point-gray);
-    background-color: transparent;
-    border-radius: 0.375rem;
-    transition: all 0.2s;
-    border: none;
-    cursor: pointer;
+    gap: 0.5rem;
 
-    &:hover {
-      color: var(--point-red);
+    .editButton,
+    .deleteButton {
+      width: 3rem;
+      /* height: 3.5rem; */
+      color: var(--point-gray);
+      background-color: transparent;
+      border-radius: 0.375rem;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .editButton {
+      &:hover {
+        color: var(--point-yellow);
+      }
+    }
+
+    .deleteButton {
+      &:hover {
+        color: var(--point-red);
+      }
     }
   }
 `

@@ -9,6 +9,7 @@ const EventSidebar = ({
   currentYear,
   currentMonth,
   calendarEvents,
+  onEditEvent,
   onDeleteEvent,
 }) => {
   const isEventList = useMemo(() => {
@@ -40,7 +41,12 @@ const EventSidebar = ({
           isEventList.length > 0 ? (
             // 선택된 날짜에 이벤트가 있는 경우
             isEventList.map((event) => (
-              <SidebarEventItem key={event.id} event={event} onDelete={onDeleteEvent} />
+              <SidebarEventItem
+                key={event.id}
+                event={event}
+                onEditEvent={onEditEvent}
+                onDeleteEvent={onDeleteEvent}
+              />
             ))
           ) : (
             // 선택된 날짜에 이벤트가 없는 경우
