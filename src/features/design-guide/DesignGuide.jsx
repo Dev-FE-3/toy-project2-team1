@@ -6,7 +6,7 @@ import CardGuide from './CardGuide'
 import SelectBoxGuide from './SelectBoxGuide'
 import InputGuide from './InputGuide'
 import ScrollGuide from './ScrollGuide'
-import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+import ContentWrap from '@/shared/components/content-wrap/ContentWrap'
 
 const Example = styled.div`
   padding: 2rem;

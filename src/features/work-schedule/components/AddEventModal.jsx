@@ -1,12 +1,13 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { weekDays, eventCategories } from '../constants'
 import Modal from '@/shared/components/modal/Modal'
 import Button from '@/shared/components/button/Button'
 
 const AddEventModal = ({ isOpen, selectedDate, onClose, onAddEvent }) => {
-  const [description, setDescription] = useState('')
+  const [description, setDescription] = useState('') // 일정 설명
   const [selectedCategory, setSelectedCategory] = useState('personal') // 선택된 카테고리
+  const inputRef = useRef(null) // 일정 설명 input box focus 용
 
   const handleTitle = useMemo(() => {
     if (!isOpen || !selectedDate) return null
@@ -33,12 +34,21 @@ const AddEventModal = ({ isOpen, selectedDate, onClose, onAddEvent }) => {
     })
   }
 
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.focus()
+      }, 100)
+    }
+  }, [isOpen])
+
   if (!isOpen || !selectedDate) return null
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={handleTitle} width="50rem">
       <ModalChildren>
         <input
+          ref={inputRef}
           type="text"
           className="descriptionInput"
           placeholder="일정에 대한 설명을 입력하세요"

@@ -1,4 +1,4 @@
-git import styled from 'styled-components'
+import styled from 'styled-components'
 import { eventCategories } from '../constants'
 import { getEventCategoryColor } from '../utils'
 
