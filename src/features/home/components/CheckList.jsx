@@ -15,6 +15,7 @@ export default function CheckList() {
   const [isShowAddInput, setIsShowAddInput] = useState(false)
   const [editItemId, setEditItemId] = useState(0)
   const editInput = useRef(null)
+  const addInput = useRef(null)
 
   const editContent = (id) => {
     const newContent = editInput.current.value
@@ -25,10 +26,12 @@ export default function CheckList() {
     }
     setEditItemId(0)
   }
+  
   const handleCheck = (id) => {
     if (editItemId) editInput.current.blur() // checkbox 클릭해도 focus가 유지된 상태로 남아있음
     setItems(items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item)))
   }
+
   const handleBlurEditContent = (id) => {
     const target = items.find((item) => item.id === id)
     if (editInput.current.value === target.content) {
@@ -37,6 +40,20 @@ export default function CheckList() {
       editContent(id)
     }
   }
+  const handleBlurContent = () => {
+    if (addInput.current.value !== '') {
+      const newItem = {
+        id: items.reduce((max, item) => (item.id > max.id ? item : max), items[0]).id,
+        content: addInput.current.value,
+        checked: false,
+      }
+      setItems([...items, newItem])
+      setIsShowAddInput(false)
+    } else {
+      setIsShowAddInput(false)
+    }
+  }
+
   const handleClickEditContent = (item) => {
     setEditItemId(item.id)
   }
@@ -49,6 +66,12 @@ export default function CheckList() {
       editInput.current.focus()
     }
   }, [editItemId])
+
+  useEffect(() => {
+    if (isShowAddInput) {
+      addInput.current.focus()
+    }
+  }, [isShowAddInput])
 
   return (
     <CardContainer>
@@ -71,7 +94,16 @@ export default function CheckList() {
               )}
             </li>
           ))}
-          {isShowAddInput ? <ContentInput $isAdd placeholder="내용을 입력하세요" /> : ''}
+          {isShowAddInput ? (
+            <ContentInput
+              ref={addInput}
+              $isAdd
+              placeholder="내용을 입력하세요"
+              onBlur={handleBlurContent}
+            />
+          ) : (
+            ''
+          )}
         </CheckListContainer>
       </Card>
     </CardContainer>
