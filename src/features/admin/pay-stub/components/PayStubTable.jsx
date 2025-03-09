@@ -12,11 +12,16 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
 
   const checkAll = () => {
     if (!isChecked) {
-      const length = users.length
-      setcheckedRows(Array.from({ length }, (_, i) => i))
+      const uncheckedRows = users
+        .map((user, index) => ({ user, index }))
+        .filter(({ user }) => !user.merge)
+        .map(({ index }) => index)
+
+      setcheckedRows(uncheckedRows)
     } else {
       setcheckedRows([])
     }
+
     setIsChecked((prev) => !prev)
   }
 
@@ -32,7 +37,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
     const rawValue = value.replace(/,/g, '')
 
     const updatedUsers = [...users]
-    updatedUsers[rowIndex][field] = rawValue
+    updatedUsers[rowIndex][field] = +rawValue
 
     const paymentItems =
       +updatedUsers[rowIndex]['basicSalary'] +
@@ -54,6 +59,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
       const data = await getCollectionWithFilter('payrollManagement', payDate)
 
       setUsers(data)
+      console.log(data)
     }
 
     getUsers(date)
@@ -102,6 +108,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
                   type="checkbox"
                   checked={checkedRows.includes(rowIndex)}
                   onChange={(e) => checkHandler(e, rowIndex)}
+                  disabled={!!user.merge}
                 />
               </StyledTd>
               <StyledTd>{formatNumberWithComma(user.employeeName)}</StyledTd>
@@ -109,6 +116,8 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
                 <Input
                   value={formatNumberWithComma(user.basicSalary) /*기본급*/}
                   onChange={(e) => handleCellChange(rowIndex, 'basicSalary', e.target.value)}
+                  $userMerged={!!user.merge}
+                  disabled={!!user.merge}
                 />
               </StyledTd>
               <StyledTd>
@@ -120,6 +129,8 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
                   onChange={(e) =>
                     handleCellChange(rowIndex, 'additionalAllowance', e.target.value)
                   }
+                  $userMerged={!!user.merge}
+                  disabled={!!user.merge}
                 />
               </StyledTd>
               <StyledTd>{formatNumberWithComma(user.nationalPension) /*국민연금*/}</StyledTd>
@@ -227,7 +238,7 @@ const Input = styled.input`
   border: 1px solid #d9d9d9;
   color: var(--font-sub);
   outline: none;
-  background: transparent;
+  background: ${(props) => (props.$userMerged ? 'var(--background-main)' : 'transparent')};
   font-size: 1.6rem;
 `
 

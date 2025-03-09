@@ -7,6 +7,7 @@ import getDate from '../../../shared/utils/date'
 import useThrottle from '../../../shared/hooks/useThrottle'
 import { useDispatch } from 'react-redux'
 import { SET_DATE } from '../../../shared/redux/constants/payStub'
+import { upsertDocumentsForUsers } from './api/getCollectionWithFilter'
 
 export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
@@ -49,10 +50,11 @@ export default function PayStub() {
     setYear(newYear)
   }
 
-  const sendUsersPayStub = () => {
+  const sendUsersPayStub = async () => {
     console.log(checkedUsers)
 
-    alert('api 전송')
+    const result = await upsertDocumentsForUsers(checkedUsers)
+    alert('result', result)
   }
 
   useEffect(() => {
