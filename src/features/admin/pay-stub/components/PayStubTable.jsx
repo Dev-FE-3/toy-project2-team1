@@ -4,7 +4,7 @@ import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
 import { useSelector } from 'react-redux'
 import { formatNumberWithComma } from '@/shared/utils/comma'
 
-export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
+export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading }) {
   const [users, setUsers] = useState([])
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
@@ -63,7 +63,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
     }
 
     getUsers(date)
-  }, [date])
+  }, [date, isLoading])
 
   useEffect(() => {
     setCheckedUsers(users.filter((_, index) => checkedRows.includes(index)))
@@ -106,7 +106,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers }) {
               <StyledTd>
                 <input
                   type="checkbox"
-                  checked={checkedRows.includes(rowIndex)}
+                  checked={checkedRows.includes(rowIndex) || user.merge}
                   onChange={(e) => checkHandler(e, rowIndex)}
                   disabled={!!user.merge}
                 />

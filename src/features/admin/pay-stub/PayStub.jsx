@@ -13,6 +13,7 @@ export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
+  const [isLoading, setIsLoading] = useState(false)
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
   const [checkedUsers, setCheckedUsers] = useState([])
   const dispatch = useDispatch()
@@ -53,8 +54,23 @@ export default function PayStub() {
   const sendUsersPayStub = async () => {
     console.log(checkedUsers)
 
-    const result = await upsertDocumentsForUsers(checkedUsers)
-    alert('result', result)
+    setIsLoading(true)
+
+    try {
+      const result = await upsertDocumentsForUsers(checkedUsers)
+      if (result) {
+        alert('급여 정산이 완료되었습니다.')
+      } else {
+        alert('급여 에러!! 관리자에게 문의하세요')
+      }
+    } catch (e) {
+      console.log(e)
+      alert('급여 정산 중 오류가 발생했습니다.')
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
+    }
   }
 
   useEffect(() => {
@@ -114,7 +130,11 @@ export default function PayStub() {
         </Button>
       </Title>
       <Contents>
-        <PayStubTable checkedUsers={checkedUsers} setCheckedUsers={setCheckedUsers}></PayStubTable>
+        <PayStubTable
+          checkedUsers={checkedUsers}
+          setCheckedUsers={setCheckedUsers}
+          isLoading={isLoading}
+        ></PayStubTable>
       </Contents>
     </ContentWrap>
   )
