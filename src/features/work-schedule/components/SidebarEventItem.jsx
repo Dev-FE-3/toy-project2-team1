@@ -1,8 +1,28 @@
 import styled from 'styled-components'
 import { eventCategories } from '../constants'
 import { getEventCategoryColor } from '../utils'
+import { useDispatch } from 'react-redux'
+import { setModalEditMode, setEditEventId } from '@/shared/redux/reducer/workScheduleSlice'
+import { deleteWorkSchedule } from '@/shared/api/firebase/services/workScheduleService'
 
-const SidebarEventItem = ({ event, onEditEvent, onDeleteEvent }) => {
+const SidebarEventItem = ({ event }) => {
+  const dispatch = useDispatch()
+
+  // 일정 수정 모달 활성화
+  const handleEditEvent = (e) => {
+    e.preventDefault()
+    dispatch(setEditEventId({ id: event.docId }))
+    dispatch(setModalEditMode(true))
+  }
+
+  // 일정 삭제
+  const handleDeleteEvent = () => {
+    deleteWorkSchedule(event.docId).then(() => {
+      // 삭제 후 일정 목록 갱신
+      // dispatch(deleteCalendarEvents({ docId: event.docId }))
+    })
+  }
+
   return (
     <StyledEventItem
       key={event.id}
@@ -13,13 +33,13 @@ const SidebarEventItem = ({ event, onEditEvent, onDeleteEvent }) => {
       <span className="eventDot" aria-hidden="true" />
       <article className="eventInfo">
         <header>
-          <h3 className="eventTitle">{event.title}</h3>
+          <h3 className="eventTitle">{event.name}</h3>
         </header>
         <p className="eventDescription">{event.description || '설명이 없습니다.'}</p>
       </article>
       {/* 일정 수정 버튼 */}
       <div className="btnContainer">
-        <button className="editButton" onClick={() => onEditEvent(event.id)} aria-label="일정 수정">
+        <button className="editButton" onClick={handleEditEvent} aria-label="일정 수정">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -33,11 +53,7 @@ const SidebarEventItem = ({ event, onEditEvent, onDeleteEvent }) => {
           </svg>
         </button>
         {/* 일정 삭제 버튼 */}
-        <button
-          className="deleteButton"
-          onClick={() => onDeleteEvent(event.id)}
-          aria-label="일정 삭제"
-        >
+        <button className="deleteButton" onClick={handleDeleteEvent} aria-label="일정 삭제">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -78,6 +94,7 @@ const StyledEventItem = styled.article.withConfig({
   .eventInfo {
     flex: 1;
     margin-left: 0.8rem;
+    min-width: 0;
 
     & header {
       margin-bottom: 0.8rem;
@@ -92,6 +109,10 @@ const StyledEventItem = styled.article.withConfig({
     .eventDescription {
       font-size: 1.2rem;
       color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
   }
 

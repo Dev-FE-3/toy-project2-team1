@@ -2,16 +2,14 @@ import { useMemo } from 'react'
 import styled from 'styled-components'
 import { monthNames, weekDays } from '../constants'
 import SidebarEventItem from './SidebarEventItem'
+import { useSelector } from 'react-redux'
 
-const EventSidebar = ({
-  isOpen,
-  selectedDate,
-  currentYear,
-  currentMonth,
-  calendarEvents,
-  onEditEvent,
-  onDeleteEvent,
-}) => {
+const EventSidebar = ({ currentYear, currentMonth, onEditEvent }) => {
+  const calendarEvents = useSelector(({ workSchedule }) => workSchedule.calendarEvents)
+  const selectedDate = useSelector(({ workSchedule }) => workSchedule.selectedDate)
+  const isSidebarOpen = useSelector(({ workSchedule }) => workSchedule.isSidebarOpen)
+
+  // console.log(' selectedDate: ', selectedDate)
   const isEventList = useMemo(() => {
     if (!selectedDate) return []
 
@@ -22,9 +20,10 @@ const EventSidebar = ({
         event.day === selectedDate.day,
     )
   }, [calendarEvents, selectedDate])
+  // console.log(' isEventList ~ isEventList: ', isEventList)
 
   return (
-    <StyledEventSidebar $isOpen={isOpen}>
+    <StyledEventSidebar $isSidebarOpen={isSidebarOpen}>
       <div className="sidebarHeader">
         {/* 사이드바에 선택한 날짜(연/월/일/요일) 표시 */}
         <div className="currentDate">
@@ -40,13 +39,8 @@ const EventSidebar = ({
           // 날짜가 선택되었을 때
           isEventList.length > 0 ? (
             // 선택된 날짜에 이벤트가 있는 경우
-            isEventList.map((event) => (
-              <SidebarEventItem
-                key={event.id}
-                event={event}
-                onEditEvent={onEditEvent}
-                onDeleteEvent={onDeleteEvent}
-              />
+            isEventList.map((event, index) => (
+              <SidebarEventItem key={index} event={event} onEditEvent={onEditEvent} />
             ))
           ) : (
             // 선택된 날짜에 이벤트가 없는 경우
@@ -66,18 +60,11 @@ export default EventSidebar
 const StyledEventSidebar = styled.div.withConfig({
   displayName: 'StyledEventSidebar',
 })`
-  flex: 0 0 30%;
-  background-color: #f8fafc;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  border-left: 1px solid #e2e8f0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 30%;
-  transform: translateX(${({ $isOpen }) => ($isOpen ? '0' : '100%')});
-  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
 
   .sidebarHeader {
     flex: 0 0 auto;

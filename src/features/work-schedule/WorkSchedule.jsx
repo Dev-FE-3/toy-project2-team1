@@ -1,30 +1,25 @@
-import { useState, useCallback } from 'react'
-import { thisYear, thisMonth, eventCategories } from './constants'
+import { useState, useCallback, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { initSelectedDate, setIsSidebarOpen } from '@/shared/redux/reducer/workScheduleSlice'
+import { getWorkScheduleByUid } from '@/shared/api/firebase/services/workScheduleService'
+import { thisYear, thisMonth } from './constants'
 import styled from 'styled-components'
 import Calendar from './components/Calendar'
 import CalendarHeader from './components/CalendarHeader'
 import EventSidebar from './components/EventSidebar'
 import AddEventModal from './components/AddEventModal'
+import EditEventModal from './components/EditEventModal'
 import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
+import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
 
 export default function WorkSchedule() {
   const [currentYear, setCurrentYear] = useState(() => thisYear) // 현재 연도
   const [currentMonth, setCurrentMonth] = useState(() => thisMonth) // 현재 달
-  const [selectedDate, setSelectedDate] = useState(null) // 선택된 날짜
-  const [isModalOpen, setIsModalOpen] = useState(false) // 모달 열림 여부
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true) // 사이드바 열림 여부
-  // 이벤트 목록
-  const [calendarEvents, setCalendarEvents] = useState([
-    {
-      id: '1',
-      title: 'King Julien',
-      year: thisYear,
-      month: 2,
-      day: 3,
-      eventCategory: 'work',
-      description: '오늘은 9to6 근무입니다.',
-    },
-  ])
+  const isSidebarOpen = useSelector(({ workSchedule }) => workSchedule.isSidebarOpen)
+  const dispatch = useDispatch()
+  const modalAddMode = useSelector(({ workSchedule }) => workSchedule.modalAddMode)
+  const modalEditMode = useSelector(({ workSchedule }) => workSchedule.modalEditMode)
+  const { loading, error, fetchWorkSchedules } = useWorkSchedule()
 
   // 달 이동
   const handleMoveMonth = useCallback(
@@ -47,7 +42,7 @@ export default function WorkSchedule() {
         }
       }
     },
-    [currentYear, currentMonth],
+    [currentMonth],
   )
 
   // 오늘 날짜로 이동
@@ -56,91 +51,18 @@ export default function WorkSchedule() {
     setCurrentMonth(thisMonth)
   }, [])
 
-  // 날짜 셀 클릭
-  const handleDayClick = useCallback(
-    (e, { selectedMonth, selectedDay, selectedWeekDay }) => {
-      e.preventDefault()
-
-      setIsSidebarOpen(true)
-      setSelectedDate({
-        day: selectedDay,
-        month: selectedMonth,
-        year: currentYear,
-        weekday: selectedWeekDay,
-      })
-    },
-    [currentYear],
-  )
-
-  // 모달 열기
-  const handleModalOpen = useCallback(
-    (e, { selectedMonth, selectedDay, selectedWeekDay }) => {
-      e.preventDefault()
-      e.stopPropagation() // 날짜 셀 클릭 이벤트 방지
-
-      setIsModalOpen(true)
-      setSelectedDate({
-        year: currentYear,
-        month: selectedMonth,
-        day: selectedDay,
-        weekday: selectedWeekDay,
-      })
-    },
-    [currentYear],
-  )
-
-  // 모달 닫기
-  const handleModalClose = useCallback((e) => {
-    e.preventDefault()
-
-    setIsModalOpen(false)
-  }, [])
-
   // 토글 핸들러 추가
   const handleToggleSidebar = useCallback(() => {
-    setIsSidebarOpen((prev) => !prev)
+    dispatch(setIsSidebarOpen(!isSidebarOpen))
     if (isSidebarOpen) {
       // 사이드바 닫을 때 선택된 날짜 초기화
-      setSelectedDate(null)
+      // setSelectedDate(null)
+      dispatch(initSelectedDate())
     }
   }, [isSidebarOpen])
 
-  // 이벤트 추가
-  const handleAddEvent = useCallback(
-    (e, scheduleData) => {
-      e.preventDefault()
-      // console.log(' WorkSchedule ~ scheduleData: ', scheduleData)
-      const { year, month, day } = selectedDate
-      const { eventCategory, description } = scheduleData
-
-      setCalendarEvents((prev) => [
-        ...prev,
-        {
-          id: `${prev.length + 1}`,
-          title: 'Choi',
-          year,
-          month,
-          day,
-          eventCategory,
-          description,
-        },
-      ])
-      setIsModalOpen(false)
-    },
-    [selectedDate],
-  )
-
-  // 이벤트 수정
-  const handleEditEvent = useCallback((eventId, updatedEvent) => {
-    console.log(' 수정 ~ eventId: ', eventId)
-    // setCalendarEvents((prev) =>
-    //   prev.map((event) => (event.id === eventId ? updatedEvent : event)),
-    // )
-  }, [])
-
-  // 이벤트 삭제
-  const handleDeleteEvent = useCallback((eventId) => {
-    setCalendarEvents((prev) => prev.filter((event) => event.id !== eventId))
+  useEffect(() => {
+    fetchWorkSchedules()
   }, [])
 
   return (
@@ -153,64 +75,48 @@ export default function WorkSchedule() {
           handleMoveToToday={handleMoveToToday}
         />
         <CalendarContent>
-          <Calendar
-            currentYear={currentYear}
-            currentMonth={currentMonth}
-            calendarEvents={calendarEvents}
-            handleDayClick={handleDayClick}
-            handleModalOpen={handleModalOpen}
-            eventCategories={eventCategories}
-          />
+          <Calendar currentMonth={currentMonth} />
         </CalendarContent>
       </MainCalendarContainer>
 
-      {/* 일별 이벤트 사이드바 토글 버튼 */}
-      <FloatingButton
-        onClick={handleToggleSidebar}
-        $isSidebarOpen={isSidebarOpen}
-        type="button"
-        aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
-      />
+      <SidebarContainer $isSidebarOpen={isSidebarOpen}>
+        {/* 일별 이벤트 사이드바 토글 버튼 */}
+        <FloatingButton
+          type="button"
+          aria-label={isSidebarOpen ? '사이드바 닫기' : '사이드바 열기'}
+          $isSidebarOpen={isSidebarOpen}
+          onClick={handleToggleSidebar}
+        />
 
-      {/* 일별 이벤트 목록 */}
-      <EventSidebar
-        isOpen={isSidebarOpen}
-        selectedDate={selectedDate}
-        currentYear={currentYear}
-        currentMonth={currentMonth}
-        calendarEvents={calendarEvents}
-        onEditEvent={handleEditEvent}
-        onDeleteEvent={handleDeleteEvent}
-      />
+        {/* 일별 이벤트 목록 */}
+        <EventSidebar currentYear={currentYear} currentMonth={currentMonth} />
+      </SidebarContainer>
 
-      {/* 이벤트 추가 모달 */}
-      <AddEventModal
-        isOpen={isModalOpen}
-        selectedDate={selectedDate}
-        onClose={handleModalClose}
-        onAddEvent={handleAddEvent}
-      />
+      {/* 이벤트 '추가' 모달 */}
+      {modalAddMode && <AddEventModal />}
+      {/* 이벤트 '수정' 모달 */}
+      {modalEditMode && <EditEventModal />}
     </ContentWrap>
   )
 }
 
 // 달력 컨테이너
-const CalendarContainer = styled.div.withConfig({
-  displayName: 'CalendarContainer',
-})`
-  display: flex;
-  width: 90vw;
-  height: 90vh;
-  max-height: 90%;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  background-color: white;
-  padding-bottom: 2.5rem;
-  color: #1e293b;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  overflow: hidden;
-  position: relative;
-`
+// const CalendarContainer = styled.div.withConfig({
+//   displayName: 'CalendarContainer',
+// })`
+//   display: flex;
+//   width: 90vw;
+//   height: 90vh;
+//   max-height: 90%;
+//   border-top-left-radius: 1rem;
+//   border-top-right-radius: 1rem;
+//   background-color: white;
+//   padding-bottom: 2.5rem;
+//   color: #1e293b;
+//   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+//   overflow: hidden;
+//   position: relative;
+// `
 
 const MainCalendarContainer = styled.div.withConfig({
   displayName: 'MainCalendarContainer',
@@ -237,11 +143,30 @@ const CalendarContent = styled.div`
     padding: 1.5rem 2rem 0 2rem;
   }
 `
+// 사이드바 컨테이너
+const SidebarContainer = styled.div.withConfig({
+  displayName: 'SidebarContainer',
+})`
+  display: flex;
+  flex: 0 0 30%;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  border-left: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  transform: translateX(${({ $isSidebarOpen }) => ($isSidebarOpen ? '0' : '100%')});
+  transition: transform 0.3s ease-in-out;
+  z-index: 30;
+`
+
 // 플로팅 버튼
 const FloatingButton = styled.button`
   position: fixed;
-  right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '30%' : '0')};
   top: 50%;
+  left: -2rem;
   transform: translateY(-50%);
   width: 24px;
   height: 48px;
@@ -266,7 +191,7 @@ const FloatingButton = styled.button`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    transform: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 'rotate(180deg)' : 'rotate(0)')};
+    transform: ${({ $isSidebarOpen }) => ($isSidebarOpen ? 'rotate(0)' : 'rotate(180deg)')};
     transition: transform 0.3s ease;
   }
 
