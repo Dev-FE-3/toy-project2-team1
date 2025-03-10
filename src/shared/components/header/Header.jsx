@@ -10,8 +10,8 @@ export default function Header() {
       <Wrapper>
         <Logo to="/" />
         <Greeting>
-          안녕하세요, <UserName>{userName}</UserName>님
-          <GreetingIcon src="/public/images/icon-smile.svg" />
+          안녕하세요, <UserName>{userName}님</UserName>
+          <GreetingIcon src="/public/images/icon-smile.png" />
         </Greeting>
       </Wrapper>
     </StyledHeader>
@@ -48,11 +48,12 @@ const Greeting = styled.div`
   font-size: 1.8rem;
 `
 
-const UserName = styled.p`
+const UserName = styled.span`
   font-weight: 700;
 `
 
 const GreetingIcon = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  margin-top: -2px;
 `
