@@ -5,24 +5,23 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { INITIALIZE } from '../../redux/constants/user'
+import { resetState } from '../../redux/store'
 
 export default function SideMenu() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const isAdmin = useSelector((state) => state.user.role)
+  const dispatch = useDispatch()
 
   const logout = () => {
     const auth = getAuth()
 
     const logout = async () => {
       await signOut(auth)
-      console.log('사용자가 로그아웃했습니다.')
     }
 
     logout()
+    dispatch(resetState())
     sessionStorage.clear()
-    dispatch({ type: INITIALIZE })
     navigate('/login')
   }
 

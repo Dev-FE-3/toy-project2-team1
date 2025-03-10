@@ -24,7 +24,6 @@ export default function Login() {
       const result = await SignIn(id, pw)
 
       if (result) {
-        console.log(' loginSubmit ~ result: ', result)
         //sessionStorege의 값으로 fetchData하여 Redux 관리
         dispatch(setUser({ data: await fetchUserData() }))
         navigate('/')

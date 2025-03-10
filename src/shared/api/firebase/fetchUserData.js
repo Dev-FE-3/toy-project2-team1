@@ -12,10 +12,9 @@ export const fetchUserData = async () => {
 
     if (!querySnapshot.empty) {
       const userData = querySnapshot.docs[0].data()
-      console.log('User Data:', userData)
       return userData
     } else {
-      console.log('No such user data found!')
+      console.log('유저 정보가 없습니다!')
       return null
     }
   }
