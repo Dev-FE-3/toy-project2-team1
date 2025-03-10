@@ -3,6 +3,17 @@ import styled from 'styled-components'
 import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
 import { useSelector } from 'react-redux'
 import { formatNumberWithComma } from '@/shared/utils/comma'
+import {
+  ADDITIONALALLOWANCE,
+  BASICSALARY,
+  EMPLOYMENTINSURANCE,
+  HEALTHINSURANCE,
+  INCOMETAX,
+  LOCALINCOMETAX,
+  LONGTERMCAREINSURANCE,
+  MEALALLOWANCE,
+  NATIONALPENSION,
+} from '../constants/payStub'
 
 export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading }) {
   const [users, setUsers] = useState([])
@@ -40,16 +51,16 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
     updatedUsers[rowIndex][field] = +rawValue
 
     const paymentItems =
-      +updatedUsers[rowIndex]['basicSalary'] +
-      +updatedUsers[rowIndex]['mealAllowance'] +
-      +updatedUsers[rowIndex]['additionalAllowance']
+      +updatedUsers[rowIndex][BASICSALARY] +
+      +updatedUsers[rowIndex][MEALALLOWANCE] +
+      +updatedUsers[rowIndex][ADDITIONALALLOWANCE]
 
-    updatedUsers[rowIndex]['nationalPension'] = Math.ceil(paymentItems * 0.045) // 국민연금
-    updatedUsers[rowIndex]['healthInsurance'] = Math.ceil(paymentItems * 0.03545) // 건강보험
-    updatedUsers[rowIndex]['longTermCareInsurance'] = Math.ceil(paymentItems * 0.00459) // 장기요양보험
-    updatedUsers[rowIndex]['employmentInsurance'] = Math.ceil(paymentItems * 0.009) // 고용보험
-    updatedUsers[rowIndex]['incomeTax'] = Math.ceil(paymentItems * 0.05) // 근로소득세
-    updatedUsers[rowIndex]['localIncomeTax'] = Math.ceil(paymentItems * 0.005) // 지방소득세
+    updatedUsers[rowIndex][NATIONALPENSION] = Math.ceil(paymentItems * 0.045) // 국민연금
+    updatedUsers[rowIndex][HEALTHINSURANCE] = Math.ceil(paymentItems * 0.03545) // 건강보험
+    updatedUsers[rowIndex][LONGTERMCAREINSURANCE] = Math.ceil(paymentItems * 0.00459) // 장기요양보험
+    updatedUsers[rowIndex][EMPLOYMENTINSURANCE] = Math.ceil(paymentItems * 0.009) // 고용보험
+    updatedUsers[rowIndex][INCOMETAX] = Math.ceil(paymentItems * 0.05) // 근로소득세
+    updatedUsers[rowIndex][LOCALINCOMETAX] = Math.ceil(paymentItems * 0.005) // 지방소득세
 
     setUsers(updatedUsers)
   }
@@ -114,7 +125,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>
                 <Input
                   value={formatNumberWithComma(user.basicSalary) /*기본급*/}
-                  onChange={(e) => handleCellChange(rowIndex, 'basicSalary', e.target.value)}
+                  onChange={(e) => handleCellChange(rowIndex, BASICSALARY, e.target.value)}
                   $userMerged={!!user.merge}
                   disabled={!!user.merge}
                 />
@@ -125,9 +136,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>
                 <Input
                   value={formatNumberWithComma(user.additionalAllowance) /*추가수당*/}
-                  onChange={(e) =>
-                    handleCellChange(rowIndex, 'additionalAllowance', e.target.value)
-                  }
+                  onChange={(e) => handleCellChange(rowIndex, ADDITIONALALLOWANCE, e.target.value)}
                   $userMerged={!!user.merge}
                   disabled={!!user.merge}
                 />
