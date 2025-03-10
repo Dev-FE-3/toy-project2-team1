@@ -7,8 +7,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import LoginError from './components/LoginError'
-import { SET_USER } from '../../shared/redux/constants/user'
-import { fetchUserData } from '../../shared/api/firebase/fetchUserData'
+import { setUser } from '@/shared/redux/reducer/userSlice'
+import { fetchUserData } from '@/shared/api/firebase/fetchUserData'
 
 export default function Login() {
   const [id, setId] = useState('')
@@ -22,9 +22,11 @@ export default function Login() {
 
     try {
       const result = await SignIn(id, pw)
+
       if (result) {
+        console.log(' loginSubmit ~ result: ', result)
         //sessionStorege의 값으로 fetchData하여 Redux 관리
-        dispatch({ type: SET_USER, data: await fetchUserData() })
+        dispatch(setUser({ data: await fetchUserData() }))
         navigate('/')
       }
     } catch (e) {
