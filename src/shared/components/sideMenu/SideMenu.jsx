@@ -5,6 +5,7 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { resetState } from '../../redux/store'
 
 export default function SideMenu() {
   const navigate = useNavigate()
@@ -16,11 +17,10 @@ export default function SideMenu() {
 
     const logout = async () => {
       await signOut(auth)
-      console.log('사용자가 로그아웃했습니다.')
     }
 
     logout()
-    dispatch({ type: 'INIT' })
+    dispatch(resetState())
     sessionStorage.clear()
     navigate('/login')
   }

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer from '../reducer/userSlice'
-import workScheduleReducer from '../reducer/workScheduleSlice'
+import userReducer, { initialState as userInitialState } from '../reducer/userSlice'
+import payStubReducer, { initialState as payStubInitialState } from '../reducer/payStubSlice'
+// import workScheduleReducer from '../reducer/workScheduleSlice'
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -14,7 +15,7 @@ const loadState = () => {
 
     // JSON 파싱 및 기본 구조 확인
     const parsedState = JSON.parse(serializedState)
-    // console.log(' loadState ~ parsedState: ', parsedState)
+
     if (!parsedState || typeof parsedState !== 'object') {
       throw new Error('Invalid state structure')
     }
@@ -29,11 +30,23 @@ const loadState = () => {
 // 초기 상태를 불러옴
 const preloadedState = loadState()
 
+const rootReducer = (state, action) => {
+  if (action.type === 'RESET_STATE') {
+    return {
+      user: userInitialState,
+      payStub: payStubInitialState,
+      // workSchedule: workScheduleInitialState, // 추가 가능
+    }
+  }
+  return {
+    user: userReducer(state?.user, action),
+    payStub: payStubReducer(state?.payStub, action),
+    // workSchedule: workScheduleReducer(state?.workSchedule, action), // 필요하면 추가
+  }
+}
+
 export const store = configureStore({
-  reducer: {
-    user: userReducer,
-    workSchedule: workScheduleReducer,
-  },
+  reducer: rootReducer,
   preloadedState,
 })
 
@@ -47,3 +60,5 @@ store.subscribe(() => {
     console.error('세션 스토리지에 상태를 저장하는 중 오류 발생', err)
   }
 })
+
+export const resetState = () => ({ type: 'RESET_STATE' })

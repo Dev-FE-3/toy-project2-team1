@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from 'react'
 import getDate from '../../../shared/utils/date'
 import useThrottle from '../../../shared/hooks/useThrottle'
 import { useDispatch } from 'react-redux'
-import { SET_DATE } from '../../../shared/redux/constants/payStub'
 import { upsertDocumentsForUsers } from './api/getCollectionWithFilter'
+import { setDate } from '../../../shared/redux/reducer/payStubSlice'
 
 export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
@@ -76,7 +76,7 @@ export default function PayStub() {
   useEffect(() => {
     const date = year + String(month).padStart(2, '0')
 
-    dispatch({ type: SET_DATE, data: { date } })
+    dispatch(setDate({ data: { date } }))
   }, [dispatch, year, month])
 
   return (
