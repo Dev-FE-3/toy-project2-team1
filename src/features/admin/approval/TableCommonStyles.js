@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
-export const Container = styled.div`
-  margin-top: 1.2rem;
+export const Gap = styled.div`
+margin-top: 1.2rem;
 `
 export const TableWrap = styled.div`
   height: 58rem;
