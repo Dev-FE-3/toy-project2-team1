@@ -24,7 +24,11 @@ const userSlice = createSlice({
       state.role = action.payload.data.role
       state.email = action.payload.data.email
       state.hireDate = action.payload.data.hireDate
-      state.user = action.payload.data
+      state.jobTitle = action.payload.data.jobTitle
+      state.phoneNumber = action.payload.data.phoneNumber
+      state.totalLeaves = action.payload.data.totalLeaves
+      state.usedLeaves = action.payload.data.usedLeaves
+      state.department = action.payload.data.department
     },
   },
 })
