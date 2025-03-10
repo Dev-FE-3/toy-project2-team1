@@ -52,8 +52,6 @@ export default function PayStub() {
   }
 
   const sendUsersPayStub = async () => {
-    console.log(checkedUsers)
-
     setIsLoading(true)
 
     try {

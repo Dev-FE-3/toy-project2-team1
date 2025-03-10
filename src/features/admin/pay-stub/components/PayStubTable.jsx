@@ -59,7 +59,6 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
       const data = await getCollectionWithFilter('payrollManagement', payDate)
 
       setUsers(data)
-      console.log(data)
     }
 
     getUsers(date)
