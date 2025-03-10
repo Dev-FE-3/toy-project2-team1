@@ -39,9 +39,7 @@ const EventSidebar = ({ currentYear, currentMonth, onEditEvent }) => {
           // 날짜가 선택되었을 때
           isEventList.length > 0 ? (
             // 선택된 날짜에 이벤트가 있는 경우
-            isEventList.map((event, index) => (
-              <SidebarEventItem key={index} event={event} onEditEvent={onEditEvent} />
-            ))
+            isEventList.map((event, index) => <SidebarEventItem key={index} event={event} />)
           ) : (
             // 선택된 날짜에 이벤트가 없는 경우
             <div className="noEventMessage">선택한 날짜에 등록된 일정이 없습니다.</div>

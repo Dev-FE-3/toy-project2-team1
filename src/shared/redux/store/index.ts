@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { initialState as userInitialState } from '../reducer/userSlice'
 import payStubReducer, { initialState as payStubInitialState } from '../reducer/payStubSlice'
-// import workScheduleReducer from '../reducer/workScheduleSlice'
+import workScheduleReducer from '../reducer/workScheduleSlice'
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -29,7 +30,6 @@ const loadState = () => {
 
 // 초기 상태를 불러옴
 const preloadedState = loadState()
-
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_STATE') {
     return {
@@ -41,7 +41,7 @@ const rootReducer = (state, action) => {
   return {
     user: userReducer(state?.user, action),
     payStub: payStubReducer(state?.payStub, action),
-    // workSchedule: workScheduleReducer(state?.workSchedule, action), // 필요하면 추가
+    workSchedule: workScheduleReducer(state?.workSchedule, action),
   }
 }
 
@@ -62,3 +62,9 @@ store.subscribe(() => {
 })
 
 export const resetState = () => ({ type: 'RESET_STATE' })
+
+// 스토어의 상태에 대한 타입 정의
+export type RootState = ReturnType<typeof store.getState>
+
+// 디스패치 함수에 대한 타입 정의
+export type AppDispatch = typeof store.dispatch

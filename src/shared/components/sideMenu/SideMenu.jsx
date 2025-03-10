@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/shared/constants/menu/menuList'
@@ -5,11 +6,8 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-<<<<<<< Updated upstream
-import { resetState } from '../../redux/store'
-=======
 import { initialize } from '@/shared/redux/reducer/userSlice'
->>>>>>> Stashed changes
+import { resetState } from '@/shared/redux/store'
 
 export default function SideMenu() {
   const navigate = useNavigate()
@@ -26,10 +24,7 @@ export default function SideMenu() {
     logout()
     dispatch(resetState())
     sessionStorage.clear()
-<<<<<<< Updated upstream
-=======
     dispatch(initialize())
->>>>>>> Stashed changes
     navigate('/login')
   }
 

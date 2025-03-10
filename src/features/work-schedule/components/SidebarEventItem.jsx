@@ -25,7 +25,6 @@ const SidebarEventItem = ({ event }) => {
 
   return (
     <StyledEventItem
-      key={event.id}
       className="eventItem"
       $categoryColor={getEventCategoryColor(eventCategories, event.eventCategory)}
     >
