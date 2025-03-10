@@ -6,7 +6,6 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialize } from '@/shared/redux/reducer/userSlice'
 import { resetState } from '@/shared/redux/store'
 
 export default function SideMenu() {
@@ -21,10 +20,10 @@ export default function SideMenu() {
       await signOut(auth)
     }
 
+    console.log('로그아웃!!!')
     logout()
-    dispatch(resetState())
     sessionStorage.clear()
-    dispatch(initialize())
+    dispatch(resetState())
     navigate('/login')
   }
 

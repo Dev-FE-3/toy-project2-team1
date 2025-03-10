@@ -31,20 +31,20 @@ interface CalendarEvent {
 // 상태 타입 정의
 interface WorkScheduleState {
   calendarEvents: CalendarEvent[] // 일정 목록
-  selectedDate: string | Date | null // 선택된 날짜
   isSidebarOpen: boolean // 사이드바 열림 여부
   modalAddMode: boolean // 모달(추가 모드) 활성화 여부
   modalEditMode: boolean // 모달(수정 모드) 활성화 여부
+  selectedDate: string | Date | null // 선택된 날짜
   editEventId: string | null // 수정할 이벤트 ID
 }
 
 // 초기 상태 정의
 const initialState: WorkScheduleState = {
   calendarEvents: [], // 일정 목록
-  selectedDate: null, // 선택된 날짜
   isSidebarOpen: false, // 사이드바 열림 여부
   modalAddMode: false, // 모달(추가 모드) 활성화 여부
   modalEditMode: false, // 모달(수정 모드) 활성화 여부
+  selectedDate: null, // 선택된 날짜
   editEventId: null, // 수정할 이벤트 ID
 }
 

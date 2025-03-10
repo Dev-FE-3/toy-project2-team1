@@ -15,10 +15,10 @@ import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
 export default function WorkSchedule() {
   const [currentYear, setCurrentYear] = useState(() => thisYear) // 현재 연도
   const [currentMonth, setCurrentMonth] = useState(() => thisMonth) // 현재 달
-  const isSidebarOpen = useSelector(({ workSchedule }) => workSchedule.isSidebarOpen)
   const dispatch = useDispatch()
-  const modalAddMode = useSelector(({ workSchedule }) => workSchedule.modalAddMode)
-  const modalEditMode = useSelector(({ workSchedule }) => workSchedule.modalEditMode)
+  const { isSidebarOpen, modalAddMode, modalEditMode } = useSelector(
+    ({ workSchedule }) => workSchedule,
+  )
   const { loading, error, fetchWorkSchedules } = useWorkSchedule()
 
   // 달 이동

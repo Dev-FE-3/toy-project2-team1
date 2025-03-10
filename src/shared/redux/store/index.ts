@@ -35,7 +35,7 @@ const rootReducer = (state, action) => {
     return {
       user: userInitialState,
       payStub: payStubInitialState,
-      // workSchedule: workScheduleInitialState, // 추가 가능
+      workSchedule: workScheduleInitialState,
     }
   }
   return {
@@ -62,9 +62,3 @@ store.subscribe(() => {
 })
 
 export const resetState = () => ({ type: 'RESET_STATE' })
-
-// 스토어의 상태에 대한 타입 정의
-export type RootState = ReturnType<typeof store.getState>
-
-// 디스패치 함수에 대한 타입 정의
-export type AppDispatch = typeof store.dispatch
