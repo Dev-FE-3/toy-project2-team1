@@ -104,29 +104,28 @@ export function Table({ filterValue }) {
 
   return (
     <>
-      <Common.Container>
-        <Common.TableWrap>
-          <Common.TableContent>
-            {/* 테이블 헤더 */}
-            <TableHeader />
-            <Common.Tbody>
-              {/* 현재 페이지의 데이터를 렌더링 */}
-              {getCurrentPageData().map((item) => (
-                <React.Fragment key={item.id}>
-                  {/* 테이블 행 */}
-                  <TableRow
-                    item={item}
-                    $isExpanded={expandedId === item.id} // 현재 행이 열려있는지 여부 전달
-                    onToggle={() => toggleRow(item.id)} // 행 클릭 시 토글 함수 호출
-                  />
-                  {/* 확장된 행 */}
-                  {expandedId === item.id && <ExpandedRow content={item.requestContent} />}
-                </React.Fragment>
-              ))}
-            </Common.Tbody>
-          </Common.TableContent>
-        </Common.TableWrap>
-      </Common.Container>
+      {/* 테이블 */}
+      <Common.TableWrap>
+        <Common.TableContent>
+          {/* 테이블 헤더 */}
+          <TableHeader />
+          <Common.Tbody>
+            {/* 현재 페이지의 데이터를 렌더링 */}
+            {getCurrentPageData().map((item) => (
+              <React.Fragment key={item.id}>
+                {/* 테이블 행 */}
+                <TableRow
+                  item={item}
+                  $isExpanded={expandedId === item.id} // 현재 행이 열려있는지 여부 전달
+                  onToggle={() => toggleRow(item.id)} // 행 클릭 시 토글 함수 호출
+                />
+                {/* 확장된 행 */}
+                {expandedId === item.id && <ExpandedRow content={item.requestContent} />}
+              </React.Fragment>
+            ))}
+          </Common.Tbody>
+        </Common.TableContent>
+      </Common.TableWrap>
       {/* 페이지네이션 */}
       <Pagination
         totalItems={filteredData.length} // 전체 항목 수 전달

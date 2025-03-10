@@ -77,10 +77,10 @@ export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
 
   return (
     <Tr>
-      <Td width='10%'><span>{item.requestType}</span></Td>
-      <Td width='12%'><span>{formatDate(item.requestDate)}</span></Td>
-      <Td width='10%'><span>{item.employeeName}</span></Td>
-      <Td width='50%'><span>{item.requestContent}</span></Td>
+      <Td width='10%'>{item.requestType}</Td>
+      <Td width='12%'>{formatDate(item.requestDate)}</Td>
+      <Td width='10%'>{item.employeeName}</Td>
+      <Td width='50%'>{item.requestContent}</Td>
       {/* 결재 상태 (셀렉트 박스 & 버튼) */}
       <Td width='14rem'>
         {/* 셀렉트 박스 */}
