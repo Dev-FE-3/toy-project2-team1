@@ -3,6 +3,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { initialState as userInitialState } from '../reducer/userSlice'
 import payStubReducer, { initialState as payStubInitialState } from '../reducer/payStubSlice'
 import workScheduleReducer from '../reducer/workScheduleSlice'
+import approvalReducer, { initialState as approvalInitialState } from '../reducer/approvalSlice';
+import myDocumentReducer, { initialState as myDocumentInitialState } from '../reducer/myDocumentSlice';
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -36,12 +38,16 @@ const rootReducer = (state, action) => {
       user: userInitialState,
       payStub: payStubInitialState,
       workSchedule: workScheduleInitialState,
+      approval: approvalInitialState,
+      myDocument: myDocumentInitialState,
     }
   }
   return {
     user: userReducer(state?.user, action),
     payStub: payStubReducer(state?.payStub, action),
     workSchedule: workScheduleReducer(state?.workSchedule, action),
+    approval: approvalReducer(state?.approval, action),
+    myDocument: myDocumentReducer(state?.myDocument, action),
   }
 }
 
