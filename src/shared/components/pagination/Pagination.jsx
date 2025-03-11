@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import useThrottle from '@/shared/hooks/useThrottle';
 
 export const Pagination = ({
   totalItems,
@@ -12,12 +13,17 @@ export const Pagination = ({
   // 전체 페이지 수 계산
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const handlePageChange = (page) => {
+  // Throttled 사용한 페이지 전환 함수
+  const throttleHandlePageChange = useThrottle((page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       onPageChange(page);
     }
-  };
+  },300 ); // delay
+
+  const handlePageChange = (page) => {
+    throttleHandlePageChange(page);
+  }
 
   // 페이지 번호 계산 로직 - 현재 페이지 중심으로 5개의 페이지 번호 계산
   const renderPageNumbers = () => {
