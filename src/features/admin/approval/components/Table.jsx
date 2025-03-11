@@ -18,7 +18,7 @@ import {
   filterData, 
 } from '@/shared/redux/reducer/approvalSlice';
 
-export function Table({ filterValue: propFilterValue }) {
+export function Table({ filterValue }) {
   const dispatch = useDispatch();
   const {
     filteredData,
@@ -52,9 +52,9 @@ export function Table({ filterValue: propFilterValue }) {
    }, [dispatch]); // 컴포넌트 처음 렌더링 시 실행
   
   useEffect(() => {
-    dispatch(setFilterValue(propFilterValue));
+    dispatch(setFilterValue(filterValue));
     dispatch(filterData());
-  }, [dispatch, propFilterValue]);
+  }, [dispatch, filterValue]);
 
   const handlePageChange = (page) => {
     dispatch(setCurrentPage(page));
