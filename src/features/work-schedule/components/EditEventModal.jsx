@@ -1,79 +1,88 @@
-import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setModalEditMode } from '@/shared/redux/reducer/workScheduleSlice'
+import { updateWorkSchedule } from '@/shared/api/firebase/services/workScheduleService'
+import { eventCategories, weekDays } from '../constants'
 import styled from 'styled-components'
-import { weekDays, eventCategories } from '../constants'
 import Modal from '@/shared/components/modal/Modal'
 import Button from '@/shared/components/button/Button'
-import { useDispatch, useSelector } from 'react-redux'
-import { setModalAddMode } from '../../../shared/redux/reducer/workScheduleSlice'
-import { addWorkSchedule } from '../../../shared/api/firebase/services/workScheduleService'
 import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
-const AddEventModal = () => {
-  const [description, setDescription] = useState('') // 일정 설명
-  const [selectedCategory, setSelectedCategory] = useState('personal') // 선택된 카테고리
-  const inputRef = useRef(null) // 일정 설명 input box focus 용
+
+export default function EditEventModal() {
   const dispatch = useDispatch()
-  const userInfo = useSelector(({ user }) => user)
-  const selectedDate = useSelector(({ workSchedule }) => workSchedule.selectedDate)
-  const modalAddMode = useSelector(({ workSchedule }) => workSchedule.modalAddMode)
+  const modalEditMode = useSelector(({ workSchedule }) => workSchedule.modalEditMode)
+  const editEventId = useSelector(({ workSchedule }) => workSchedule.editEventId)
+  const calendarEvents = useSelector(({ workSchedule }) => workSchedule.calendarEvents)
+  const editEvent = calendarEvents.find((event) => event.docId === editEventId)
   const { fetchWorkSchedules } = useWorkSchedule()
+
+  const {
+    description: editDescription,
+    eventCategory: editEventCategory,
+    name,
+    year,
+    month,
+    day,
+    weekday: editWeekday,
+  } = editEvent
+  const inputRef = useRef(null) // 일정 설명 input box focus 용
+  const [description, setDescription] = useState(() => editDescription) // 일정 설명
+  const [selectedCategory, setSelectedCategory] = useState(() => editEventCategory) // 선택된 카테고리
 
   // 모달 제목(연/월/일/요일)
   const handleTitle = useMemo(() => {
-    if (!modalAddMode || !selectedDate) return null
+    if (!modalEditMode) return null
 
-    return `${selectedDate.year}년 ${selectedDate.month + 1}월 ${selectedDate.day}일 (${
-      weekDays[selectedDate.weekday]
-    })`
-  }, [selectedDate])
-
-  const handleAddEvent = useCallback(
-    async (e) => {
-      e.preventDefault()
-      const { year, month, day, weekday } = selectedDate
-      const workSchedule = {
-        uid: userInfo.uid,
-        name: userInfo.name,
+    return `${year}년 ${month + 1}월 ${day}일 (${weekDays[editWeekday]})`
+  }, [editEvent])
+  1
+  // 일정 수정 submit
+  const handleEditEvent = useCallback(() => {
+    const editWorkSchedule = {
+      editEventId,
+      editEventData: {
+        id: editEventId,
+        name,
         year,
         month,
         day,
-        weekday,
+        weekday: editWeekday,
         eventCategory: selectedCategory,
         description,
-      }
+      },
+    }
 
-      addWorkSchedule(workSchedule)
-        .then((docRef) => {
-          // console.log('문서 추가 성공:', docRef)
-          fetchWorkSchedules()
-        })
-        .catch((error) => {
-          console.error('문서 추가 중 오류 발생:', error)
-        })
+    updateWorkSchedule(editWorkSchedule)
+      .then(() => {
+        fetchWorkSchedules()
+      })
+      .catch((error) => {
+        console.error('문서 추가 중 오류 발생:', error)
+      })
 
-      // 입력 필드 초기화
-      setDescription('')
-      setSelectedCategory('personal')
-    },
-    [userInfo.uid, selectedDate, selectedCategory, description],
-  )
-
-  const handleCloseModal = useCallback(() => {
-    dispatch(setModalAddMode(false))
-  }, [dispatch])
+    // 입력 필드 초기화 후 모달 닫기
+    setDescription('')
+    setSelectedCategory('personal')
+    dispatch(setModalEditMode(false))
+  }, [editEvent, editEventId, description, selectedCategory])
 
   useEffect(() => {
     // 모달 열리면 description 필드 포커스 주기
-    if (modalAddMode && inputRef.current) {
+    if (modalEditMode && inputRef.current) {
       setTimeout(() => {
         inputRef.current.focus()
       }, 100)
     }
-  }, [modalAddMode])
+  }, [modalEditMode])
 
-  if (!modalAddMode || !selectedDate) return null
-
+  if (!modalEditMode || !editEvent) return null
   return (
-    <Modal isOpen={modalAddMode} onClose={handleCloseModal} title={handleTitle} width="50rem">
+    <Modal
+      isOpen={modalEditMode}
+      onClose={() => dispatch(setModalEditMode(false))}
+      title={handleTitle}
+      width="50rem"
+    >
       <ModalChildren>
         <input
           ref={inputRef}
@@ -101,12 +110,12 @@ const AddEventModal = () => {
         </div>
 
         <div className="modalButtonContainer">
-          <button className="cancelButton" onClick={handleCloseModal}>
+          <button className="cancelButton" onClick={() => dispatch(setModalEditMode(false))}>
             취소
           </button>
 
-          <button className="modalAddEventButton" onClick={handleAddEvent}>
-            일정 추가
+          <button className="modalAddEventButton" onClick={handleEditEvent}>
+            일정 수정
           </button>
         </div>
       </ModalChildren>
@@ -114,10 +123,8 @@ const AddEventModal = () => {
   )
 }
 
-export default AddEventModal
-
 const ModalChildren = styled.div.withConfig({
-  displayName: 'modal-children',
+  displayName: 'modal-edit-mode-children',
 })`
   width: 100%;
   border-radius: 0.5rem;

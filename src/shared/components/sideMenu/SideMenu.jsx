@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/shared/constants/menu/menuList'
@@ -5,7 +6,7 @@ import { ADMIN_MENUS } from '@/shared/constants/menu/menuList'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetState } from '../../redux/store'
+import { resetState } from '@/shared/redux/store'
 
 export default function SideMenu() {
   const navigate = useNavigate()
@@ -19,9 +20,10 @@ export default function SideMenu() {
       await signOut(auth)
     }
 
+    console.log('로그아웃!!!')
     logout()
-    dispatch(resetState())
     sessionStorage.clear()
+    dispatch(resetState())
     navigate('/login')
   }
 

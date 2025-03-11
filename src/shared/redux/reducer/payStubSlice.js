@@ -14,5 +14,5 @@ const payStubSlice = createSlice({
   },
 })
 
-export const { setDate, initialize } = payStubSlice.actions
+export const { setDate } = payStubSlice.actions
 export default payStubSlice.reducer

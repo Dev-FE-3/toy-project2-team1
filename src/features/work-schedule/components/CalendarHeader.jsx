@@ -89,8 +89,8 @@ const HeaderContainer = styled.header.withConfig({
     gap: 1rem;
 
     .yearText {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 2rem;
+      font-weight: 600;
       color: #1e293b;
       display: flex;
       align-items: center;
@@ -104,10 +104,14 @@ const HeaderContainer = styled.header.withConfig({
     .prevMonthBtn,
     .nextMonthBtn {
       align-self: center;
+      cursor: pointer;
     }
   }
 `
+
 const HeaderBtn = styled(Button)`
+  cursor: pointer;
+
   &:focus-visible {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
