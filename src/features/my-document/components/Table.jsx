@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { db } from '@/shared/api/firebase/firebase'
-import { collection, query, getDocs, where, orderBy } from 'firebase/firestore';
+import { getPayrollCorrectionsByUserId } from '@/shared/api/firebase/services/payrollCorrectionsService';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { ExpandedRow } from '@/features/admin/approval/components/ExpandedRow';
@@ -24,38 +23,21 @@ export function Table({ filterValue }) {
     setExpandedId(prevId => prevId === id ? null : id);
   };
 
-  // firebase firestore에서 데이터를 가져옴
+  // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-
-        if (!uid) {
-          throw new Error('유저의 uid를 찾을 수 없습니다.')
-        }
-
-        // uid를 사용하여 특정 직원의 데이터를 가져옴
-        let q = query(
-          collection(db, "payrollCorrections"),
-          where('uid', '==', uid),
-          orderBy('requestDate', 'desc'), // 신청일 내림차순
-        );
-
-        const querySnapshot = await getDocs(q);
-        
-        // 데이터를 가공하여 상태에 저장
-        const fetchedData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        const fetchedData = await getPayrollCorrectionsByUserId(uid);
 
         // 로딩스피너 노출을 위한 딜레이 추가
         setTimeout(() => {
-          setData(fetchedData); // 전체 데이터 설정
+          setData(fetchedData);
           setIsLoading(false);
-        }, 1000)
+        }, 1000);
       } catch (err) {
         setError(err.message);
+        setIsLoading(false);
       }
     };
 

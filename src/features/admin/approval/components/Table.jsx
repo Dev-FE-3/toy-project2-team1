@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collection, query, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '@/shared/api/firebase/firebase'
+import { getAllPayrollCorrections } from '@/shared/api/firebase/services/payrollCorrectionsService';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { ExpandedRow } from './ExpandedRow';
@@ -22,34 +21,22 @@ export function Table({ filterValue }) {
     setExpandedId(prevId => prevId === id ? null : id);
   };
 
-  // firebase firestore에서 데이터를 가져옴
+  // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
+        const fetchedData = await getAllPayrollCorrections(); // 서비스 호출
 
-        // 모든 직원의 데이터를 가져옴
-        let q = query(
-          collection(db, "payrollCorrections"),
-          orderBy('requestDate', 'desc'), // 신청일 내림차순
-        );
-
-        const querySnapshot = await getDocs(q);
-        
-        // 데이터를 가공하여 상태에 저장
-        const fetchedData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        // 로딩스피터 노출을 위한 딜레이 추가
+        // 로딩스피너 노출을 위한 딜레이 추가
         setTimeout(() => {
           setData(fetchedData); // 전체 데이터 설정
           setIsLoading(false);
         }, 1000)
       } catch (err) {
         setError(err.message);
-      }
+        setIsLoading(false);
+      };
     };
 
     fetchData();
