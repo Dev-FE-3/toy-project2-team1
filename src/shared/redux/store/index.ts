@@ -2,7 +2,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { initialState as userInitialState } from '../reducer/userSlice'
 import payStubReducer, { initialState as payStubInitialState } from '../reducer/payStubSlice'
-import workScheduleReducer from '../reducer/workScheduleSlice'
+import workScheduleReducer, {
+  initialState as workScheduleInitialState,
+} from '../reducer/workScheduleSlice'
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -30,6 +32,7 @@ const loadState = () => {
 
 // 초기 상태를 불러옴
 const preloadedState = loadState()
+// 리듀서 합치기
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_STATE') {
     return {
@@ -44,6 +47,10 @@ const rootReducer = (state, action) => {
     workSchedule: workScheduleReducer(state?.workSchedule, action),
   }
 }
+
+useEffect(() => {
+  console.log('preloadedState', preloadedState)
+}, [])
 
 export const store = configureStore({
   reducer: rootReducer,
