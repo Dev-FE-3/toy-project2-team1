@@ -1,23 +1,28 @@
 import styled from 'styled-components'
 import summary from '../utils/payStubSummary'
+import { useSelector } from 'react-redux'
 
-export default function Summary({ data }) {
+export default function Summary() {
+  const { filteredData } = useSelector((state) => state.userPayStub)
   return (
     <SummaryContainer>
       <SummaryItem>
         <div className="title">지급 총액</div>
-        <div className="amount">{summary(data).totalPayment.toLocaleString()}원</div>
+        <div className="amount">{summary(filteredData).totalPayment.toLocaleString()}원</div>
       </SummaryItem>
       <Operator>-</Operator>
       <SummaryItem>
         <div className="title">공제 총액</div>
-        <div className="amount">{summary(data).totalDeduction.toLocaleString()}원</div>
+        <div className="amount">{summary(filteredData).totalDeduction.toLocaleString()}원</div>
       </SummaryItem>
       <Operator>=</Operator>
       <SummaryItem>
         <div className="title received">실 수령액</div>
         <div className="amount">
-          {(summary(data).totalPayment - summary(data).totalDeduction).toLocaleString()}원
+          {(
+            summary(filteredData).totalPayment - summary(filteredData).totalDeduction
+          ).toLocaleString()}
+          원
         </div>
       </SummaryItem>
     </SummaryContainer>

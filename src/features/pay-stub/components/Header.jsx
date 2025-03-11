@@ -5,13 +5,19 @@ import Button from '@/shared/components/button/Button'
 import CalendarModal from '@/shared/components/calendar/CalendarModal'
 import { addDocument } from '@/shared/api/firebase/firestore'
 import { useCallback, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setDate, toggleIsShow } from '@/shared/redux/reducer/userPayStubSlice'
 
-export default function Header({ isShow, date, handleCalendar, handleUpdateDate, isNoData }) {
+export default function Header() {
+  const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFail, setIsFail] = useState(false)
   const textareaRef = useRef(null)
+
+  // redux 상태 가져오기
+  const userData = useSelector((state) => state.user)
+  const { isShow, date, isNoData } = useSelector((state) => state.userPayStub)
 
   const handleOpenModal = useCallback(() => {
     setIsModalOpen(true)
@@ -23,7 +29,6 @@ export default function Header({ isShow, date, handleCalendar, handleUpdateDate,
     setIsFail(false)
   }, [])
 
-  const userData = useSelector((state) => state.user)
   const handleFormSubmit = async () => {
     try {
       const docId = await addDocument('payrollCorrections', {
@@ -43,6 +48,16 @@ export default function Header({ isShow, date, handleCalendar, handleUpdateDate,
     } catch (error) {
       return <div>{error}</div>
     }
+  }
+
+  const handleCalendar = () => {
+    dispatch(toggleIsShow())
+  }
+
+  const handleUpdateDate = (value) => {
+    dispatch(setDate(value))
+    dispatch(toggleIsShow())
+    handleCloseModal()
   }
 
   return (

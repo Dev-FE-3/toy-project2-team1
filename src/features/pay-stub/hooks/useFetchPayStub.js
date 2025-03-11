@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { collection, query, getDocs, where } from 'firebase/firestore'
+import { collection, query, getDocs, where, Timestamp } from 'firebase/firestore'
 import { db } from '@/shared/api/firebase/firebase'
 import { useSelector } from 'react-redux'
 
@@ -13,12 +13,17 @@ const useFetchPayStub = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const q = query(collection(db, 'payrollManagement'), where('uid', '==', userUid))
+        const q = query(
+          collection(db, 'payrollManagement'),
+          where('uid', '==', userUid),
+          where('merge', '==', true),
+        )
         const querySnapshot = await getDocs(q)
 
         const fetchedData = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
+          insertDate: doc.data().insertDate.toDate().toUTCString(),
         }))
         setData(fetchedData)
       } catch (err) {
