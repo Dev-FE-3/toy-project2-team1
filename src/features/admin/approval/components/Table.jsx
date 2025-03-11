@@ -13,6 +13,7 @@ export function Table({ filterValue }) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 관리
   const [error, setError] = useState(null); // 에러 상태 관리
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const [filterValueChanged, setFilterValueChanged] = useState(false);
   const [expandedId, setExpandedId] = useState(null); // 확장된 행의 ID
   const itemsPerPage = 10; // 페이지 당 표시할 항목 수
   
@@ -54,33 +55,48 @@ export function Table({ filterValue }) {
       });
       setFilteredData(filtered); // 필터링 된 데이터 설정
       setExpandedId(null); // 필터링 시 열린 행 닫기
-      setCurrentPage(1); // 필터링 후 첫 페이지로 이동
+
+      // 현재 페이지 초기화는 필터 값이 변경될 때만 실행
+      if (filterValueChanged) {
+        setCurrentPage(1);
+      }
     };
 
     filterData();
   }, [data, filterValue]); // data 또는 filterValue가 변경될 때 실행
 
+  // filterValue 변경 시 flag 설정
+  useEffect(() => {
+    setFilterValueChanged(true);
+  }, [filterValue]);
+
+  
   // 페이지 변경 시 열린 행 닫기
   useEffect(() => {
     setExpandedId(null);
   }, [currentPage]);
-
+  
   // 현재 페이지의 데이터만 슬라이싱
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredData.slice(startIndex, endIndex)
   }
-
+  
   // 페이지 변경 핸들러
   const handlePageChange = (page) => {
     setCurrentPage(page);
   }
-
+  
+  // 결재 상태 업데이트 시 flag 초기화
   const updateItemStatus = (id, newStatus) => {
-    setData(prevData => prevData.map(item => 
-      item.id === id ? { ...item, approvalStatus: newStatus } : item
-    ));
+    setFilterValueChanged(false); // 필터 값이 변경되지 않았음을 명시
+
+    setData(prevData =>
+      prevData.map(item =>
+        item.id === id ? { ...item, approvalStatus: newStatus } : item
+      )
+    );
   };
 
   if (isLoading) return <LoadingSpinner />;
