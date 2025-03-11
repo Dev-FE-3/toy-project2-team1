@@ -1,26 +1,28 @@
-import Card from '@/shared/components/card/Card'
 import styled from 'styled-components'
+import Card from '@/shared/components/card/Card'
+import { useSelector } from 'react-redux'
 
-export default function LeaveInfo({ totalLeave, usedLeave }) {
+export default function LeaveInfo() {
+  const { totalLeaves, usedLeaves } = useSelector((state) => state.user)
   return (
     <Card title={'휴가정보'} contentAlign={'center'}>
       <LeaveStatusContainer>
         <LeaveStatus>
           <div className="label">발생</div>
           <StatusValue $color={'--font-sub'}>
-            <span>{totalLeave}</span>
+            <span>{totalLeaves}</span>
           </StatusValue>
         </LeaveStatus>
         <LeaveStatus>
           <div className="label">사용</div>
           <StatusValue $color={'--point-red'}>
-            <span>{usedLeave}</span>
+            <span>{usedLeaves}</span>
           </StatusValue>
         </LeaveStatus>
         <LeaveStatus>
           <div className="label">잔여</div>
           <StatusValue $color={'--point-yellow'}>
-            <span>{totalLeave - usedLeave}</span>
+            <span>{totalLeaves - usedLeaves}</span>
           </StatusValue>
         </LeaveStatus>
       </LeaveStatusContainer>
