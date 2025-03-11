@@ -6,6 +6,8 @@ import userPayStubReducer, {
   initialState as userPayStubInitialState,
 } from '../reducer/userPayStubSlice'
 import workScheduleReducer from '../reducer/workScheduleSlice'
+import approvalReducer, { initialState as approvalInitialState } from '../reducer/approvalSlice';
+import myDocumentReducer, { initialState as myDocumentInitialState } from '../reducer/myDocumentSlice';
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -40,6 +42,8 @@ const rootReducer = (state, action) => {
       payStub: payStubInitialState,
       userPayStub: userPayStubInitialState,
       workSchedule: workScheduleInitialState,
+      approval: approvalInitialState,
+      myDocument: myDocumentInitialState,
     }
   }
   return {
@@ -47,6 +51,8 @@ const rootReducer = (state, action) => {
     payStub: payStubReducer(state?.payStub, action),
     userPayStub: userPayStubReducer(state?.userPayStub, action),
     workSchedule: workScheduleReducer(state?.workSchedule, action),
+    approval: approvalReducer(state?.approval, action),
+    myDocument: myDocumentReducer(state?.myDocument, action),
   }
 }
 
