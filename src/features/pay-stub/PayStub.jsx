@@ -7,43 +7,42 @@ import useFetchPayStub from './hooks/useFetchPayStub'
 import Header from './components/Header'
 import Summary from './components/Summary'
 import PayDetail from './components/PayDetail'
+import { useDispatch, useSelector } from 'react-redux'
+import { setDate, setFilteredData, setIsNoData } from '@/shared/redux/reducer/userPayStubSlice'
 
 export default function PayStub() {
-  const [filterData, setFilterData] = useState(null)
-  const [isNoData, setIsNoData] = useState(false)
-  const [isShow, setIsShow] = useState(false)
-  const [date, setDate] = useState({
-    year: getDate('year'),
-    month: getDate('day') < 10 ? getDate('month') - 1 : getDate('month'),
-  })
-
+  const dispatch = useDispatch()
   const { data, isLoading, error } = useFetchPayStub()
+  const { date, filteredData, isNoData, isShow } = useSelector((state) => state.userPayStub)
 
   const handleCalendar = () => {
-    setIsShow((current) => !current)
+    dispatch(toggleIsShow())
   }
 
   const handleUpdateDate = (value) => {
     if (value.year !== date.year || value.month !== date.month) {
-      setDate(value)
-      setIsShow((current) => !current)
+      dispatch(setDate(value))
+      dispatch(toggleIsShow())
     }
   }
 
   useEffect(() => {
-    if (data) {
-      setFilterData(
-        data.filter((item) => {
-          return item.payDate === `${date.year}${String(date.month).padStart(2, '0')}`
-        })[0],
-      )
+    if (!date) {
+      // date가 null일 때만 초기화
+      const initialDate = {
+        year: getDate('year'),
+        month: getDate('day') < 10 ? getDate('month') - 1 : getDate('month'),
+      }
+      dispatch(setDate(initialDate))
     }
-  }, [date, data])
-
-  useEffect(() => {
-    if (filterData) setIsNoData(false)
-    else setIsNoData(true)
-  }, [filterData])
+    if (data) {
+      const filteredData = data.filter((item) => {
+        return item.payDate === `${date.year}${String(date.month).padStart(2, '0')}`
+      })[0]
+      dispatch(setFilteredData(filteredData))
+      dispatch(setIsNoData(!filteredData)) // 필터된 데이터가 없으면 true로 설정
+    }
+  }, [date, data, dispatch])
 
   if (isLoading) return <LoadingSpinner />
   if (error) return <div>{error}</div>
@@ -51,17 +50,11 @@ export default function PayStub() {
   return (
     <ContentWrap>
       <PayStubContainer>
-        <Header
-          isShow={isShow}
-          date={date}
-          handleCalendar={handleCalendar}
-          handleUpdateDate={handleUpdateDate}
-          isNoData={isNoData}
-        ></Header>
-        {filterData ? (
+        <Header />
+        {filteredData ? (
           <>
-            <Summary data={filterData} />
-            <PayDetail data={filterData} />
+            <Summary />
+            <PayDetail />
           </>
         ) : (
           <NoDataMessage>

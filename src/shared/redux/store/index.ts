@@ -2,6 +2,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer, { initialState as userInitialState } from '../reducer/userSlice'
 import payStubReducer, { initialState as payStubInitialState } from '../reducer/payStubSlice'
+import userPayStubReducer, {
+  initialState as userPayStubInitialState,
+} from '../reducer/userPayStubSlice'
 import workScheduleReducer from '../reducer/workScheduleSlice'
 
 // 세션 스토리지에서 상태 불러오기
@@ -35,12 +38,14 @@ const rootReducer = (state, action) => {
     return {
       user: userInitialState,
       payStub: payStubInitialState,
+      userPayStub: userPayStubInitialState,
       workSchedule: workScheduleInitialState,
     }
   }
   return {
     user: userReducer(state?.user, action),
     payStub: payStubReducer(state?.payStub, action),
+    userPayStub: userPayStubReducer(state?.userPayStub, action),
     workSchedule: workScheduleReducer(state?.workSchedule, action),
   }
 }
