@@ -11,6 +11,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore'
 import { getApp } from 'firebase/app'
+import { auth } from '../firebase'
 
 // 데이터베이스를 안전하게 가져오는 함수
 const setDb = () => {
@@ -51,7 +52,8 @@ const getCurrentUserUid = () => {
     }
 
     // uid 가져오기
-    const userUid = sessionStorage.getItem('uid')
+    // const userUid = sessionStorage.getItem('uid')
+    const userUid = auth.currentUser.uid
 
     // uid가 유효한 형식인지 간단히 검사 (예: 빈 문자열, 공백만 있는 경우 등)
     if (typeof userUid !== 'string' || userUid.trim() === '') {
