@@ -1,9 +1,10 @@
 import { styled } from 'styled-components'
 
 const Error = styled.div`
+  position: absolute;
+  bottom: -2rem;
+  width: 100%;
   text-align: center;
-  margin-top: -0.8rem;
-  margin-bottom: 1.2rem;
   font-size: 1.2rem;
   color: var(--point-red);
 `
