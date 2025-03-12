@@ -68,6 +68,7 @@ export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
 
   useEffect(() => {
     setcheckedRows([])
+    setIsChecked(false)
 
     async function getUsers(payDate) {
       const users = await getCollectionWithFilter('payrollManagement', payDate)
@@ -77,7 +78,6 @@ export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
     }
 
     getUsers(date)
-    setIsChecked(false)
   }, [date, isChange])
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
               <StyledTd>
                 <input
                   type="checkbox"
-                  checked={!!(user.merge || checkedRows.find((item) => item.uid === user.uid))}
+                  checked={!!(user.merge || checkedRows.find((item) => item === user))}
                   onChange={(e) => checkHandler(e, rowIndex)}
                   disabled={!!user.merge}
                 />
