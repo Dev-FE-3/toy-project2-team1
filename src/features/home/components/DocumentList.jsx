@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Card from '@/shared/components/card/Card'
 import LoadingSpinner from '@/shared/components/loading-spinner/LoadingSpinner'
-import formatDate from '@/shared/utils/dateUtils'
+import { formatDate } from '@/shared/utils/date'
 import getColorByStatus from '@/shared/utils/statusUtils'
 import { Label } from '@/features/my-document/TableStyles'
 import { useEffect, useState } from 'react'

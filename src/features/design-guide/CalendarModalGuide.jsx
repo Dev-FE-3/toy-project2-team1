@@ -1,6 +1,6 @@
 import CalendarModal from '@/shared/components/calendar/CalendarModal'
 import { useState } from 'react'
-import getDate from '../../shared/utils/date'
+import { getDate } from '../../shared/utils/date'
 
 function CalendarModalGuide() {
   const [show, setShow] = useState(false)
