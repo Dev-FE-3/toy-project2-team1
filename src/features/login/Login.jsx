@@ -71,31 +71,35 @@ export default function Login() {
           name="email"
           control={control}
           render={({ field }) => (
-            <Input
-              type="text"
-              placeholder="이메일 주소"
-              icon="login"
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <InputContainer>
+              <Input
+                type="text"
+                placeholder="이메일 주소"
+                icon="login"
+                value={field.value}
+                onChange={field.onChange}
+              />
+              {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            </InputContainer>
           )}
         />
-        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
         <Controller
           name="password"
           control={control}
           render={({ field }) => (
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              icon="password"
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <InputContainer>
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                icon="password"
+                value={field.value}
+                onChange={field.onChange}
+              />
+              {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+            </InputContainer>
           )}
         />
-        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         {loginError && <ErrorComponent />}
         <Button type="submit" isFullWidth style={{ height: '5.6rem', fontWeight: '700' }}>
           로그인 하기
@@ -125,19 +129,19 @@ const Logo = styled.img`
 const LoginBottom = styled.div`
   display: flex;
   flex-direction: column;
+`
 
-  & > *:nth-child(1) {
-    margin-bottom: 1rem;
-  }
-
-  & > *:nth-child(2) {
-    margin-bottom: 1.4rem;
-  }
+const InputContainer = styled.div.withConfig({
+  componentId: 'input-container',
+})`
+  margin-bottom: 1.8rem;
+  height: 7.2rem;
 `
 
 const ErrorMessage = styled.p`
   color: #ff3333;
   font-size: 1.2rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
+  min-height: 1.6rem;
+  margin: 0;
+  padding-top: 0.4rem;
 `
