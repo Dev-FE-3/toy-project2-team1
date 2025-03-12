@@ -305,6 +305,7 @@ const TableHeader = styled.thead`
   top: 0;
   z-index: 1;
   background: var(--background-main);
+  font-weight: 600;
 `
 
 const TableBody = styled.tbody`
