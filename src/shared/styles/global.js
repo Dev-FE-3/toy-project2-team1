@@ -26,6 +26,7 @@ ${reset}
 }
 
 * {
+  font-family: "Pretendard", sans-serif;
   box-sizing: border-box;
 }
   
