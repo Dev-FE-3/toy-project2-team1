@@ -8,8 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+<<<<<<< Updated upstream
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+=======
+    "cypress:open": "cypress open"
+>>>>>>> Stashed changes
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -43,6 +47,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "cypress": "^14.1.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
