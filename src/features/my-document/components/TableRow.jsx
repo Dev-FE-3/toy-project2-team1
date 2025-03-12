@@ -1,4 +1,4 @@
-import formatDate from '@/shared/utils/dateUtils'
+import { formatDate } from '@/shared/utils/date'
 import getColorByStatus from '@/shared/utils/statusUtils'
 import { Tr, ToggleImage } from '@/features/admin/approval/TableCommonStyles'
 import { Td, Label } from '../TableStyles'
