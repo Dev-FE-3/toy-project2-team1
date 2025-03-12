@@ -21,7 +21,7 @@ import {
   NATIONALPENSION,
 } from '../constants/payStub'
 
-export default function PayStubTable({ setCheckedUsersCurrent }) {
+export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
   const [users, setUsers] = useState([])
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
@@ -77,7 +77,8 @@ export default function PayStubTable({ setCheckedUsersCurrent }) {
     }
 
     getUsers(date)
-  }, [date])
+    setIsChecked(false)
+  }, [date, isChange])
 
   useEffect(() => {
     setCheckedUsersCurrent(checkedRows.filter((item) => !item.merge))

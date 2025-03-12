@@ -16,9 +16,10 @@ export default function PayStub() {
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
+  const [checkedUsersCurrent, setCheckedUsersCurrent] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [checkedUsersCurrent, setCheckedUsersCurrent] = useState([])
+  const [isChange, setIsChange] = useState(false)
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
   const dispatch = useDispatch()
 
@@ -84,6 +85,8 @@ export default function PayStub() {
       setIsModalOpen(true)
     } catch (e) {
       setIsSuccess(false)
+    } finally {
+      setIsChange((prev) => !prev)
     }
   }
 
@@ -152,7 +155,10 @@ export default function PayStub() {
         </div>
       </Title>
       <Contents>
-        <PayStubTable setCheckedUsersCurrent={setCheckedUsersCurrent}></PayStubTable>
+        <PayStubTable
+          isChange={isChange}
+          setCheckedUsersCurrent={setCheckedUsersCurrent}
+        ></PayStubTable>
       </Contents>
     </ContentWrap>
   )
