@@ -15,7 +15,6 @@ export const useWorkSchedule = () => {
 
     getWorkScheduleByUid()
       .then((data) => {
-        console.log('google 조회 성공: ', data)
         if (data) dispatch(setCalendarEvents(data))
       })
       .catch((err) => {

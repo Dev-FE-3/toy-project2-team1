@@ -11,7 +11,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore'
 import { getApp } from 'firebase/app'
-
+import { auth } from '../firebase'
 // 데이터베이스를 안전하게 가져오는 함수
 const setDb = () => {
   try {
@@ -42,43 +42,43 @@ const setDb = () => {
 }
 
 const getCurrentUserUid = () => {
-  let throwOnEmpty = true
+  return new Promise((resolve, reject) => {
+    // 현재 인증 상태 확인
+    const currentUser = auth.currentUser
 
-  try {
-    // sessionStorage 접근이 가능한지 확인
-    if (typeof sessionStorage === 'undefined') {
-      throw new Error('브라우저가 sessionStorage를 지원하지 않거나 접근할 수 없습니다.')
+    if (currentUser) {
+      // 사용자가 이미 로그인되어 있으면 즉시 UID 반환
+      resolve(currentUser.uid)
+    } else {
+      // 사용자 로그인 상태 변경 감지 (한 번만 실행)
+      const unsubscribe = auth.onAuthStateChanged(
+        (user) => {
+          unsubscribe() // 리스너 해제
+
+          if (user) {
+            resolve(user.uid)
+          } else {
+            reject(new Error('사용자가 로그인되어 있지 않습니다.'))
+          }
+        },
+        (error) => {
+          reject(error)
+        },
+      )
+
+      // 타임아웃 설정 (5초)
+      setTimeout(() => {
+        unsubscribe()
+        reject(new Error('인증 상태 확인 시간이 초과되었습니다.'))
+      }, 5000)
     }
-
-    // uid 가져오기
-    const userUid = sessionStorage.getItem('uid')
-
-    // uid가 유효한 형식인지 간단히 검사 (예: 빈 문자열, 공백만 있는 경우 등)
-    if (typeof userUid !== 'string' || userUid.trim() === '') {
-      const errorMessage = '유효하지 않은 사용자 UID 형식입니다.'
-      console.error(errorMessage)
-
-      if (throwOnEmpty) {
-        throw new Error(errorMessage)
-      }
-      return null
-    }
-
-    return userUid
-  } catch (error) {
-    console.error('사용자 UID 조회 중 오류가 발생했습니다:', error)
-
-    if (throwOnEmpty) {
-      throw error
-    }
-    return null
-  }
+  })
 }
 
 // 일정 추가
 export const addWorkSchedule = async (workSchedule) => {
-  const db = setDb()
-  const userUid = getCurrentUserUid()
+  const db = await setDb()
+  const userUid = await getCurrentUserUid()
 
   if (userUid) {
     const workScheduleRef = collection(db, 'workSchedule')
@@ -93,7 +93,7 @@ export const addWorkSchedule = async (workSchedule) => {
 export const getWorkScheduleByUid = async () => {
   try {
     const db = setDb()
-    const userUid = getCurrentUserUid()
+    const userUid = await getCurrentUserUid()
 
     if (!userUid) {
       console.error('User UID not found')
@@ -115,7 +115,6 @@ export const getWorkScheduleByUid = async () => {
           ...doc.data(),
         }
       })
-      console.log(' getWorkScheduleByUid ~ workScheduleData: ', querySnapshot)
       return workScheduleData
     }
   } catch (error) {
@@ -127,7 +126,7 @@ export const getWorkScheduleByUid = async () => {
 // 일정 수정
 export const updateWorkSchedule = async (workSchedule) => {
   const db = setDb()
-  const userUid = getCurrentUserUid()
+  const userUid = await getCurrentUserUid()
 
   if (!userUid) {
     console.error('User UID not found')
@@ -150,7 +149,7 @@ export const updateWorkSchedule = async (workSchedule) => {
 // 일정 삭제
 export const deleteWorkSchedule = async (docId) => {
   const db = setDb()
-  const userUid = getCurrentUserUid()
+  const userUid = await getCurrentUserUid()
 
   if (!userUid) {
     console.error('User UID not found')
