@@ -89,25 +89,32 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
   return (
     <TableContainer>
       <StyledTable>
-        <thead>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+        </colgroup>
+        <TableHeader>
           <tr>
-            <StyledTh rowSpan="2" style={{ width: '90px' }}>
+            <StyledTh rowSpan="2">
               <input type="checkbox" checked={isChecked} onChange={checkAll} />
             </StyledTh>
-            <StyledTh rowSpan="2" style={{ width: '103px' }}>
-              이름
-            </StyledTh>
-            <StyledTh colSpan="3" style={{ width: '540px' }}>
-              지급항목
-            </StyledTh>
-            <StyledTh colSpan="6" style={{ width: '750px' }}>
-              공제항목
-            </StyledTh>
+            <StyledTh rowSpan="2">이름</StyledTh>
+            <StyledTh colSpan="3">지급항목</StyledTh>
+            <StyledTh colSpan="6">공제항목</StyledTh>
           </tr>
           <tr>
-            <StyledTh style={{ width: '180px' }}>기본급</StyledTh>
+            <StyledTh>기본급</StyledTh>
             <StyledTh>식비</StyledTh>
-            <StyledTh style={{ width: '180px' }}>추가수당</StyledTh>
+            <StyledTh>추가수당</StyledTh>
             <StyledTh>국민연금</StyledTh>
             <StyledTh>건강보험</StyledTh>
             <StyledTh>장기요양보험</StyledTh>
@@ -115,11 +122,11 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
             <StyledTh>근로소득세</StyledTh>
             <StyledTh>지방소득세</StyledTh>
           </tr>
-        </thead>
-        <tbody>
+        </TableHeader>
+        <TableBody>
           {users.map((user, rowIndex) => (
             <tr key={rowIndex}>
-              <StyledTd>
+              <StyledTd className="align-center">
                 <input
                   type="checkbox"
                   checked={checkedRows.includes(rowIndex) || user.merge}
@@ -127,8 +134,10 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
                   disabled={!!user.merge}
                 />
               </StyledTd>
-              <StyledTd>{formatNumberWithComma(user.employeeName)}</StyledTd>
-              <StyledTd>
+              <StyledTd className="align-center">
+                {formatNumberWithComma(user.employeeName)}
+              </StyledTd>
+              <StyledTd className="align-center">
                 <Input
                   value={formatNumberWithComma(user.basicSalary) /*기본급*/}
                   onChange={(e) => handleCellChange(rowIndex, BASICSALARY, e.target.value)}
@@ -139,7 +148,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>
                 {formatNumberWithComma(user.mealAllowance) /*식비 user.mealAllowance*/}
               </StyledTd>
-              <StyledTd>
+              <StyledTd className="align-center">
                 <Input
                   value={formatNumberWithComma(user.additionalAllowance) /*추가수당*/}
                   onChange={(e) => handleCellChange(rowIndex, ADDITIONALALLOWANCE, e.target.value)}
@@ -157,11 +166,11 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>{formatNumberWithComma(user.localIncomeTax) /*지방소득세*/}</StyledTd>
             </tr>
           ))}
-        </tbody>
-        <tfoot>
-          <FooterRow>
-            <StyledTd>합계</StyledTd>
-            <StyledTd className="footer-point-color">{checkedRows.length}명</StyledTd>
+        </TableBody>
+        <TableFooter>
+          <tr>
+            <StyledTd className="align-center">합계</StyledTd>
+            <StyledTd className="footer-point-color align-center">{checkedRows.length}명</StyledTd>
             <StyledTd>
               {formatNumberWithComma(
                 checkedUsers.reduce((acc, user) => acc + +user.basicSalary, 0),
@@ -205,8 +214,8 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
                 checkedUsers.reduce((acc, user) => acc + +user.localIncomeTax, 0),
               )}
             </StyledTd>
-          </FooterRow>
-        </tfoot>
+          </tr>
+        </TableFooter>
       </StyledTable>
     </TableContainer>
   )
@@ -214,49 +223,99 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
 // 테이블 컨테이너 스타일
 const TableContainer = styled.div`
-  width: 1484px;
-  height: 763px;
-  border: 1px solid #ddd;
-  overflow-y: auto;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--point-gray);
+  height: calc(100% - 6rem);
+  overflow: auto;
 `
 
 const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
+  table-layout: auto;
   text-align: center;
-  font-size: 1.6rem;
   position: relative;
 
-  thead th {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  col:nth-child(1) {
+    width: 5%;
+    min-width: 60px;
+  }
+  col:nth-child(2) {
+    width: 5%;
+    min-width: 100px;
+    border-right: none;
+  }
+  col:nth-child(n + 3) {
+    width: auto;
+    min-width: 120px;
+  }
+
+  thead th,
+  tfoot td {
     vertical-align: middle;
+    padding: 1.8rem 1rem;
+  }
+
+  tbody td,
+  tfoot td {
+    text-align: right;
+  }
+
+  .align-center {
+    text-align: center;
   }
 `
+const cellStyle = css`
+  border-bottom: 1px solid var(--point-gray);
+  border-right: 1px solid var(--point-gray);
+  padding: 1rem;
 
+  &:last-child {
+    border-right: none;
+  }
+`
 const StyledTh = styled.th`
-  background: var(--background-main);
-  border: 1px solid var(--point-gray);
-  padding: 1.8rem 2rem;
+  ${cellStyle}
 `
 
 const StyledTd = styled.td`
-  border: 1px solid var(--point-gray);
-  padding: 1.8rem 2rem;
+  ${cellStyle}
 `
 
 const Input = styled.input`
-  width: 14rem;
-  height: 3.4rem;
-  padding-left: 1rem;
+  max-width: 14rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.8rem;
   border: 1px solid #d9d9d9;
-  color: var(--font-sub);
   outline: none;
   background: ${(props) => (props.$userMerged ? 'var(--background-main)' : 'transparent')};
-  font-size: 1.6rem;
+  text-align: right;
+
+  &:disabled {
+    color: var(--font-sub);
+    cursor: no-drop;
+  }
 `
 
-const FooterRow = styled.tr`
+const TableHeader = styled.thead`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--background-main);
+`
+
+const TableBody = styled.tbody`
+  tr:last-child {
+    td {
+      border-bottom: none;
+    }
+  }
+`
+
+const TableFooter = styled.tfoot`
   background: var(--background-main);
   font-weight: 600;
   text-align: center;
@@ -266,5 +325,9 @@ const FooterRow = styled.tr`
 
   .footer-point-color {
     color: var(--main);
+  }
+
+  td {
+    border-top: 1px solid var(--point-gray);
   }
 `

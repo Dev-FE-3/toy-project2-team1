@@ -153,18 +153,16 @@ export default function PayStub() {
           <Button type="button" variant="primary" onClick={sendUsersPayStub}>
             급여마감
           </Button>
-          <Modal isOpen={isModalOpen} onClose={handleCloseModal} width="600px">
-            <Notification isSuccess={isSuccess} handleCloseModal={handleCloseModal} />
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal} width="400px">
+            <Notification isSuccess={isSuccess} message={isSuccess ? '정상적으로 처리되었습니다' : '오류발생, 관리자에게 문의하세요'} />
           </Modal>
         </div>
       </Title>
-      <Contents>
-        <PayStubTable
-          checkedUsers={checkedUsers}
-          setCheckedUsers={setCheckedUsers}
-          isLoading={isLoading}
-        ></PayStubTable>
-      </Contents>
+      <PayStubTable
+        checkedUsers={checkedUsers}
+        setCheckedUsers={setCheckedUsers}
+        isLoading={isLoading}
+      ></PayStubTable>
     </ContentWrap>
   )
 }
@@ -172,6 +170,7 @@ export default function PayStub() {
 const Title = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 
   .paystub-date {
     display: flex;
@@ -184,21 +183,16 @@ const Title = styled.div`
   }
 
   .paystub--current {
-    width: 14rem;
     text-align: center;
     margin-left: 1rem;
     margin-right: 1rem;
-    font-size: 2.4rem;
+    font-size: 2rem;
     font-weight: 600;
   }
 
   .payStub-btns {
     display: flex;
     justify-content: space-between;
-    width: 21rem;
+    gap: 1rem;
   }
-`
-const Contents = styled.div`
-  overflow: auto;
-  margin-top: 2rem;
 `
