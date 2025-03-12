@@ -11,6 +11,7 @@ const StyledContentWrap = styled.div`
   border-radius: 1.2rem;
   padding: 4rem;
   overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
 
   ${({ customStyle }) =>
     customStyle &&
