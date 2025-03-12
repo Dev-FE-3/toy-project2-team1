@@ -6,6 +6,12 @@ import { formatNumberWithComma } from '@/shared/utils/comma'
 import {
   ADDITIONALALLOWANCE,
   BASICSALARY,
+  CALC_EMPLOYMENTINSURANCE,
+  CALC_HEALTHINSURANCE,
+  CALC_INCOMETAX,
+  CALC_LOCALINCOMETAX,
+  CALC_LONGTERMCAREINSURANCE,
+  CALC_NATIONALPENSION,
   EMPLOYMENTINSURANCE,
   HEALTHINSURANCE,
   INCOMETAX,
@@ -55,12 +61,12 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
       +updatedUsers[rowIndex][MEALALLOWANCE] +
       +updatedUsers[rowIndex][ADDITIONALALLOWANCE]
 
-    updatedUsers[rowIndex][NATIONALPENSION] = Math.ceil(paymentItems * 0.045) // 국민연금
-    updatedUsers[rowIndex][HEALTHINSURANCE] = Math.ceil(paymentItems * 0.03545) // 건강보험
-    updatedUsers[rowIndex][LONGTERMCAREINSURANCE] = Math.ceil(paymentItems * 0.00459) // 장기요양보험
-    updatedUsers[rowIndex][EMPLOYMENTINSURANCE] = Math.ceil(paymentItems * 0.009) // 고용보험
-    updatedUsers[rowIndex][INCOMETAX] = Math.ceil(paymentItems * 0.05) // 근로소득세
-    updatedUsers[rowIndex][LOCALINCOMETAX] = Math.ceil(paymentItems * 0.005) // 지방소득세
+    updatedUsers[rowIndex][NATIONALPENSION] = CALC_NATIONALPENSION(paymentItems) // 국민연금
+    updatedUsers[rowIndex][HEALTHINSURANCE] = CALC_HEALTHINSURANCE(paymentItems) // 건강보험
+    updatedUsers[rowIndex][LONGTERMCAREINSURANCE] = CALC_LONGTERMCAREINSURANCE(paymentItems) // 장기요양보험
+    updatedUsers[rowIndex][EMPLOYMENTINSURANCE] = CALC_EMPLOYMENTINSURANCE(paymentItems) // 고용보험
+    updatedUsers[rowIndex][INCOMETAX] = CALC_INCOMETAX(paymentItems) // 근로소득세
+    updatedUsers[rowIndex][LOCALINCOMETAX] = CALC_LOCALINCOMETAX(paymentItems) // 지방소득세
 
     setUsers(updatedUsers)
   }
