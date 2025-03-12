@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import Modal from '@/shared/components/modal/Modal'
 import Button from '@/shared/components/button/Button'
 import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
+import { EventModalCatLabel } from './AddEventModal'
 
 export default function EditEventModal() {
   const dispatch = useDispatch()
@@ -96,27 +97,23 @@ export default function EditEventModal() {
         <div className="categorySelector">
           {/* 카테고리 선택 버튼 */}
           {eventCategories.map((category) => (
-            <Button
+            <EventModalCatLabel
               key={category.eventCategory}
-              $variant={category.categoryStyle}
+              $labelType={category.categoryStyle}
               className={`categoryButton ${
                 selectedCategory === category.eventCategory ? 'active' : 'inactive'
               }`}
               onClick={() => setSelectedCategory(category.eventCategory)}
             >
               {category.categoryName}
-            </Button>
+            </EventModalCatLabel>
           ))}
         </div>
 
         <div className="modalButtonContainer">
-          <button className="cancelButton" onClick={() => dispatch(setModalEditMode(false))}>
-            취소
-          </button>
-
-          <button className="modalAddEventButton" onClick={handleEditEvent}>
+          <Button className="modalAddEventButton" variant="primary" onClick={handleEditEvent}>
             일정 수정
-          </button>
+          </Button>
         </div>
       </ModalChildren>
     </Modal>
@@ -216,7 +213,6 @@ const ModalChildren = styled.div.withConfig({
 
       &.active {
         opacity: 1;
-        /* background-color: red; */
       }
     }
   }
@@ -224,21 +220,5 @@ const ModalChildren = styled.div.withConfig({
   .modalButtonContainer {
     display: flex;
     justify-content: flex-end;
-
-    .cancelButton,
-    .modalAddEventButton {
-      margin-right: 0.5rem;
-      border-radius: 0.5rem;
-      border: 1px solid #d1d5db;
-      background-color: white;
-      padding: 0.5rem 1rem;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #6b7280;
-
-      &:hover {
-        background-color: #f3f4f6;
-      }
-    }
   }
 `

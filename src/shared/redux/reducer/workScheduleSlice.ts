@@ -39,7 +39,7 @@ interface WorkScheduleState {
 }
 
 // 초기 상태 정의
-const initialState: WorkScheduleState = {
+export const initialState: WorkScheduleState = {
   calendarEvents: [], // 일정 목록
   isSidebarOpen: false, // 사이드바 열림 여부
   modalAddMode: false, // 모달(추가 모드) 활성화 여부

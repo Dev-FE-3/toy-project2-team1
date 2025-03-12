@@ -5,9 +5,13 @@ import payStubReducer, { initialState as payStubInitialState } from '../reducer/
 import userPayStubReducer, {
   initialState as userPayStubInitialState,
 } from '../reducer/userPayStubSlice'
-import workScheduleReducer from '../reducer/workScheduleSlice'
-import approvalReducer, { initialState as approvalInitialState } from '../reducer/approvalSlice';
-import myDocumentReducer, { initialState as myDocumentInitialState } from '../reducer/myDocumentSlice';
+import workScheduleReducer, {
+  initialState as workScheduleInitialState,
+} from '../reducer/workScheduleSlice'
+import approvalReducer, { initialState as approvalInitialState } from '../reducer/approvalSlice'
+import myDocumentReducer, {
+  initialState as myDocumentInitialState,
+} from '../reducer/myDocumentSlice'
 
 // 세션 스토리지에서 상태 불러오기
 const loadState = () => {
@@ -35,6 +39,7 @@ const loadState = () => {
 
 // 초기 상태를 불러옴
 const preloadedState = loadState()
+// 리듀서 합치기
 const rootReducer = (state, action) => {
   if (action.type === 'RESET_STATE') {
     return {
