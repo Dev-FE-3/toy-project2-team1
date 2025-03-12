@@ -62,4 +62,5 @@ const StyledButton = styled.button`
     color: var(--font-sub);
     cursor: not-allowed;
   }
+  ${({ $customStyle }) => $customStyle}
 `

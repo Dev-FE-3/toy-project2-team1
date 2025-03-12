@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { INPUT_ICONS, INPUT_ICON_PATHS } from '@/shared/constants/input/inputCons'
 
 export default function Input({ icon, ...props }) {
   return <InputStyle $icon={icon} {...props} />
@@ -17,10 +18,9 @@ const InputStyle = styled.input`
   font-weight: 500;
 
   ${(props) =>
-    props.$icon === 'login'
-      ? `background-image: url('/public/images/icon-input-mail.png');`
-      : `background-image: url('/public/images/icon-input-password.png');
-    `}
+    props.$icon === INPUT_ICONS.LOGIN
+      ? `background-image: url(${INPUT_ICON_PATHS[INPUT_ICONS.LOGIN]});`
+      : `background-image: url(${INPUT_ICON_PATHS[INPUT_ICONS.PASSWORD]});`}
 
   &::placeholder {
     color: #c3c3c3;

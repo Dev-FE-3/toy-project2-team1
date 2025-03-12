@@ -1,4 +1,4 @@
-import { styled } from 'styled-components'
+import { styled, css } from 'styled-components'
 import Input from '@/shared/components/input/Input'
 import Button from '@/shared/components/button/Button'
 import LoginLinks from './components/LoginLinks'
@@ -12,6 +12,7 @@ import { fetchUserData } from '@/shared/api/firebase/fetchUserData'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { INPUT_ICONS, INPUT_TYPES, INPUT_PLACEHOLDERS } from '@/shared/constants/input/inputCons'
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -68,13 +69,13 @@ export default function Login() {
       </LoginTop>
       <LoginBottom>
         <Controller
-          name="email"
+          name={INPUT_TYPES.EMAIL}
           control={control}
           render={({ field }) => (
             <Input
-              type="text"
-              placeholder="이메일 주소"
-              icon="login"
+              type={INPUT_TYPES.TEXT}
+              placeholder={INPUT_PLACEHOLDERS.EMAIL}
+              icon={INPUT_ICONS.LOGIN}
               value={field.value}
               onChange={field.onChange}
             />
@@ -83,13 +84,13 @@ export default function Login() {
         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
         <Controller
-          name="password"
+          name={INPUT_TYPES.PASSWORD}
           control={control}
           render={({ field }) => (
             <Input
-              type="password"
-              placeholder="비밀번호"
-              icon="password"
+              type={INPUT_TYPES.PASSWORD}
+              placeholder={INPUT_PLACEHOLDERS.PASSWORD}
+              icon={INPUT_ICONS.PASSWORD}
               value={field.value}
               onChange={field.onChange}
             />
@@ -97,7 +98,7 @@ export default function Login() {
         />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         {loginError && <ErrorComponent />}
-        <Button type="submit" isFullWidth style={{ height: '5.6rem', fontWeight: '700' }}>
+        <Button type="submit" isFullWidth $customStyle={BtnCustomStyle}>
           로그인 하기
         </Button>
         <LoginLinks />
@@ -105,6 +106,11 @@ export default function Login() {
     </LoginForm>
   )
 }
+
+const BtnCustomStyle = css`
+  height: 5.6rem;
+  font-weight: 700;
+`
 
 const LoginForm = styled.form`
   display: flex;
