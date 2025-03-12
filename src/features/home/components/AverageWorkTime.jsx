@@ -1,8 +1,11 @@
 import Card from '@/shared/components/card/Card'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-export default function AverageWorkTime({ employeeName }) {
+export default function AverageWorkTime() {
+  const { name } = useSelector((state) => state.user.name)
+
   const [isAnimated, setIsAnimated] = useState(false)
   useEffect(() => {
     setIsAnimated(true)
@@ -34,7 +37,7 @@ export default function AverageWorkTime({ employeeName }) {
             </LegendItem>
             <LegendItem $label={'user'}>
               <span className="dot"></span>
-              <span>{employeeName}님</span>
+              <span>{name}님</span>
             </LegendItem>
           </Legend>
           <WorkTime>
