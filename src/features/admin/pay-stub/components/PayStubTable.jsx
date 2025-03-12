@@ -268,7 +268,7 @@ const StyledTable = styled.table`
     text-align: center;
   }
 `
-const cellStyle = css`
+const cellStyle = `
   border-bottom: 1px solid var(--point-gray);
   border-right: 1px solid var(--point-gray);
   padding: 1rem;
