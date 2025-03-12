@@ -11,7 +11,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore'
 import { getApp } from 'firebase/app'
-import { auth } from '../firebase'
+import { auth } from '../../../shared/api/firebase/firebase'
 
 // 데이터베이스를 안전하게 가져오는 함수
 const setDb = () => {
@@ -86,7 +86,7 @@ export const addWorkSchedule = async (workSchedule) => {
     const docRef = await addDoc(workScheduleRef, workSchedule)
     return docRef
   } else {
-    console.error('User UID not found')
+    console.error('사용자 UID를 찾을 수 없습니다.')
   }
 }
 
@@ -97,7 +97,7 @@ export const getWorkScheduleByUid = async () => {
     const userUid = await getCurrentUserUid()
 
     if (!userUid) {
-      console.error('User UID not found')
+      console.error('사용자 UID를 찾을 수 없습니다.')
       return []
     }
 
@@ -106,7 +106,7 @@ export const getWorkScheduleByUid = async () => {
     const querySnapshot = await getDocs(q)
 
     if (querySnapshot.empty) {
-      console.log('No work schedule found')
+      console.log('일정을 찾을 수 없습니다.')
       return []
     } else {
       // 일정 목록 추출 후 반환
@@ -130,7 +130,7 @@ export const updateWorkSchedule = async (workSchedule) => {
   const userUid = await getCurrentUserUid()
 
   if (!userUid) {
-    console.error('User UID not found')
+    console.error('사용자 UID를 찾을 수 없습니다.')
     return []
   }
 
@@ -141,7 +141,6 @@ export const updateWorkSchedule = async (workSchedule) => {
   if (docRefSnapshot.exists()) {
     // updateDoc는 반환값 없음
     await updateDoc(workScheduleRef, workSchedule.editEventData)
-    console.log('일정 수정 성공')
   } else {
     console.error('일정 수정 실패: 일정을 찾을 수 없습니다.')
   }
@@ -163,7 +162,8 @@ export const deleteWorkSchedule = async (docId) => {
 
   if (docRefSnapshot.exists()) {
     await deleteDoc(workScheduleRef)
-    console.log('일정 삭제 성공')
+
+    // console.log('일정 삭제 성공')
   } else {
     console.error('일정 삭제 실패: 일정을 찾을 수 없습니다.')
   }

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { initSelectedDate, setIsSidebarOpen } from '@/shared/redux/reducer/workScheduleSlice'
-import { getWorkScheduleByUid } from '@/shared/api/firebase/services/workScheduleService'
+import { getWorkScheduleByUid } from '@/features/work-schedule/api/workScheduleService'
 import { thisYear, thisMonth } from './constants'
 import styled from 'styled-components'
 import Calendar from './components/Calendar'

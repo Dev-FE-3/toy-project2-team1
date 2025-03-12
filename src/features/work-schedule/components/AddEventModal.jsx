@@ -5,7 +5,7 @@ import Modal from '@/shared/components/modal/Modal'
 import Button from '@/shared/components/button/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalAddMode } from '../../../shared/redux/reducer/workScheduleSlice'
-import { addWorkSchedule } from '../../../shared/api/firebase/services/workScheduleService'
+import { addWorkSchedule } from '../api/workScheduleService'
 import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
 
 const AddEventModal = () => {

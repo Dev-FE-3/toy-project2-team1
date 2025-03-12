@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setModalEditMode } from '@/shared/redux/reducer/workScheduleSlice'
-import { updateWorkSchedule } from '@/shared/api/firebase/services/workScheduleService'
+import { updateWorkSchedule } from '@/features/work-schedule/api/workScheduleService'
 import { eventCategories, weekDays } from '../constants'
 import styled from 'styled-components'
 import Modal from '@/shared/components/modal/Modal'
