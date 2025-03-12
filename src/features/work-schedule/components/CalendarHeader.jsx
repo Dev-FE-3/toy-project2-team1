@@ -5,9 +5,6 @@ const CalendarHeader = ({ currentYear, currentMonth, handleMoveMonth, handleMove
   return (
     <HeaderContainer>
       <div className="yearMonthContainer">
-        <h1 className="yearText">{`${currentYear}년 ${monthNames[currentMonth]}`}</h1>
-      </div>
-      <nav className="headerBtnGroup">
         {/* 이전 달 버튼 */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -15,24 +12,15 @@ const CalendarHeader = ({ currentYear, currentMonth, handleMoveMonth, handleMove
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           className="prevMonthBtn lucide lucide-chevron-left"
           onClick={() => handleMoveMonth('prevMonth')}
         >
-          <path d="m15 18-6-6 6-6" />
+          <path
+            d="M10.4142 12L15.7071 6.70711C16.0976 6.31658 16.0976 5.68342 15.7071 5.29289C15.3166 4.90237 14.6834 4.90237 14.2929 5.29289L8.29289 11.2929C7.90237 11.6834 7.90237 12.3166 8.29289 12.7071L14.2929 18.7071C14.6834 19.0976 15.3166 19.0976 15.7071 18.7071C16.0976 18.3166 16.0976 17.6834 15.7071 17.2929L10.4142 12Z"
+            fill="#2D3648"
+          />
         </svg>
-        {/* 오늘 버튼 */}
-        <HeaderBtn
-          className="headerBtn"
-          type="button"
-          variant="primary"
-          onClick={handleMoveToToday}
-        >
-          오늘
-        </HeaderBtn>
+        <h1 className="yearText">{`${currentYear}년 ${monthNames[currentMonth]}`}</h1>
         {/* 다음 달 버튼 */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -40,21 +28,19 @@ const CalendarHeader = ({ currentYear, currentMonth, handleMoveMonth, handleMove
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           className="nextMonthBtn lucide lucide-chevron-right"
           onClick={() => handleMoveMonth('nextMonth')}
         >
-          <path d="m9 18 6-6-6-6" />
+          <path
+            d="M9.70711 5.29289C9.31658 4.90237 8.68342 4.90237 8.29289 5.29289C7.90237 5.68342 7.90237 6.31658 8.29289 6.70711L13.5858 12L8.29289 17.2929C7.90237 17.6834 7.90237 18.3166 8.29289 18.7071C8.68342 19.0976 9.31658 19.0976 9.70711 18.7071L15.7071 12.7071C16.0976 12.3166 16.0976 11.6834 15.7071 11.2929L9.70711 5.29289Z"
+            fill="#2D3648"
+          />
         </svg>
-        {/* <button
-          className="headerBtn"
-          onClick={() => handleMoveMonth('nextMonth')}
-          aria-label="다음 달"
-        ></button> */}
-      </nav>
+      </div>
+      {/* 오늘 버튼 */}
+      <HeaderBtn className="headerBtn" type="button" variant="primary" onClick={handleMoveToToday}>
+        오늘
+      </HeaderBtn>
       {/* 요일 레이블 */}
       <WeekdaysContainer>
         {weekDays.map((weekday, idx) => (
@@ -79,7 +65,7 @@ const HeaderContainer = styled.header.withConfig({
   position: sticky;
   top: 0;
   z-index: 20;
-  padding: 1rem 1.5rem 0;
+  padding-bottom: 1.5rem;
   background-color: white;
 
   .yearMonthContainer {
@@ -95,11 +81,6 @@ const HeaderContainer = styled.header.withConfig({
       display: flex;
       align-items: center;
     }
-  }
-
-  .headerBtnGroup {
-    display: flex;
-    gap: 0.25rem;
 
     .prevMonthBtn,
     .nextMonthBtn {
@@ -111,6 +92,8 @@ const HeaderContainer = styled.header.withConfig({
 
 const HeaderBtn = styled(Button)`
   cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.2rem;
 
   &:focus-visible {
     outline: 2px solid #3b82f6;
@@ -121,7 +104,7 @@ const HeaderBtn = styled(Button)`
 const WeekdaysContainer = styled.section`
   display: flex;
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
   border-bottom: 1px solid #e2e8f0;
   padding-bottom: 0.75rem;
 
