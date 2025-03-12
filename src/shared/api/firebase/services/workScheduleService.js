@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore'
 import { getApp } from 'firebase/app'
 import { auth } from '../firebase'
+
 // 데이터베이스를 안전하게 가져오는 함수
 const setDb = () => {
   try {

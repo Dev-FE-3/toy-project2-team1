@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 
 export default function AverageWorkTime() {
-  const { name } = useSelector((state) => state.user.name)
+  const { name } = useSelector((state) => state.user)
 
   const [isAnimated, setIsAnimated] = useState(false)
   useEffect(() => {

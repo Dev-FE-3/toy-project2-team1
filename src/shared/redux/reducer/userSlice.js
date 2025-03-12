@@ -18,18 +18,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.uid = action.payload.data.uid
-      state.name = action.payload.data.name
-      state.role = action.payload.data.role
-      state.email = action.payload.data.email
-      state.hireDate = action.payload.data.hireDate
-      state.jobTitle = action.payload.data.jobTitle
-      state.phoneNumber = action.payload.data.phoneNumber
-      state.totalLeaves = action.payload.data.totalLeaves
-      state.usedLeaves = action.payload.data.usedLeaves
-      state.department = action.payload.data.department
-    },
+    setUser: (state, action) => (state = { ...action.payload.data }),
   },
 })
 

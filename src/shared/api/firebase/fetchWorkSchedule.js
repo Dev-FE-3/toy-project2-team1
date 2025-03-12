@@ -1,8 +1,10 @@
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'
+import { auth } from './firebase'
 
 export const fetchWorkSchedule = async () => {
   const db = getFirestore()
-  const userUid = sessionStorage.getItem('uid')
+  // const userUid = sessionStorage.getItem('uid')
+  const userUid = auth.currentUser.uid
 
   if (!userUid) {
     console.error('User UID not found')
