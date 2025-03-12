@@ -41,7 +41,7 @@ export function Table({ filterValue }) {
         setTimeout(() => {
           dispatch(setData(fetchedData)); // 전체 데이터 설정
           dispatch(setLoading(false));
-        }, 1000);
+        }, 200);
       } catch (err) {
         dispatch(setError(err.message));
         dispatch(setLoading(false));

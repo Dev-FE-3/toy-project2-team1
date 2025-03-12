@@ -40,7 +40,7 @@ export function Table({ filterValue }) {
         setTimeout(() => {
           dispatch(setData(fetchedData));
           dispatch(setLoading(false));
-        }, 1000);
+        }, 200);
       } catch (err) {
         dispatch(setError(err.message));
         dispatch(setLoading(false));
