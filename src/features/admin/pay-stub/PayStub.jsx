@@ -2,18 +2,23 @@ import styled from 'styled-components'
 import PayStubTable from './components/PayStubTable'
 import ContentWrap from '@/shared/components/content-wrap/ContentWrap'
 import Button from '@/shared/components/button/Button'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import getDate from '../../../shared/utils/date'
 import useThrottle from '../../../shared/hooks/useThrottle'
 import { useDispatch } from 'react-redux'
 import { upsertDocumentsForUsers } from './api/getCollectionWithFilter'
 import { setDate } from '../../../shared/redux/reducer/payStubSlice'
+import { copyAndInsertPayrollData } from './api/copyAndInsertPayrollData'
+import Modal from '../../../shared/components/modal/Modal'
+import Notification from '../../../shared/components/modal/Notification'
 
 export default function PayStub() {
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
   const currentDate = useRef([getDate('year'), getDate('month')].join(''))
   const [isLoading, setIsLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
   const [checkedUsers, setCheckedUsers] = useState([])
   const dispatch = useDispatch()
@@ -51,23 +56,41 @@ export default function PayStub() {
     setYear(newYear)
   }
 
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false)
+  }, [])
+
+  const createPayStub = async () => {
+    const date = year + String(month).padStart(2, '0')
+
+    try {
+      const result = await copyAndInsertPayrollData('202502', date)
+
+      if (result) setIsSuccess(true)
+    } catch (e) {
+      console.log(e)
+      setIsSuccess(false)
+    } finally {
+      setIsModalOpen(true)
+    }
+  }
+
   const sendUsersPayStub = async () => {
     setIsLoading(true)
 
     try {
       const result = await upsertDocumentsForUsers(checkedUsers)
       if (result) {
-        alert('급여 정산이 완료되었습니다.')
+        setIsSuccess(true)
       } else {
-        alert('급여 에러!! 관리자에게 문의하세요')
+        setIsSuccess(false)
       }
+      setIsModalOpen(true)
     } catch (e) {
       console.log(e)
-      alert('급여 정산 중 오류가 발생했습니다.')
+      setIsSuccess(false)
     } finally {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
+      setIsLoading(false)
     }
   }
 
@@ -123,9 +146,17 @@ export default function PayStub() {
             </svg>
           </div>
         </div>
-        <Button type="button" variant="primary" onClick={sendUsersPayStub}>
-          급여마감
-        </Button>
+        <div className="payStub-btns">
+          <Button type="button" variant="secondary" onClick={createPayStub}>
+            대상자 불러오기
+          </Button>
+          <Button type="button" variant="primary" onClick={sendUsersPayStub}>
+            급여마감
+          </Button>
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal} width="600px">
+            <Notification isSuccess={isSuccess} handleCloseModal={handleCloseModal} />
+          </Modal>
+        </div>
       </Title>
       <Contents>
         <PayStubTable
@@ -159,6 +190,12 @@ const Title = styled.div`
     margin-right: 1rem;
     font-size: 2.4rem;
     font-weight: 600;
+  }
+
+  .payStub-btns {
+    display: flex;
+    justify-content: space-between;
+    width: 21rem;
   }
 `
 const Contents = styled.div`
