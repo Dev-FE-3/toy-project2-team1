@@ -23,8 +23,8 @@ export default function EmployeeInfo() {
         <li className="d-flex etc">
           <p>{`${serviceDuration.years}년 ${serviceDuration.months}개월`} 근무</p>
           <div className="d-flex">
-            <p className="etc-phone">{phoneNumber}</p>
-            <p className="etc-email">{email}</p>
+            {phoneNumber && <p className="etc-phone">{phoneNumber}</p>}
+            {email && <p className="etc-email">{email}</p>}
           </div>
         </li>
       </InfoWrap>
