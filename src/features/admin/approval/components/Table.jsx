@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllPayrollCorrections } from '@/shared/api/firebase/services/payrollCorrectionsService';
+import { getAllPayrollCorrections } from '@/features/admin/approval/api/GetPayrollCorrections';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { ExpandedRow } from './ExpandedRow';
@@ -41,7 +41,7 @@ export function Table({ filterValue }) {
         setTimeout(() => {
           dispatch(setData(fetchedData)); // 전체 데이터 설정
           dispatch(setLoading(false));
-        }, 1000);
+        }, 200);
       } catch (err) {
         dispatch(setError(err.message));
         dispatch(setLoading(false));

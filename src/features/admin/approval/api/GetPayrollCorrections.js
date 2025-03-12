@@ -15,6 +15,7 @@ export const getAllPayrollCorrections = async () => {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
+      requestDate: doc.data().requestDate.toDate().toISOString(), // date 객체로 변환
     }));
   } catch (error) {
     throw new Error('payrollCorrections 데이터를 불러오는데 실패했습니다. ' + error.message);
@@ -38,7 +39,8 @@ export const getPayrollCorrectionsByUserId = async (uid) => {
     // 데이터를 가공하여 반환
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
+      requestDate: doc.data().requestDate.toDate().toISOString(), // date 객체로 변환
     }));
   } catch (error) {
     throw new Error('payrollCorrections 데이터를 불러오는데 실패했습니다. ' + error.message);

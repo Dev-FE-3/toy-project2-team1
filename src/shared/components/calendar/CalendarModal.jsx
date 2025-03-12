@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { styled, css } from 'styled-components'
-import getDate from '../../utils/date'
+import { getDate } from '../../utils/date'
 
 export default function CalendarModal({ isShow, date, handleUpdateDate, top, left }) {
   const [year, setYear] = useState(date.year)
