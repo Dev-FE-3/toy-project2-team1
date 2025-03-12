@@ -46,7 +46,7 @@ export default function Modal({
         <Content $title={title}>{children}</Content>
       </ModalContainer>
     </Overlay>,
-    document.querySelector('main'),
+    document.querySelector('body'),
   )
 }
 
