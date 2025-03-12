@@ -3,17 +3,16 @@ import reset from 'styled-reset'
 
 const GlobalStyle = createGlobalStyle`
 ${reset}
-/* other styles */
 
 @font-face {
-  font-family: "Inter";
-  src: url("/font/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-family: "Pretendard";
+  src: url("/font/PretendardVariable.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
 }
 
 :root {
-  font-family: "Inter", sans-serif;
+  font-family: "Pretendard", sans-serif;
   --background-sub: #F7F2FF;
   --background-main: #F3F4F6;
   --box-container: #FFFFFF;
@@ -27,19 +26,17 @@ ${reset}
 }
 
 * {
-  font-size: 1.4rem;
+  font-family: "Pretendard", sans-serif;
   box-sizing: border-box;
 }
-
+  
 html {
   font-size: 62.5%;
 }
-
+    
 body {
   font-size: 1.4rem;
-  font-family: "Inter", sans-serif;
   font-weight: 400;
-  font-variation-settings: normal;
   background-color: var(--background-main);
 }
 
