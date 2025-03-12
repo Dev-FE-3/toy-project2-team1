@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { db } from '@/shared/api/firebase/firebase'
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import SelectBox from '@/shared/components/SelectBox/SelectBox';
+import SelectBox from '@/shared/components/selectBox/SelectBox';
 import Button from '@/shared/components/button/Button';
 import { formatDate } from '@/shared/utils/date'
 import { Tr, ToggleImage } from '../TableCommonStyles'
