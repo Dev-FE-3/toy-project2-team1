@@ -107,7 +107,7 @@ const CalendarContainer = styled.div.withConfig({
   max-height: calc(100vh - 80px - 8rem);
   background-color: var(--box-container);
   border-radius: 1.2rem;
-  padding: 2.5rem;
+  padding: 4rem;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
   position: relative;

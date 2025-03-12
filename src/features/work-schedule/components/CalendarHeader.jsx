@@ -73,6 +73,7 @@ const HeaderContainer = styled.header.withConfig({
     display: flex;
     align-items: center;
     gap: 1rem;
+    height: 3.8rem;
 
     .yearText {
       font-size: 2rem;
