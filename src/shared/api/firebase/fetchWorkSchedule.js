@@ -7,7 +7,6 @@ export const fetchWorkSchedule = async () => {
   const userUid = auth.currentUser.uid
 
   if (!userUid) {
-    console.error('사용자 UID를 찾을 수 없습니다.')
     return []
   }
 
@@ -19,7 +18,6 @@ export const fetchWorkSchedule = async () => {
     const workScheduleData = querySnapshot.docs.map((doc) => doc.data())
     return workScheduleData
   } else {
-    console.log('일정을 찾을 수 없습니다.')
     return []
   }
 }
