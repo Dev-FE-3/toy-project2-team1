@@ -4,14 +4,16 @@ import calcServiceDuration from '../utils/calcServiceDuration'
 import { useSelector } from 'react-redux'
 
 export default function EmployeeInfo() {
-  const { name, email, hireDate, jobTitle, phoneNumber, department } = useSelector(
+  const { name, email, hireDate, jobTitle, phoneNumber, department, role } = useSelector(
     (state) => state.user,
   )
   const serviceDuration = calcServiceDuration(new Date(), new Date(hireDate))
 
   return (
     <Card title={'개인정보'}>
-      <ProfileImage />
+      <ProfileImage
+        $src={role ? '/public/images/home-profile.png' : '/public/images/home-profile2.png'}
+      />
       <InfoWrap>
         <li>
           <p className="department">{department}</p>
@@ -38,7 +40,7 @@ const ProfileImage = styled.div`
   border-radius: 50%;
   border: 1px solid var(--background-main);
   background-color: var(--point-gray);
-  background: url('/public/images/home-profile.png') center/cover;
+  background: url('${(props) => props.$src}') center/cover;
 `
 const InfoWrap = styled.ul`
   display: flex;
