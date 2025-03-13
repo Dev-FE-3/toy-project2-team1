@@ -1,5 +1,5 @@
 # 돈이 닿는 순간, DON SP!KE
-![cover](/public/images/cover.png)
+![cover](/public/images/service_overview.png)
 
 &nbsp;
 
