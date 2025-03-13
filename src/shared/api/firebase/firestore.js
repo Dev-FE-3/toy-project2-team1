@@ -5,7 +5,6 @@ import { db } from "./firebase";
 export const addDocument = async (collectionName, data) => {
   try {
     const docRef = await addDoc(collection(db, collectionName), data);
-    console.log("작성된 문서 id: ", docRef.id);
     return docRef.id;
   } catch (e) {
     console.error("문서 추가 중 오류 발생: ", e);
