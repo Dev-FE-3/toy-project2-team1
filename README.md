@@ -4,7 +4,7 @@
 &nbsp;
 
 ## ✨ 프로젝트 소개
-[배포 주소](https://venerable-beijinho-f4a0c4.netlify.app)
+[DON SP!KE 둘러보기](https://venerable-beijinho-f4a0c4.netlify.app)
 
 ### 돈이 스파이크처럼 정확하게 닿는 순간 — Don Sp!ke 🏐
 > **관리자가 보내고, 직원이 확인하고, 모두가 안심하는 급여 관리** <br>
@@ -27,43 +27,40 @@
 
 ## 🚀 주요 페이지와 기능
 
-### 홈 - 대시보드
-- 프로필 카드
-- 휴가 정보 확인
+### 로그인, 대시보드
+- 프로필 정보 확인
+- 휴가 정보 조회
 - 평균 근무시간 확인
-- 급여 정정 신청 내역 확인
-- 체크리스트
+- 급여 정정 신청 내역 조회
+- 개인 체크리스트
 
-![]
+  ![로그인/홈](./public/images/1.login,home.gif)
 
 ### 근무스케줄
-- 캘린더를 통한 근무 일정 관리
+- 캘린더를 통한 근무 일정 조회 및 관리
 
-![]
+  ![근무스케줄](./public/images/2.work-schedule.gif)
 
 ### 내 급여
-- 월 별 급여 명세서 확인
-- 급여 정정 신청
+- 월별 급여 명세서 확인 및 급여 정정 신청
 
-![]
+  ![내급여](./public/images/3.pay-stub.gif)
 
 ### 내 문서함
-- 나의 급여 정정 신청 내역 확인
-- 급여 정정에 대한 결재 상태 확인
+- 나의 급여 정정 신청 내역 조회 및 결재 상태 확인
 
-![]
+  ![내문서함](./public/images/4.my-document.gif)
 
 ### 관리자 - 급여 관리
-- 급여 대상자를 불러와 급여 전송
-- 기본급과 추가수당 변경 가능
+- 급여 대상자 확인 및 급여 전송
+- 기본급, 추가수당 관리
 
-![]
+  ![급여관리](./public/images/5.admin_pay-stub.gif)
 
 ### 관리자 - 결재함
-- 직원들의 급여 정정 신청 내역 확인
-- 급여 정정 신청에 대해 결재 가능
+- 직원들의 급여 정정 신청 내역 확인 및 결재 처리
 
-![]
+  ![결재함](./public/images/6.admin_approve.gif)
 
 &nbsp;
 
@@ -107,6 +104,7 @@
 |   Formatting    | ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E) |
 | Package Manager | ![Npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white) |
 |   Build Tools   | ![VITE](https://img.shields.io/badge/VITE-646CFF?style=for-the-badge&logo=Vite&logoColor=white) |
+|   Deployment    | ![netlify](https://img.shields.io/badge/netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white) |
 | Version Control | ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) |
 |  Collaboration  | ![Slack](https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white) |
 |     Design      | ![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white) |
