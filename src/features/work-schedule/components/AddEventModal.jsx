@@ -114,8 +114,8 @@ export default AddEventModal
 
 export const getCategoryColor = {
   primary: css`
-    background-color: var(--background-sub);
-    color: var(--main);
+    background-color:rgba(59, 131, 246, 0.1);
+    color: #3b82f6;
   `,
   secondary: css`
     background-color: #fbc02d33;
