@@ -20,14 +20,12 @@ export default function Modal({
     // ESC 키 이벤트 리스너 등록
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown)
-      document.querySelector('main').style.position = 'relative'
     }
 
     // 클린업 (isOpen이 false가 되거나, 컴포넌트가 언마운트될 때)
     // ESC 키 이벤트 리스너 제거
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
-      document.querySelector('main').style.removeProperty('position')
     }
   }, [isOpen, onClose])
 
