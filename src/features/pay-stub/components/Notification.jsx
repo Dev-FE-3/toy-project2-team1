@@ -15,7 +15,6 @@ export default function Notification({ isSuccess, isFail, handleCloseModal, mess
             {messageList.map((message, index) => (
               <p key={index}>
                 {message}
-                {index !== messageList.length - 1 && <br />}
               </p>
             ))}
           </div>
@@ -34,7 +33,6 @@ export default function Notification({ isSuccess, isFail, handleCloseModal, mess
             {messageList.map((message, index) => (
               <p key={index}>
                 {message}
-                {index !== messageList.length - 1 && <br />}
               </p>
             ))}
           </div>
