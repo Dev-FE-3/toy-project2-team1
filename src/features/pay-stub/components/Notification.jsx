@@ -11,12 +11,14 @@ export default function Notification({ isSuccess, isFail, handleCloseModal, mess
               <path d="M2 12 L10 20 L22 8" />
             </CheckIcon>
           </IconBackground>
-          {messageList.map((message, index) => (
-            <p key={index}>
-              {message}
-              {index !== messageList.length - 1 && <br />}
-            </p>
-          ))}
+          <div>
+            {messageList.map((message, index) => (
+              <p key={index}>
+                {message}
+                {index !== messageList.length - 1 && <br />}
+              </p>
+            ))}
+          </div>
         </NotificationContainer>
       )}
       {isFail && (
@@ -28,12 +30,14 @@ export default function Notification({ isSuccess, isFail, handleCloseModal, mess
               <path d="M22 2 L2 22" />
             </FailIcon>
           </IconBackground>
-          {messageList.map((message, index) => (
-            <p key={index}>
-              {message}
-              {index !== messageList.length - 1 && <br />}
-            </p>
-          ))}
+          <div>
+            {messageList.map((message, index) => (
+              <p key={index}>
+                {message}
+                {index !== messageList.length - 1 && <br />}
+              </p>
+            ))}
+          </div>
         </NotificationContainer>
       )}
     </>
