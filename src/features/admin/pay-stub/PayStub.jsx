@@ -13,14 +13,14 @@ import Modal from '../../../shared/components/modal/Modal'
 import Notification from '../../../shared/components/modal/Notification'
 
 export default function PayStub() {
+  const currentDate = useRef([getDate('year'), getDate('month')].join(''))
   const [year, setYear] = useState(getDate('year'))
   const [month, setMonth] = useState(getDate('month'))
-  const currentDate = useRef([getDate('year'), getDate('month')].join(''))
-  const [isLoading, setIsLoading] = useState(false)
+  const [checkedUsersCurrent, setCheckedUsersCurrent] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [isChange, setIsChange] = useState(false)
   const changeYear = useThrottle((options) => handleMonth(options), 1000)
-  const [checkedUsers, setCheckedUsers] = useState([])
   const dispatch = useDispatch()
 
   function handleMonth(options) {
@@ -68,7 +68,6 @@ export default function PayStub() {
 
       if (result) setIsSuccess(true)
     } catch (e) {
-      console.log(e)
       setIsSuccess(false)
     } finally {
       setIsModalOpen(true)
@@ -76,10 +75,8 @@ export default function PayStub() {
   }
 
   const sendUsersPayStub = async () => {
-    setIsLoading(true)
-
     try {
-      const result = await upsertDocumentsForUsers(checkedUsers)
+      const result = await upsertDocumentsForUsers(checkedUsersCurrent)
       if (result) {
         setIsSuccess(true)
       } else {
@@ -87,10 +84,9 @@ export default function PayStub() {
       }
       setIsModalOpen(true)
     } catch (e) {
-      console.log(e)
       setIsSuccess(false)
     } finally {
-      setIsLoading(false)
+      setIsChange((prev) => !prev)
     }
   }
 
@@ -160,9 +156,8 @@ export default function PayStub() {
       </Title>
       <Contents>
         <PayStubTable
-          checkedUsers={checkedUsers}
-          setCheckedUsers={setCheckedUsers}
-          isLoading={isLoading}
+          isChange={isChange}
+          setCheckedUsersCurrent={setCheckedUsersCurrent}
         ></PayStubTable>
       </Contents>
     </ContentWrap>
