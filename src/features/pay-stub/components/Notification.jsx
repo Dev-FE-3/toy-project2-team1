@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-export default function Notification({ isSuccess, isFail, handleCloseModal }) {
+export default function Notification({ isSuccess, isFail, handleCloseModal, messageList }) {
   return (
     <>
       {isSuccess && (
@@ -11,11 +11,12 @@ export default function Notification({ isSuccess, isFail, handleCloseModal }) {
               <path d="M2 12 L10 20 L22 8" />
             </CheckIcon>
           </IconBackground>
-          <p>
-            정상적으로 제출 되었습니다
-            <br />
-            진행 상태는 내 문서함에서 확인할 수 있습니다
-          </p>
+          {messageList.map((message, index) => (
+            <p key={index}>
+              {message}
+              {index !== messageList.length - 1 && <br />}
+            </p>
+          ))}
         </NotificationContainer>
       )}
       {isFail && (
@@ -27,11 +28,12 @@ export default function Notification({ isSuccess, isFail, handleCloseModal }) {
               <path d="M22 2 L2 22" />
             </FailIcon>
           </IconBackground>
-          <p>
-            현재 정정신청이 불가능합니다
-            <br />
-            인사팀에 문의하세요
-          </p>
+          {messageList.map((message, index) => (
+            <p key={index}>
+              {message}
+              {index !== messageList.length - 1 && <br />}
+            </p>
+          ))}
         </NotificationContainer>
       )}
     </>
