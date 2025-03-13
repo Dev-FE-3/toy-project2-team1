@@ -19,7 +19,7 @@ export const Pagination = ({
       setCurrentPage(page);
       onPageChange(page);
     }
-  },300 ); // delay
+  },1000 ); // delay
 
   const handlePageChange = (page) => {
     throttleHandlePageChange(page);
