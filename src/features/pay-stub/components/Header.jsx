@@ -13,6 +13,8 @@ export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isFail, setIsFail] = useState(false)
+  const [message, setMessage] = useState([])
+  const [isEmpty, setIsEmpty] = useState(false)
   const textareaRef = useRef(null)
 
   // redux 상태 가져오기
@@ -27,9 +29,14 @@ export default function Header() {
     setIsModalOpen(false)
     setIsSuccess(false)
     setIsFail(false)
+    setIsEmpty(false)
   }, [])
 
   const handleFormSubmit = async () => {
+    if (!textareaRef.current.value) {
+      setIsEmpty(true)
+      return
+    }
     try {
       const docId = await addDocument('payrollCorrections', {
         approvalStatus: '결재대기',
@@ -42,8 +49,10 @@ export default function Header() {
 
       if (docId) {
         setIsSuccess(true)
+        setMessage(['정상적으로 제출 되었습니다', '진행 상태는 내 문서함에서 확인할 수 있습니다'])
       } else {
         setIsFail(true)
+        setMessage(['현재 정정신청이 불가능합니다', '인사팀에 문의하세요'])
       }
     } catch (error) {
       return <div>{error}</div>
@@ -79,13 +88,25 @@ export default function Header() {
         </Button>
       </HeaderContainer>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title="정정신청" width="550px">
-        <Textarea ref={textareaRef} placeholder="신청 사유를 입력해주세요"></Textarea>
+        <FormWrap>
+          <Textarea ref={textareaRef} placeholder="신청 사유를 입력해주세요" />
+          {isEmpty && (
+            <EmptyMessage>
+              정정신청 사유를 작성하신 후, 제출 버튼을 눌러 주시기 바랍니다
+            </EmptyMessage>
+          )}
+        </FormWrap>
         <ButtonWrap>
           <Button type="button" onClick={handleFormSubmit}>
             제출
           </Button>
         </ButtonWrap>
-        <Notification isSuccess={isSuccess} isFail={isFail} handleCloseModal={handleCloseModal} />
+        <Notification
+          isSuccess={isSuccess}
+          isFail={isFail}
+          handleCloseModal={handleCloseModal}
+          messageList={message}
+        ></Notification>
       </Modal>
     </>
   )
@@ -136,4 +157,16 @@ const ButtonWrap = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+`
+
+const FormWrap = styled.div`
+  position: relative;
+  height: 100%;
+`
+const EmptyMessage = styled.p`
+  position: absolute;
+  bottom: -15px;
+  left: 5px;
+  font-size: 1.2rem;
+  color: var(--point-red);
 `

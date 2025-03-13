@@ -67,25 +67,24 @@ export default function PayStub() {
       const result = await copyAndInsertPayrollData('202502', date)
 
       if (result) setIsSuccess(true)
+      else setIsSuccess(false)
     } catch (e) {
       setIsSuccess(false)
     } finally {
       setIsModalOpen(true)
+      setIsChange((prev) => !prev)
     }
   }
 
   const sendUsersPayStub = async () => {
     try {
       const result = await upsertDocumentsForUsers(checkedUsersCurrent)
-      if (result) {
-        setIsSuccess(true)
-      } else {
-        setIsSuccess(false)
-      }
-      setIsModalOpen(true)
+      if (result) setIsSuccess(true)
+      else setIsSuccess(false)
     } catch (e) {
       setIsSuccess(false)
     } finally {
+      setIsModalOpen(true)
       setIsChange((prev) => !prev)
     }
   }
