@@ -21,7 +21,7 @@ import {
   NATIONALPENSION,
 } from '../constants/payStub'
 
-export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading }) {
+export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
   const [users, setUsers] = useState([])
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
@@ -29,14 +29,9 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
   const checkAll = () => {
     if (!isChecked) {
-      const uncheckedRows = users
-        .map((user, index) => ({ user, index }))
-        .filter(({ user }) => !user.merge)
-        .map(({ index }) => index)
-
-      setcheckedRows(uncheckedRows)
+      setcheckedRows(users)
     } else {
-      setcheckedRows([])
+      setcheckedRows((prev) => prev.filter((item) => item.merge))
     }
 
     setIsChecked((prev) => !prev)
@@ -44,9 +39,9 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
   const checkHandler = (e, rowIndex) => {
     if (e.target.checked) {
-      setcheckedRows((prev) => [...prev, rowIndex]) // 체크된 row 추가
+      setcheckedRows((prev) => [...prev, users[rowIndex]]) // 체크된 row 추가
     } else {
-      setcheckedRows((prev) => prev.filter((index) => index !== rowIndex)) // 체크 해제된 row 제거
+      setcheckedRows((prev) => prev.filter((item) => item !== users[rowIndex])) // 체크 해제된 row 제거
     }
   }
 
@@ -72,19 +67,22 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
   }
 
   useEffect(() => {
-    async function getUsers(payDate) {
-      const data = await getCollectionWithFilter('payrollManagement', payDate)
+    setcheckedRows([])
+    setIsChecked(false)
 
-      setUsers(data)
+    async function getUsers(payDate) {
+      const users = await getCollectionWithFilter('payrollManagement', payDate)
+
+      setUsers(users)
+      setcheckedRows(users.filter((item) => item.merge === true))
     }
 
     getUsers(date)
-  }, [date, isLoading])
+  }, [date, isChange])
 
   useEffect(() => {
-    setCheckedUsers(users.filter((_, index) => checkedRows.includes(index)))
-    // setCheckedUsers(checkedRows.map((index) => users[index]))
-  }, [checkedRows, users, setCheckedUsers])
+    setCheckedUsersCurrent(checkedRows.filter((item) => !item.merge))
+  }, [checkedRows])
 
   return (
     <TableContainer>
@@ -129,7 +127,7 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd className="align-center">
                 <input
                   type="checkbox"
-                  checked={checkedRows.includes(rowIndex) || user.merge}
+                  checked={!!(user.merge || checkedRows.find((item) => item === user))}
                   onChange={(e) => checkHandler(e, rowIndex)}
                   disabled={!!user.merge}
                 />
@@ -172,46 +170,44 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
             <StyledTd className="align-center">합계</StyledTd>
             <StyledTd className="footer-point-color align-center">{checkedRows.length}명</StyledTd>
             <StyledTd>
+              {formatNumberWithComma(checkedRows.reduce((acc, user) => acc + +user.basicSalary, 0))}
+            </StyledTd>
+            <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.basicSalary, 0),
+                checkedRows.reduce((acc, user) => acc + +user.mealAllowance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.mealAllowance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.additionalAllowance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.additionalAllowance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.nationalPension, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.nationalPension, 0),
+                checkedRows.reduce((acc, user) => acc + +user.healthInsurance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.healthInsurance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.longTermCareInsurance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.longTermCareInsurance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.employmentInsurance, 0),
               )}
             </StyledTd>
             <StyledTd>
-              {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.employmentInsurance, 0),
-              )}
-            </StyledTd>
-            <StyledTd>
-              {formatNumberWithComma(checkedUsers.reduce((acc, user) => acc + +user.incomeTax, 0))}
+              {formatNumberWithComma(checkedRows.reduce((acc, user) => acc + +user.incomeTax, 0))}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.localIncomeTax, 0),
+                checkedRows.reduce((acc, user) => acc + +user.localIncomeTax, 0),
               )}
             </StyledTd>
           </tr>
