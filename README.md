@@ -1,15 +1,13 @@
 # 돈이 닿는 순간, DON SP!KE
-![cover](/public/images/service_overview.png)
-
-&nbsp;
 
 ## ✨ 프로젝트 소개
-[DON SP!KE 둘러보기](https://venerable-beijinho-f4a0c4.netlify.app)
 
-### 돈이 스파이크처럼 정확하게 닿는 순간 — Don Sp!ke 🏐
-> **관리자가 보내고, 직원이 확인하고, 모두가 안심하는 급여 관리** <br>
-> **급여, 일정, 정정까지. 복잡한 돈 이야기를 쉽게**
+<a href="https://venerable-beijinho-f4a0c4.netlify.app" 
+   target="_blank">
+  DON SP!KE 둘러보기
+</a>
 
+![cover](/public/images/service_overview.png)
 &nbsp;
 
 ## 👨‍🚀 팀소개
@@ -19,15 +17,14 @@
 | <img width="200px" src="https://avatars.githubusercontent.com/u/118454010?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/88638457?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/182064852?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/39721166?v=4" style="max-width: 100%;"> |
 | :---: | :---: | :---: | :---: |
 | **💛 [이지선](https://github.com/ijisun)** | **💙 [강준구](https://github.com/jungu0416)** | **💙 [전유진](https://github.com/mirinae700)** | **💙 [최정훈](https://github.com/chjjh0)** |
-| **공통** <br/> 와이어프레임 <br/> Firebase 세팅 <br/> **사용자** 내 문서함 <br/> **관리자** 결재함 <br/> 👩‍💻 README 작성 | **공통** <br/> 초기세팅 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br/> 로그인 <br/> **관리자** 급여관리 <br/> 👩‍🏫 발표자료 제작 | **공통** <br/> 와이어프레임 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br /> **사용자** <br/> 대시보드, 급여명세서 <br/> 👩‍🎨 디자인 통일화 | **공통** <br/> 초기세팅 <br/> 라우팅 샘플 제작 <br/> **사용자** 근무스케줄 <br/> 👨‍🎓 발표자 <br> 👩‍🏫 발표자료 제작 |
+| 와이어프레임 <br/> Firebase 세팅 <br/> 내 문서함, 결재함 <br/> 👩‍💻 README 작성 | 초기세팅 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br/> 로그인, 급여관리 <br/> 👩‍🏫 발표자료 제작 | 와이어프레임 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br /> 대시보드, 급여명세서 <br/> 👩‍🎨 디자인 통일화 | 초기세팅 <br/> 라우팅 샘플 제작 <br/> 근무스케줄 <br/> 👨‍🎓 발표자 <br> 👩‍🏫 발표자료 제작 |
 
 </div>
-
 &nbsp;
 
 ## 🚀 주요 페이지와 기능
 
-### 로그인, 대시보드
+### 홈 - 대시보드
 - 프로필 정보 확인
 - 휴가 정보 조회
 - 평균 근무시간 확인
@@ -61,7 +58,6 @@
 - 직원들의 급여 정정 신청 내역 확인 및 결재 처리
 
   ![결재함](./public/images/6.admin_approve.gif)
-
 &nbsp;
 
 ## 📁 폴더 구조
@@ -89,7 +85,6 @@
     - 📁 styles
     - 📁 utils
 ```
-
 &nbsp;
 
 ## 🔨 기술 스택
@@ -110,7 +105,6 @@
 |     Design      | ![figma](https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white) |
 
 </div>
-
 &nbsp;
 
 ## ⚙ 프로젝트 설정 및 실행 방법
@@ -147,7 +141,6 @@ npm run dev
 만약 `.env` 파일이 없다면, 프로젝트 소유자에게 직접 요청하여 받아야 합니다.
 
 📩 **`.env` 파일 요청** : 해당 프로젝트의 팀원에게 문의하세요.
-
 &nbsp;
 
 ## 💡 팀 컨벤션
@@ -189,7 +182,6 @@ npm run dev
 ### 디자인 가이드
 
 ![design-guide](/public/images/design-guide.png)
-
 &nbsp;
 
 ## ⏰ 프로젝트 진행 과정
