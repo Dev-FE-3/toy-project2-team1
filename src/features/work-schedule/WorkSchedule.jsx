@@ -9,7 +9,6 @@ import CalendarHeader from './components/CalendarHeader'
 import EventSidebar from './components/EventSidebar'
 import AddEventModal from './components/AddEventModal'
 import EditEventModal from './components/EditEventModal'
-import ContentWrap from '@/shared/components/contemt-wrap/ContentWrap'
 import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
 
 export default function WorkSchedule() {
@@ -66,7 +65,7 @@ export default function WorkSchedule() {
   }, [])
 
   return (
-    <ContentWrap>
+    <CalendarContainer>
       <MainCalendarContainer $isSidebarOpen={isSidebarOpen}>
         <CalendarHeader
           currentYear={currentYear}
@@ -96,52 +95,42 @@ export default function WorkSchedule() {
       {modalAddMode && <AddEventModal />}
       {/* 이벤트 '수정' 모달 */}
       {modalEditMode && <EditEventModal />}
-    </ContentWrap>
+    </CalendarContainer>
   )
 }
 
 // 달력 컨테이너
-// const CalendarContainer = styled.div.withConfig({
-//   displayName: 'CalendarContainer',
-// })`
-//   display: flex;
-//   width: 90vw;
-//   height: 90vh;
-//   max-height: 90%;
-//   border-top-left-radius: 1rem;
-//   border-top-right-radius: 1rem;
-//   background-color: white;
-//   padding-bottom: 2.5rem;
-//   color: #1e293b;
-//   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-//   overflow: hidden;
-//   position: relative;
-// `
+const CalendarContainer = styled.div.withConfig({
+  displayName: 'CalendarContainer',
+})`
+  width: 100%;
+  max-height: calc(100vh - 80px - 8rem);
+  background-color: var(--box-container);
+  border-radius: 1.2rem;
+  padding: 4rem;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
+  position: relative;
+`
 
 const MainCalendarContainer = styled.div.withConfig({
   displayName: 'MainCalendarContainer',
 })`
   flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  height: 100%;
   transition: margin-right 0.3s ease-in-out;
-  margin-right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '30%' : '0')};
+  margin-right: ${({ $isSidebarOpen }) => ($isSidebarOpen ? '31%' : '0')};
 `
 
 // 캘린더 컨텐츠
 const CalendarContent = styled.div`
   flex: 1;
   width: 100%;
-  padding: 1rem 1.25rem 0 1.25rem;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-
-  @media (min-width: 640px) {
-    padding: 1.5rem 2rem 0 2rem;
-  }
+  overflow-y: auto;
 `
 // 사이드바 컨테이너
 const SidebarContainer = styled.div.withConfig({

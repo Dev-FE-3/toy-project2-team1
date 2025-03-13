@@ -1,13 +1,11 @@
 import styled from "styled-components"
 
-export const Gap = styled.div`
-margin-top: 1.2rem;
-`
 export const TableWrap = styled.div`
   height: 58rem;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
+  margin-top: 2rem;
 `
 export const TableContent = styled.table`
   table-layout: fixed;

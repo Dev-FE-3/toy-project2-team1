@@ -1,32 +1,26 @@
 import styled, { keyframes } from 'styled-components'
 
-export default function Notification({ isSuccess, handleCloseModal }) {
+export default function Notification({ isSuccess, message }) {
   return (
     <>
       {isSuccess ? (
         <NotificationContainer>
-          <CloseIcon onClick={handleCloseModal} />
           <IconBackground $color={'success'}>
             <CheckIcon viewBox="0 0 24 24">
               <path d="M2 12 L10 20 L22 8" />
             </CheckIcon>
           </IconBackground>
-          <p>완료 되었습니다.</p>
+          <p>{message}</p>
         </NotificationContainer>
       ) : (
         <NotificationContainer>
-          <CloseIcon onClick={handleCloseModal} />
           <IconBackground $color={'fail'}>
             <FailIcon viewBox="0 0 24 24">
               <path d="M2 2 L22 22" />
               <path d="M22 2 L2 22" />
             </FailIcon>
           </IconBackground>
-          <p>
-            에러!!
-            <br />
-            관리자에게 문의하세요
-          </p>
+          <p>{message}</p>
         </NotificationContainer>
       )}
     </>
@@ -52,9 +46,6 @@ const shake = keyframes`
   100% { transform: translateX(0); }
 `
 const NotificationContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,9 +53,8 @@ const NotificationContainer = styled.div`
   gap: 20px;
   width: 100%;
   height: 100%;
+  padding: 4rem;
   border-radius: 1.2rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
 
   p {
     text-align: center;
@@ -95,15 +85,4 @@ const FailIcon = styled(CheckIcon)`
   height: 25px;
   background-color: transparent; /* 배경색을 투명하게 설정 */
   animation: ${shake} 0.5s ease forwards;
-`
-const CloseIcon = styled.img.attrs({
-  src: '/public/images/icon-x.svg',
-  alt: '닫기',
-})`
-  position: absolute;
-  top: 2.4rem;
-  right: 2.4rem;
-  width: 24px;
-  heigh: 24px;
-  cursor: pointer;
 `

@@ -2,7 +2,6 @@ import { useState } from "react";
 import ContentWrap from '@/shared/components/content-wrap/ContentWrap'
 import SelectBox from '@/shared/components/selectBox/SelectBox'
 import { Table } from './components/Table';
-import { Gap } from './TableCommonStyles';
 
 export default function Approval() {
   const [selectValue, setSelectValue] = useState(0);
@@ -19,7 +18,6 @@ export default function Approval() {
         size='big'
         options='2'
       />
-      <Gap></Gap>
       <Table filterValue={selectValue} />
     </ContentWrap>
   )
