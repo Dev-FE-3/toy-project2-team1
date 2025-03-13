@@ -44,7 +44,6 @@ const AddEventModal = () => {
 
       addWorkSchedule(workSchedule)
         .then((docRef) => {
-          // console.log('문서 추가 성공:', docRef)
           fetchWorkSchedules()
         })
         .catch((error) => {

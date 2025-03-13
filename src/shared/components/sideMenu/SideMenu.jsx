@@ -20,7 +20,6 @@ export default function SideMenu() {
       await signOut(auth)
     }
 
-    console.log('로그아웃!!!')
     logout()
     sessionStorage.clear()
     dispatch(resetState())

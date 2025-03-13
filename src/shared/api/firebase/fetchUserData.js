@@ -16,7 +16,6 @@ export const fetchUserData = async () => {
       const userData = querySnapshot.docs[0].data()
       return userData
     } else {
-      console.log('유저 정보가 없습니다!')
       return null
     }
   }

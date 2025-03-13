@@ -65,7 +65,6 @@ export default function PayStub() {
 
     try {
       const result = await copyAndInsertPayrollData('202502', date)
-      console.log('result', result)
 
       if (result) setIsSuccess(true)
       else setIsSuccess(false)
