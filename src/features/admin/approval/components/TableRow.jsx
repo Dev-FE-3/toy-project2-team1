@@ -31,9 +31,10 @@ const getStatusValue = (text) => {
 };
 
 export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
-  const [approvalStatus, setApprovalStatus] = useState(item.approvalStatus); // 결재 상태 관리
-  const [isDisabled, setIsDisabled] = useState(false); // 셀렉트 박스와 버튼 비활성화 상태 관리
+  const [approvalStatus, setApprovalStatus] = useState('결재대기'); // 초기값 '결재대기'
+  const [isDisabled, setIsDisabled] = useState(true); // 기본적으로 활성화
   const [isSelected, setIsSelected] = useState(false);
+  const [isRender, setIsRender] = useState(false); // 전체 렌더링
 
   useEffect(() => {
     const fetchLatestData = async () => {
@@ -47,6 +48,8 @@ export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
         }
       } catch (error) {
         console.error('데이터 가져오기 오류: ',error);
+      } finally {
+        setIsRender(true);
       }
     };
 
@@ -75,6 +78,8 @@ export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
     }
   };
 
+  if(!isRender) return;
+
   return (
     <Tr>
       <Td width='10%'>{item.requestType}</Td>
@@ -97,7 +102,7 @@ export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
             type='button'
             variant='primary'
             onClick={handleApproval} // firestore 값 업데이트 함수 호출
-            disabled={isDisabled}
+            disabled={isDisabled} // 승인/반려 상태에서 비활성화
             isFullWidth='100%'
           >
             결재
