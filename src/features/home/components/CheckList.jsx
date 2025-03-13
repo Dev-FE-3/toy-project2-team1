@@ -43,7 +43,7 @@ export default function CheckList() {
   const handleBlurContent = () => {
     if (addInput.current.value !== '') {
       const newItem = {
-        id: items.reduce((max, item) => (item.id > max.id ? item : max), items[0]).id,
+        id: items.reduce((max, item) => (item.id > max.id ? item : max), items[0]).id + 1,
         content: addInput.current.value,
         checked: false,
       }
