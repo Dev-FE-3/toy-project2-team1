@@ -37,6 +37,7 @@ export default function DocumentList() {
         const fetchedData = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
+          requestDate: doc.data().requestDate.toDate().toISOString(),
         }))
 
         setData(fetchedData)

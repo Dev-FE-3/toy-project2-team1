@@ -29,6 +29,6 @@ export async function copyAndInsertPayrollData(fromPayDate, toPayDate) {
 
     return await Promise.all(batchPromises)
   } catch (error) {
-    return error
+    return null
   }
 }

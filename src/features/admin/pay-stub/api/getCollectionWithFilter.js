@@ -48,6 +48,6 @@ export const upsertDocumentsForUsers = async (users) => {
 
     return await Promise.all(updatePromises) // 병렬 실행 최적화
   } catch (error) {
-    return error
+    return null
   }
 }
