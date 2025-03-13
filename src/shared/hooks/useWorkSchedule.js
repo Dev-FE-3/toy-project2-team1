@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setCalendarEvents } from '@/shared/redux/reducer/workScheduleSlice'
-import { getWorkScheduleByUid } from '@/shared/api/firebase/services/workScheduleService'
+import { getWorkScheduleByUid } from '@/features/work-schedule/api/workScheduleService'
 
 export const useWorkSchedule = () => {
   const dispatch = useDispatch()
@@ -15,7 +15,6 @@ export const useWorkSchedule = () => {
 
     getWorkScheduleByUid()
       .then((data) => {
-        console.log('google 조회 성공: ', data)
         if (data) dispatch(setCalendarEvents(data))
       })
       .catch((err) => {

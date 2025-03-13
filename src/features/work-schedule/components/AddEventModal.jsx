@@ -1,12 +1,13 @@
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { weekDays, eventCategories } from '../constants'
 import Modal from '@/shared/components/modal/Modal'
 import Button from '@/shared/components/button/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalAddMode } from '../../../shared/redux/reducer/workScheduleSlice'
-import { addWorkSchedule } from '../../../shared/api/firebase/services/workScheduleService'
+import { addWorkSchedule } from '../api/workScheduleService'
 import { useWorkSchedule } from '@/shared/hooks/useWorkSchedule'
+
 const AddEventModal = () => {
   const [description, setDescription] = useState('') // 일정 설명
   const [selectedCategory, setSelectedCategory] = useState('personal') // 선택된 카테고리
@@ -43,7 +44,6 @@ const AddEventModal = () => {
 
       addWorkSchedule(workSchedule)
         .then((docRef) => {
-          // console.log('문서 추가 성공:', docRef)
           fetchWorkSchedules()
         })
         .catch((error) => {
@@ -87,27 +87,23 @@ const AddEventModal = () => {
         <div className="categorySelector">
           {/* 카테고리 선택 버튼 */}
           {eventCategories.map((category) => (
-            <Button
+            <EventModalCatLabel
               key={category.eventCategory}
-              $variant={category.categoryStyle}
+              $labelType={category.categoryStyle}
               className={`categoryButton ${
                 selectedCategory === category.eventCategory ? 'active' : 'inactive'
               }`}
               onClick={() => setSelectedCategory(category.eventCategory)}
             >
               {category.categoryName}
-            </Button>
+            </EventModalCatLabel>
           ))}
         </div>
 
         <div className="modalButtonContainer">
-          <button className="cancelButton" onClick={handleCloseModal}>
-            취소
-          </button>
-
-          <button className="modalAddEventButton" onClick={handleAddEvent}>
+          <Button className="modalAddEventButton" variant="primary" onClick={handleAddEvent}>
             일정 추가
-          </button>
+          </Button>
         </div>
       </ModalChildren>
     </Modal>
@@ -115,6 +111,31 @@ const AddEventModal = () => {
 }
 
 export default AddEventModal
+
+export const getCategoryColor = {
+  primary: css`
+    background-color:rgba(59, 131, 246, 0.1);
+    color: #3b82f6;
+  `,
+  secondary: css`
+    background-color: #fbc02d33;
+    color: var(--point-yellow);
+  `,
+  danger: css`
+    background-color: rgba(238, 83, 79, 0.1);
+    color: var(--point-red);
+  `,
+}
+
+export const EventModalCatLabel = styled.span`
+  border-radius: 0.4rem;
+  display: inline-block;
+  width: 9rem;
+  padding: 0.6rem 0;
+  font-weight: 500;
+  text-align: center;
+  ${({ $labelType }) => getCategoryColor[$labelType]};
+`
 
 const ModalChildren = styled.div.withConfig({
   displayName: 'modal-children',
@@ -209,7 +230,6 @@ const ModalChildren = styled.div.withConfig({
 
       &.active {
         opacity: 1;
-        /* background-color: red; */
       }
     }
   }
@@ -217,21 +237,5 @@ const ModalChildren = styled.div.withConfig({
   .modalButtonContainer {
     display: flex;
     justify-content: flex-end;
-
-    .cancelButton,
-    .modalAddEventButton {
-      margin-right: 0.5rem;
-      border-radius: 0.5rem;
-      border: 1px solid #d1d5db;
-      background-color: white;
-      padding: 0.5rem 1rem;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #6b7280;
-
-      &:hover {
-        background-color: #f3f4f6;
-      }
-    }
   }
 `

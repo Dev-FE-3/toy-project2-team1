@@ -3,7 +3,8 @@ import { eventCategories } from '../constants'
 import { getEventCategoryColor } from '../utils'
 import { useDispatch } from 'react-redux'
 import { setModalEditMode, setEditEventId } from '@/shared/redux/reducer/workScheduleSlice'
-import { deleteWorkSchedule } from '@/shared/api/firebase/services/workScheduleService'
+import { deleteWorkSchedule } from '@/features/work-schedule/api/workScheduleService'
+import { deleteCalendarEvents } from '@/shared/redux/reducer/workScheduleSlice'
 
 const SidebarEventItem = ({ event }) => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const SidebarEventItem = ({ event }) => {
   const handleDeleteEvent = () => {
     deleteWorkSchedule(event.docId).then(() => {
       // 삭제 후 일정 목록 갱신
-      // dispatch(deleteCalendarEvents({ docId: event.docId }))
+      dispatch(deleteCalendarEvents({ docId: event.docId }))
     })
   }
 

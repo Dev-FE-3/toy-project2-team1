@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPayrollCorrectionsByUserId } from '@/shared/api/firebase/services/payrollCorrectionsService';
+import { getPayrollCorrectionsByUserId } from '@/features/admin/approval/api/GetPayrollCorrections';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { ExpandedRow } from '@/features/admin/approval/components/ExpandedRow';
@@ -40,7 +40,7 @@ export function Table({ filterValue }) {
         setTimeout(() => {
           dispatch(setData(fetchedData));
           dispatch(setLoading(false));
-        }, 1000);
+        }, 200);
       } catch (err) {
         dispatch(setError(err.message));
         dispatch(setLoading(false));

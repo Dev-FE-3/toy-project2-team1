@@ -1,28 +1,30 @@
 import Card from '@/shared/components/card/Card'
 import styled from 'styled-components'
 import calcServiceDuration from '../utils/calcServiceDuration'
+import { useSelector } from 'react-redux'
 
-export default function EmployeeInfo({ employee }) {
-  const today = new Date()
-  const hireDate = new Date(employee.hireDate)
-  const serviceDuration = calcServiceDuration(today, hireDate)
+export default function EmployeeInfo() {
+  const { name, email, hireDate, jobTitle, phoneNumber, department } = useSelector(
+    (state) => state.user,
+  )
+  const serviceDuration = calcServiceDuration(new Date(), new Date(hireDate))
 
   return (
     <Card title={'개인정보'}>
       <ProfileImage />
       <InfoWrap>
         <li>
-          <p className="department">{employee.department}</p>
+          <p className="department">{department}</p>
           <div className="d-flex">
-            <span className="employee-name">{employee.name}</span>
-            <span className="position">{employee.jobTitle}</span>
+            <span className="employee-name">{name}</span>
+            <span className="position">{jobTitle}</span>
           </div>
         </li>
         <li className="d-flex etc">
           <p>{`${serviceDuration.years}년 ${serviceDuration.months}개월`} 근무</p>
           <div className="d-flex">
-            <p className="etc-phone">{employee.phoneNumber}</p>
-            <p className="etc-email">{employee.email}</p>
+            {phoneNumber && <p className="etc-phone">{phoneNumber}</p>}
+            {email && <p className="etc-email">{email}</p>}
           </div>
         </li>
       </InfoWrap>

@@ -7,7 +7,6 @@ export const fetchWorkSchedule = async () => {
   const userUid = auth.currentUser.uid
 
   if (!userUid) {
-    console.error('User UID not found')
     return []
   }
 
@@ -17,10 +16,8 @@ export const fetchWorkSchedule = async () => {
 
   if (!querySnapshot.empty) {
     const workScheduleData = querySnapshot.docs.map((doc) => doc.data())
-    console.log(' fetchWorkSchedule ~ workScheduleData: ', workScheduleData)
     return workScheduleData
   } else {
-    console.log('No work schedule found')
     return []
   }
 }

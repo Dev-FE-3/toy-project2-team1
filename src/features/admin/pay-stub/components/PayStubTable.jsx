@@ -3,8 +3,25 @@ import styled from 'styled-components'
 import { getCollectionWithFilter } from '../api/getCollectionWithFilter'
 import { useSelector } from 'react-redux'
 import { formatNumberWithComma } from '@/shared/utils/comma'
+import {
+  ADDITIONALALLOWANCE,
+  BASICSALARY,
+  CALC_EMPLOYMENTINSURANCE,
+  CALC_HEALTHINSURANCE,
+  CALC_INCOMETAX,
+  CALC_LOCALINCOMETAX,
+  CALC_LONGTERMCAREINSURANCE,
+  CALC_NATIONALPENSION,
+  EMPLOYMENTINSURANCE,
+  HEALTHINSURANCE,
+  INCOMETAX,
+  LOCALINCOMETAX,
+  LONGTERMCAREINSURANCE,
+  MEALALLOWANCE,
+  NATIONALPENSION,
+} from '../constants/payStub'
 
-export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading }) {
+export default function PayStubTable({ isChange, setCheckedUsersCurrent }) {
   const [users, setUsers] = useState([])
   const [isChecked, setIsChecked] = useState(false)
   const [checkedRows, setcheckedRows] = useState([])
@@ -12,14 +29,9 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
   const checkAll = () => {
     if (!isChecked) {
-      const uncheckedRows = users
-        .map((user, index) => ({ user, index }))
-        .filter(({ user }) => !user.merge)
-        .map(({ index }) => index)
-
-      setcheckedRows(uncheckedRows)
+      setcheckedRows(users)
     } else {
-      setcheckedRows([])
+      setcheckedRows((prev) => prev.filter((item) => item.merge))
     }
 
     setIsChecked((prev) => !prev)
@@ -27,9 +39,9 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
   const checkHandler = (e, rowIndex) => {
     if (e.target.checked) {
-      setcheckedRows((prev) => [...prev, rowIndex]) // 체크된 row 추가
+      setcheckedRows((prev) => [...prev, users[rowIndex]]) // 체크된 row 추가
     } else {
-      setcheckedRows((prev) => prev.filter((index) => index !== rowIndex)) // 체크 해제된 row 제거
+      setcheckedRows((prev) => prev.filter((item) => item !== users[rowIndex])) // 체크 해제된 row 제거
     }
   }
 
@@ -40,57 +52,67 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
     updatedUsers[rowIndex][field] = +rawValue
 
     const paymentItems =
-      +updatedUsers[rowIndex]['basicSalary'] +
-      +updatedUsers[rowIndex]['mealAllowance'] +
-      +updatedUsers[rowIndex]['additionalAllowance']
+      +updatedUsers[rowIndex][BASICSALARY] +
+      +updatedUsers[rowIndex][MEALALLOWANCE] +
+      +updatedUsers[rowIndex][ADDITIONALALLOWANCE]
 
-    updatedUsers[rowIndex]['nationalPension'] = Math.ceil(paymentItems * 0.045) // 국민연금
-    updatedUsers[rowIndex]['healthInsurance'] = Math.ceil(paymentItems * 0.03545) // 건강보험
-    updatedUsers[rowIndex]['longTermCareInsurance'] = Math.ceil(paymentItems * 0.00459) // 장기요양보험
-    updatedUsers[rowIndex]['employmentInsurance'] = Math.ceil(paymentItems * 0.009) // 고용보험
-    updatedUsers[rowIndex]['incomeTax'] = Math.ceil(paymentItems * 0.05) // 근로소득세
-    updatedUsers[rowIndex]['localIncomeTax'] = Math.ceil(paymentItems * 0.005) // 지방소득세
+    updatedUsers[rowIndex][NATIONALPENSION] = CALC_NATIONALPENSION(paymentItems) // 국민연금
+    updatedUsers[rowIndex][HEALTHINSURANCE] = CALC_HEALTHINSURANCE(paymentItems) // 건강보험
+    updatedUsers[rowIndex][LONGTERMCAREINSURANCE] = CALC_LONGTERMCAREINSURANCE(paymentItems) // 장기요양보험
+    updatedUsers[rowIndex][EMPLOYMENTINSURANCE] = CALC_EMPLOYMENTINSURANCE(paymentItems) // 고용보험
+    updatedUsers[rowIndex][INCOMETAX] = CALC_INCOMETAX(paymentItems) // 근로소득세
+    updatedUsers[rowIndex][LOCALINCOMETAX] = CALC_LOCALINCOMETAX(paymentItems) // 지방소득세
 
     setUsers(updatedUsers)
   }
 
   useEffect(() => {
-    async function getUsers(payDate) {
-      const data = await getCollectionWithFilter('payrollManagement', payDate)
+    setcheckedRows([])
+    setIsChecked(false)
 
-      setUsers(data)
+    async function getUsers(payDate) {
+      const users = await getCollectionWithFilter('payrollManagement', payDate)
+
+      setUsers(users)
+      setcheckedRows(users.filter((item) => item.merge === true))
     }
 
     getUsers(date)
-  }, [date, isLoading])
+  }, [date, isChange])
 
   useEffect(() => {
-    setCheckedUsers(users.filter((_, index) => checkedRows.includes(index)))
-    // setCheckedUsers(checkedRows.map((index) => users[index]))
-  }, [checkedRows, users, setCheckedUsers])
+    setCheckedUsersCurrent(checkedRows.filter((item) => !item.merge))
+  }, [checkedRows])
 
   return (
     <TableContainer>
       <StyledTable>
-        <thead>
+        <colgroup>
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+          <col />
+        </colgroup>
+        <TableHeader>
           <tr>
-            <StyledTh rowSpan="2" style={{ width: '90px' }}>
+            <StyledTh rowSpan="2">
               <input type="checkbox" checked={isChecked} onChange={checkAll} />
             </StyledTh>
-            <StyledTh rowSpan="2" style={{ width: '103px' }}>
-              이름
-            </StyledTh>
-            <StyledTh colSpan="3" style={{ width: '540px' }}>
-              지급항목
-            </StyledTh>
-            <StyledTh colSpan="6" style={{ width: '750px' }}>
-              공제항목
-            </StyledTh>
+            <StyledTh rowSpan="2">이름</StyledTh>
+            <StyledTh colSpan="3">지급항목</StyledTh>
+            <StyledTh colSpan="6">공제항목</StyledTh>
           </tr>
           <tr>
-            <StyledTh style={{ width: '180px' }}>기본급</StyledTh>
+            <StyledTh>기본급</StyledTh>
             <StyledTh>식비</StyledTh>
-            <StyledTh style={{ width: '180px' }}>추가수당</StyledTh>
+            <StyledTh>추가수당</StyledTh>
             <StyledTh>국민연금</StyledTh>
             <StyledTh>건강보험</StyledTh>
             <StyledTh>장기요양보험</StyledTh>
@@ -98,23 +120,25 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
             <StyledTh>근로소득세</StyledTh>
             <StyledTh>지방소득세</StyledTh>
           </tr>
-        </thead>
-        <tbody>
+        </TableHeader>
+        <TableBody>
           {users.map((user, rowIndex) => (
             <tr key={rowIndex}>
-              <StyledTd>
+              <StyledTd className="align-center">
                 <input
                   type="checkbox"
-                  checked={checkedRows.includes(rowIndex) || user.merge}
+                  checked={!!(user.merge || checkedRows.find((item) => item === user))}
                   onChange={(e) => checkHandler(e, rowIndex)}
                   disabled={!!user.merge}
                 />
               </StyledTd>
-              <StyledTd>{formatNumberWithComma(user.employeeName)}</StyledTd>
-              <StyledTd>
+              <StyledTd className="align-center">
+                {formatNumberWithComma(user.employeeName)}
+              </StyledTd>
+              <StyledTd className="align-center">
                 <Input
                   value={formatNumberWithComma(user.basicSalary) /*기본급*/}
-                  onChange={(e) => handleCellChange(rowIndex, 'basicSalary', e.target.value)}
+                  onChange={(e) => handleCellChange(rowIndex, BASICSALARY, e.target.value)}
                   $userMerged={!!user.merge}
                   disabled={!!user.merge}
                 />
@@ -122,12 +146,10 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>
                 {formatNumberWithComma(user.mealAllowance) /*식비 user.mealAllowance*/}
               </StyledTd>
-              <StyledTd>
+              <StyledTd className="align-center">
                 <Input
                   value={formatNumberWithComma(user.additionalAllowance) /*추가수당*/}
-                  onChange={(e) =>
-                    handleCellChange(rowIndex, 'additionalAllowance', e.target.value)
-                  }
+                  onChange={(e) => handleCellChange(rowIndex, ADDITIONALALLOWANCE, e.target.value)}
                   $userMerged={!!user.merge}
                   disabled={!!user.merge}
                 />
@@ -142,56 +164,54 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
               <StyledTd>{formatNumberWithComma(user.localIncomeTax) /*지방소득세*/}</StyledTd>
             </tr>
           ))}
-        </tbody>
-        <tfoot>
-          <FooterRow>
-            <StyledTd>합계</StyledTd>
-            <StyledTd className="footer-point-color">{checkedRows.length}명</StyledTd>
+        </TableBody>
+        <TableFooter>
+          <tr>
+            <StyledTd className="align-center">합계</StyledTd>
+            <StyledTd className="footer-point-color align-center">{checkedRows.length}명</StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(checkedRows.reduce((acc, user) => acc + +user.basicSalary, 0))}
+            </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.basicSalary, 0),
+                checkedRows.reduce((acc, user) => acc + +user.mealAllowance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.mealAllowance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.additionalAllowance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.additionalAllowance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.nationalPension, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.nationalPension, 0),
+                checkedRows.reduce((acc, user) => acc + +user.healthInsurance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.healthInsurance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.longTermCareInsurance, 0),
               )}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.longTermCareInsurance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.employmentInsurance, 0),
               )}
+            </StyledTd>
+            <StyledTd>
+              {formatNumberWithComma(checkedRows.reduce((acc, user) => acc + +user.incomeTax, 0))}
             </StyledTd>
             <StyledTd>
               {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.employmentInsurance, 0),
+                checkedRows.reduce((acc, user) => acc + +user.localIncomeTax, 0),
               )}
             </StyledTd>
-            <StyledTd>
-              {formatNumberWithComma(checkedUsers.reduce((acc, user) => acc + +user.incomeTax, 0))}
-            </StyledTd>
-            <StyledTd>
-              {formatNumberWithComma(
-                checkedUsers.reduce((acc, user) => acc + +user.localIncomeTax, 0),
-              )}
-            </StyledTd>
-          </FooterRow>
-        </tfoot>
+          </tr>
+        </TableFooter>
       </StyledTable>
     </TableContainer>
   )
@@ -199,49 +219,100 @@ export default function PayStubTable({ checkedUsers, setCheckedUsers, isLoading 
 
 // 테이블 컨테이너 스타일
 const TableContainer = styled.div`
-  width: 1484px;
-  height: 763px;
-  border: 1px solid #ddd;
-  overflow-y: auto;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid var(--point-gray);
+  height: calc(100% - 6rem);
+  overflow: auto;
 `
 
 const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
+  table-layout: auto;
   text-align: center;
-  font-size: 1.6rem;
   position: relative;
 
-  thead th {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  col:nth-child(1) {
+    width: 5%;
+    min-width: 60px;
+  }
+  col:nth-child(2) {
+    width: 5%;
+    min-width: 100px;
+    border-right: none;
+  }
+  col:nth-child(n + 3) {
+    width: auto;
+    min-width: 120px;
+  }
+
+  thead th,
+  tfoot td {
     vertical-align: middle;
+    padding: 1.8rem 1rem;
+  }
+
+  tbody td,
+  tfoot td {
+    text-align: right;
+  }
+
+  .align-center {
+    text-align: center;
   }
 `
+const cellStyle = `
+  border-bottom: 1px solid var(--point-gray);
+  border-right: 1px solid var(--point-gray);
+  padding: 1rem;
 
+  &:last-child {
+    border-right: none;
+  }
+`
 const StyledTh = styled.th`
-  background: var(--background-main);
-  border: 1px solid var(--point-gray);
-  padding: 1.8rem 2rem;
+  ${cellStyle}
 `
 
 const StyledTd = styled.td`
-  border: 1px solid var(--point-gray);
-  padding: 1.8rem 2rem;
+  ${cellStyle}
 `
 
 const Input = styled.input`
-  width: 14rem;
-  height: 3.4rem;
-  padding-left: 1rem;
+  max-width: 14rem;
+  padding: 0.6rem 1rem;
   border-radius: 0.8rem;
   border: 1px solid #d9d9d9;
-  color: var(--font-sub);
   outline: none;
   background: ${(props) => (props.$userMerged ? 'var(--background-main)' : 'transparent')};
-  font-size: 1.6rem;
+  text-align: right;
+
+  &:disabled {
+    color: var(--font-sub);
+    cursor: no-drop;
+  }
 `
 
-const FooterRow = styled.tr`
+const TableHeader = styled.thead`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--background-main);
+  font-weight: 600;
+`
+
+const TableBody = styled.tbody`
+  tr:last-child {
+    td {
+      border-bottom: none;
+    }
+  }
+`
+
+const TableFooter = styled.tfoot`
   background: var(--background-main);
   font-weight: 600;
   text-align: center;
@@ -251,5 +322,9 @@ const FooterRow = styled.tr`
 
   .footer-point-color {
     color: var(--main);
+  }
+
+  td {
+    border-top: 1px solid var(--point-gray);
   }
 `

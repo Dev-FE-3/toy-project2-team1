@@ -56,6 +56,7 @@ const StyledButton = styled.button`
   line-height: 2.2rem;
   color: var(--box-container, #fff);
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 
   &:disabled {
     background: var(--point-gray);

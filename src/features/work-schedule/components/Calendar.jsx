@@ -47,5 +47,4 @@ const WeekRow = styled.div.withConfig({
   width: 100%;
   flex: 1;
   justify-content: space-between;
-  min-height: 0;
 `

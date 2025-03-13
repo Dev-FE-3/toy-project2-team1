@@ -19,7 +19,7 @@ export const Pagination = ({
       setCurrentPage(page);
       onPageChange(page);
     }
-  },300 ); // delay
+  },1000 ); // delay
 
   const handlePageChange = (page) => {
     throttleHandlePageChange(page);
@@ -66,7 +66,7 @@ const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: .7rem;
+  margin-top: 2rem;
 `;
 
 const PageButton = styled.button`

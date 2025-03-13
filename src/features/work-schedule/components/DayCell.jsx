@@ -134,9 +134,9 @@ export default DayCell
 const StyledDayCell = styled.div`
   position: relative;
   z-index: 10;
-  aspect-ratio: 1 / 1;
   width: calc(100% / 7);
   height: auto;
+  min-height: 85px;
   border-radius: 0.75rem;
   border: 1px solid #e2e8f0;
   font-weight: 500;
@@ -144,10 +144,11 @@ const StyledDayCell = styled.div`
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   cursor: pointer;
+  margin: .2rem;
 
   &:hover {
     z-index: 20;
-    border-color: #22d3ee;
+    border-color: var(--font-sub);
   }
 
   @media (min-width: 640px) {

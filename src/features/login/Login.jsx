@@ -57,7 +57,6 @@ export default function Login() {
         navigate('/')
       }
     } catch (e) {
-      console.log(e.code, e.message)
       setLoginError(true)
     }
   }
@@ -67,42 +66,48 @@ export default function Login() {
       <LoginTop>
         <Logo src="/public/images/logo.svg"></Logo>
       </LoginTop>
-      <LoginBottom>
+      <LoginFrom>
         <Controller
           name={INPUT_TYPES.EMAIL}
           control={control}
           render={({ field }) => (
-            <Input
-              type={INPUT_TYPES.TEXT}
-              placeholder={INPUT_PLACEHOLDERS.EMAIL}
-              icon={INPUT_ICONS.LOGIN}
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <InputContainer>
+              <Input
+                type="text"
+                placeholder="이메일 주소"
+                icon="login"
+                value={field.value}
+                onChange={field.onChange}
+              />
+              {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+            </InputContainer>
           )}
         />
-        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
         <Controller
           name={INPUT_TYPES.PASSWORD}
           control={control}
           render={({ field }) => (
-            <Input
-              type={INPUT_TYPES.PASSWORD}
-              placeholder={INPUT_PLACEHOLDERS.PASSWORD}
-              icon={INPUT_ICONS.PASSWORD}
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <InputContainer>
+              <Input
+                type="password"
+                placeholder="비밀번호"
+                icon="password"
+                value={field.value}
+                onChange={field.onChange}
+              />
+              {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+              {loginError && <ErrorComponent />}
+            </InputContainer>
           )}
         />
         {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
         {loginError && <ErrorComponent />}
-        <Button type="submit" isFullWidth $customStyle={BtnCustomStyle}>
+        <Button type="submit" isFullWidth style={{ height: '5.6rem', fontWeight: '700' }}>
           로그인 하기
         </Button>
         <LoginLinks />
-      </LoginBottom>
+      </LoginFrom>
     </LoginForm>
   )
 }
@@ -128,22 +133,59 @@ const Logo = styled.img`
   width: 23.2rem;
   height: 5.9rem;
 `
-const LoginBottom = styled.div`
+const LoginFrom = styled.div`
   display: flex;
   flex-direction: column;
 
-  & > *:nth-child(1) {
-    margin-bottom: 1rem;
-  }
-
-  & > *:nth-child(2) {
-    margin-bottom: 1.4rem;
+  .input-container:nth-child(2) {
+    margin-bottom: 3rem;
   }
 `
 
+const InputContainer = styled.div.withConfig({
+  componentId: 'input-container',
+})`
+  position: relative;
+  margin-bottom: 1.2rem;
+`
+
 const ErrorMessage = styled.p`
-  color: #ff3333;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: -31px;
+  right: 0;
+  color: var(--point-red);
+  font-weight: 300;
   font-size: 1.2rem;
-  margin-top: -0.5rem;
-  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #feefef;
+  border-radius: 0.6rem;
+
+  /* 경고 아이콘을 위한 스타일 */
+  &::before {
+    content: '';
+    display: inline-block; /* 인라인 블록으로 설정하여 크기 조정 가능 */
+    width: 1.3rem; /* 아이콘의 너비 */
+    height: 1.3rem; /* 아이콘의 높이 */
+    background-image: url('/images/icon-caution.svg'); /* 경고 아이콘 이미지 경로 */
+    background-size: contain; /* 이미지 크기를 요소에 맞게 조정 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    margin-right: 0.5rem; /* 텍스트와 아이콘 사이의 간격 */
+  }
+
+  /* 말풍선 모양을 위한 스타일 */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 85%;
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    border-top-color: #feefef;
+    border-bottom: 0;
+    margin-left: -5px;
+    margin-bottom: -5px;
+  }
 `
