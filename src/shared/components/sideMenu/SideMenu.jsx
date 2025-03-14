@@ -1,4 +1,3 @@
-// @ts-nocheck
 import * as S from './SideMenuStyled'
 import MenuItem from './MenuItem'
 import { MENU_LIST } from '@/shared/constants/menu/menuList'

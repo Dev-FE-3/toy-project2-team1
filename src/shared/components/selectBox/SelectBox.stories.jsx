@@ -6,6 +6,7 @@ export default {
   parameters: {
     layout: 'centered',
   },
+  tags: ['autodocs'], // 자동 문서화
   argTypes: {
     value: { control: 'number' },
     onChange: { action: 'changed' },

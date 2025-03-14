@@ -6,6 +6,7 @@ export default {
   parameters: {
     layout: 'centered',
   },
+  tags: ['autodocs'], // 자동 문서화
 }
 
 export const Default = {}

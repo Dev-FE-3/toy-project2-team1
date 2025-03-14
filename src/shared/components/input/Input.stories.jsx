@@ -1,5 +1,5 @@
-import Input from './Input'
 import { INPUT_ICONS, INPUT_TYPES, INPUT_PLACEHOLDERS } from '@/shared/constants/input/inputCons'
+import Input from './Input'
 
 export default {
   title: 'Components/Input', // 컴포넌트 이름
