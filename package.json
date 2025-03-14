@@ -8,12 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-<<<<<<< Updated upstream
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
-=======
     "cypress:open": "cypress open"
->>>>>>> Stashed changes
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
