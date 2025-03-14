@@ -2,7 +2,7 @@
 
 ## ✨ 프로젝트 소개
 
-[DON SP!KE 둘러보기](https://venerable-beijinho-f4a0c4.netlify.app){:target="_blank"}
+[DON SP!KE 둘러보기](https://venerable-beijinho-f4a0c4.netlify.app)
 
 ![cover](/public/images/service_overview.png)
 &nbsp;
