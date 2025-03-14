@@ -2,10 +2,7 @@
 
 ## ✨ 프로젝트 소개
 
-<a href="https://venerable-beijinho-f4a0c4.netlify.app" 
-   target="_blank">
-  DON SP!KE 둘러보기
-</a>
+[DON SP!KE 둘러보기](https://venerable-beijinho-f4a0c4.netlify.app){:target="_blank"}
 
 ![cover](/public/images/service_overview.png)
 &nbsp;
@@ -17,7 +14,7 @@
 | <img width="200px" src="https://avatars.githubusercontent.com/u/118454010?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/88638457?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/182064852?v=4" style="max-width: 100%;"> | <img width="200px" src="https://avatars.githubusercontent.com/u/39721166?v=4" style="max-width: 100%;"> |
 | :---: | :---: | :---: | :---: |
 | **💛 [이지선](https://github.com/ijisun)** | **💙 [강준구](https://github.com/jungu0416)** | **💙 [전유진](https://github.com/mirinae700)** | **💙 [최정훈](https://github.com/chjjh0)** |
-| 와이어프레임 <br/> Firebase 세팅 <br/> 내 문서함, 결재함 <br/> 👩‍💻 README 작성 | 초기세팅 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br/> 로그인, 급여관리 <br/> 👩‍🏫 발표자료 제작 | 와이어프레임 <br/> 공통 컴포넌트 <br/> 및 레이아웃 <br /> 대시보드, 급여명세서 <br/> 👩‍🎨 디자인 통일화 | 초기세팅 <br/> 라우팅 샘플 제작 <br/> 근무스케줄 <br/> 👨‍🎓 발표자 <br> 👩‍🏫 발표자료 제작 |
+| 와이어프레임 <br/> Firebase 세팅 <br/> 내 문서함, 결재함 <br/> 👩‍💻 README 작성 | 초기세팅 <br/> 공통 컴포넌트 <br/> 로그인, 급여관리 <br/> 👩‍🏫 발표자료 제작 | 와이어프레임 <br/> 공통 컴포넌트 <br/> 대시보드, 급여명세서 <br/> 👩‍🎨 디자인 통일화 | 초기세팅 <br/> 라우팅 샘플 제작 <br/> 근무스케줄 <br/> 👨‍🎓 발표자 <br> 👩‍🏫 발표자료 제작 |
 
 </div>
 &nbsp;
@@ -77,7 +74,7 @@
     - 📁 pay-stub
     - 📁 work-schedule
   - 📁 shared
-    - 📁 api
+    - 📁 lib
     - 📁 components
     - 📁 constants
     - 📁 hooks
