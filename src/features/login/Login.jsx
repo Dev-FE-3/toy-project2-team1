@@ -2,7 +2,7 @@ import { styled } from 'styled-components'
 import Input from '@/shared/components/input/Input'
 import Button from '@/shared/components/button/Button'
 import LoginLinks from './components/LoginLinks'
-import { SignIn } from './api/loginAuth'
+import { signIn } from './api/loginAuth'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -48,7 +48,7 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const result = await SignIn(data.email, data.password)
+      const result = await signIn(data.email, data.password)
 
       if (result) {
         //sessionStorege의 값으로 fetchData하여 Redux 관리
