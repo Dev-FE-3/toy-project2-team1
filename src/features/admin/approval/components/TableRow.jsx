@@ -7,26 +7,34 @@ import { formatDate } from '@/shared/utils/date'
 import { Tr, ToggleImage } from '../TableCommonStyles'
 import { Td } from '../TableStyles';
 
-// 값을 텍스트로 변환하는 함수
+// 상태 값 상수 정의
+const STATUS = {
+  PENDING: 0, // 결재대기
+  APPROVED: 2, // 승인
+  REJECTED: 3, // 반려
+};
+
+// 숫자 값을 텍스트로 변환하는 함수
 const getStatusText = (value) => {
   switch (value) {
-    case 2:
+    case STATUS.APPROVED:
       return '승인';
-    case 3:
+    case STATUS.REJECTED:
       return '반려';
     default:
       return '결재대기';
   }
 };
 
+// 텍스트를 숫자 값으로 변환하는 함수
 const getStatusValue = (text) => {
   switch (text) {
     case '승인':
-      return 2;
+      return STATUS.APPROVED;
     case '반려':
-      return 3;
+      return STATUS.REJECTED;
     default:
-      return 0;
+      return STATUS.PENDING;
   }
 };
 
