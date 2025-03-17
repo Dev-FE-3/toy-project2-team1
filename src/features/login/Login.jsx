@@ -51,7 +51,6 @@ export default function Login() {
       const result = await signIn(data.email, data.password)
 
       if (result) {
-        //sessionStorege의 값으로 fetchData하여 Redux 관리
         dispatch(setUser({ data: await fetchUserData() }))
         navigate('/')
       }
