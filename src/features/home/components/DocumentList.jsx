@@ -12,13 +12,13 @@ import { useNavigate } from 'react-router-dom'
 
 export default function DocumentList() {
   const uid = useSelector((state) => state.user.uid)
-  const [data, setData] = useState([])
+  const [documents, setDocuments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLatestDocuments = async () => {
       try {
         setIsLoading(true)
 
@@ -40,7 +40,7 @@ export default function DocumentList() {
           requestDate: doc.data().requestDate.toDate().toISOString(),
         }))
 
-        setData(fetchedData)
+        setDocuments(fetchedData)
       } catch (err) {
         setError(err.message)
       } finally {
@@ -49,7 +49,7 @@ export default function DocumentList() {
     }
 
     if (uid) {
-      fetchData()
+      fetchLatestDocuments()
     }
   }, [uid])
 
@@ -81,7 +81,7 @@ export default function DocumentList() {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {documents.map((item) => (
               <tr key={item.id}>
                 <td>{item.requestType}</td>
                 <td>{formatDate(item.requestDate)}</td>

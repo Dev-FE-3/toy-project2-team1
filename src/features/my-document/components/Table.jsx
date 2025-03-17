@@ -17,6 +17,8 @@ import {
   filterData,
 } from '@/shared/redux/reducer/myDocumentSlice';
 
+const itemsPerPage = 10; // 페이지 당 표시할 항목 수
+
 export function Table({ filterValue }) {
   const dispatch = useDispatch();
   const { uid } = useSelector(state => state.user); // 리덕스 스토어에서 uid 가져오기
@@ -27,7 +29,6 @@ export function Table({ filterValue }) {
     currentPage,
     expandedId,
   } = useSelector(state => state.myDocument);
-  const itemsPerPage = 10; // 페이지 당 표시할 항목 수
   
   // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {
@@ -35,14 +36,10 @@ export function Table({ filterValue }) {
       dispatch(setLoading(true));
       try {
         const fetchedData = await getPayrollCorrectionsByUserId(uid);
-        
-        // 로딩스피너 노출을 위한 딜레이 추가
-        setTimeout(() => {
-          dispatch(setData(fetchedData));
-          dispatch(setLoading(false));
-        }, 200);
+        dispatch(setData(fetchedData));
       } catch (err) {
         dispatch(setError(err.message));
+      } finally {
         dispatch(setLoading(false));
       }
     };

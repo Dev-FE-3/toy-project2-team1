@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export default function LoginLinks() {
   return (
     <LoginLinkUl>
       <LoginLinkLi>
-        <a href="">비밀번호 찾기</a>
+        <Link to="#">비밀번호 찾기</Link>
       </LoginLinkLi>
     </LoginLinkUl>
   )
@@ -20,7 +21,7 @@ const LoginLinkLi = styled.li`
   font-weight: 700;
 
   a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모(li)와 동일한 색상 유지 */
+    text-decoration: none;
+    color: inherit;
   }
 `

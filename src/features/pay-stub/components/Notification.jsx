@@ -1,44 +1,27 @@
 import styled, { keyframes } from 'styled-components'
 
-export default function Notification({ isSuccess, isFail, handleCloseModal, messageList }) {
+export default function Notification({ isSuccess, handleCloseModal, messageList }) {
   return (
-    <>
-      {isSuccess && (
-        <NotificationContainer>
-          <CloseIcon onClick={handleCloseModal} />
-          <IconBackground $color={'success'}>
-            <CheckIcon viewBox="0 0 24 24">
-              <path d="M2 12 L10 20 L22 8" />
-            </CheckIcon>
-          </IconBackground>
-          <div>
-            {messageList.map((message, index) => (
-              <p key={index}>
-                {message}
-              </p>
-            ))}
-          </div>
-        </NotificationContainer>
-      )}
-      {isFail && (
-        <NotificationContainer>
-          <CloseIcon onClick={handleCloseModal} />
-          <IconBackground $color={'fail'}>
-            <FailIcon viewBox="0 0 24 24">
-              <path d="M2 2 L22 22" />
-              <path d="M22 2 L2 22" />
-            </FailIcon>
-          </IconBackground>
-          <div>
-            {messageList.map((message, index) => (
-              <p key={index}>
-                {message}
-              </p>
-            ))}
-          </div>
-        </NotificationContainer>
-      )}
-    </>
+    <NotificationContainer>
+      <CloseIcon onClick={handleCloseModal} />
+      <IconBackground $color={isSuccess ? 'success' : 'fail'}>
+        {isSuccess ? (
+          <CheckIcon viewBox="0 0 24 24">
+            <path d="M2 12 L10 20 L22 8" />
+          </CheckIcon>
+        ) : (
+          <FailIcon viewBox="0 0 24 24">
+            <path d="M2 2 L22 22" />
+            <path d="M22 2 L2 22" />
+          </FailIcon>
+        )}
+      </IconBackground>
+      <div>
+        {messageList.map((message, index) => (
+          <p key={index}>{message}</p>
+        ))}
+      </div>
+    </NotificationContainer>
   )
 }
 

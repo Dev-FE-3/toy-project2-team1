@@ -18,6 +18,8 @@ import {
   filterData, 
 } from '@/shared/redux/reducer/approvalSlice';
 
+const itemsPerPage = 10; // 페이지 당 표시할 항목 수
+
 export function Table({ filterValue }) {
   const dispatch = useDispatch();
   const {
@@ -27,8 +29,6 @@ export function Table({ filterValue }) {
     currentPage,
     expandedId,
   } = useSelector((state) => state.approval);
-
-  const itemsPerPage = 10; // 페이지 당 표시할 항목 수
   
   // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {
@@ -36,14 +36,10 @@ export function Table({ filterValue }) {
       dispatch(setLoading(true));
       try {
         const fetchedData = await getAllPayrollCorrections(); // 서비스 호출
-        
-        // 로딩스피너 노출을 위한 딜레이 추가
-        setTimeout(() => {
-          dispatch(setData(fetchedData)); // 전체 데이터 설정
-          dispatch(setLoading(false));
-        }, 200);
+        dispatch(setData(fetchedData)); // 전체 데이터 설정
       } catch (err) {
         dispatch(setError(err.message));
+      } finally {
         dispatch(setLoading(false));
       }
     };

@@ -11,8 +11,8 @@ import { setDate, toggleIsShow } from '@/shared/redux/reducer/userPayStubSlice'
 export default function Header() {
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [isFail, setIsFail] = useState(false)
   const [message, setMessage] = useState([])
   const [isEmpty, setIsEmpty] = useState(false)
   const textareaRef = useRef(null)
@@ -27,8 +27,8 @@ export default function Header() {
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false)
+    setIsNotificationOpen(false)
     setIsSuccess(false)
-    setIsFail(false)
     setIsEmpty(false)
   }, [])
 
@@ -51,9 +51,9 @@ export default function Header() {
         setIsSuccess(true)
         setMessage(['정상적으로 제출 되었습니다', '진행 상태는 내 문서함에서 확인할 수 있습니다'])
       } else {
-        setIsFail(true)
         setMessage(['현재 정정신청이 불가능합니다', '인사팀에 문의하세요'])
       }
+      setIsNotificationOpen(true)
     } catch (error) {
       return <div>{error}</div>
     }
@@ -101,12 +101,13 @@ export default function Header() {
             제출
           </Button>
         </ButtonWrap>
-        <Notification
-          isSuccess={isSuccess}
-          isFail={isFail}
-          handleCloseModal={handleCloseModal}
-          messageList={message}
-        ></Notification>
+        {isNotificationOpen && (
+          <Notification
+            isSuccess={isSuccess}
+            handleCloseModal={handleCloseModal}
+            messageList={message}
+          ></Notification>
+        )}
       </Modal>
     </>
   )
