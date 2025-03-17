@@ -18,6 +18,8 @@ import {
   filterData, 
 } from '@/shared/redux/reducer/approvalSlice';
 
+const itemsPerPage = 10; // 페이지 당 표시할 항목 수
+
 export function Table({ filterValue }) {
   const dispatch = useDispatch();
   const {
@@ -27,8 +29,6 @@ export function Table({ filterValue }) {
     currentPage,
     expandedId,
   } = useSelector((state) => state.approval);
-
-  const itemsPerPage = 10; // 페이지 당 표시할 항목 수
   
   // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {

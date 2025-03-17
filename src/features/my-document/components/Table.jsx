@@ -17,6 +17,8 @@ import {
   filterData,
 } from '@/shared/redux/reducer/myDocumentSlice';
 
+const itemsPerPage = 10; // 페이지 당 표시할 항목 수
+
 export function Table({ filterValue }) {
   const dispatch = useDispatch();
   const { uid } = useSelector(state => state.user); // 리덕스 스토어에서 uid 가져오기
@@ -27,7 +29,6 @@ export function Table({ filterValue }) {
     currentPage,
     expandedId,
   } = useSelector(state => state.myDocument);
-  const itemsPerPage = 10; // 페이지 당 표시할 항목 수
   
   // 서비스를 통해 firebase의 데이터 가져오기
   useEffect(() => {
