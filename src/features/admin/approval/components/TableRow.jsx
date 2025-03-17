@@ -57,11 +57,9 @@ export const TableRow = ({ item, $isExpanded, onToggle, updateStatus }) => {
   }, [item.id]);
 
   const handleStatusChange = (value) => {
-    if (!isDisabled) {
-      const statusText = getStatusText(value);
-      setApprovalStatus(statusText);
-      setIsSelected(true);
-    }
+    const statusText = getStatusText(value);
+    setApprovalStatus(statusText);
+    setIsSelected(true);
   }
 
   // firestore 값 업데이트 함수
