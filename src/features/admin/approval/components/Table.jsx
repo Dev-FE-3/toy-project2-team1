@@ -36,14 +36,10 @@ export function Table({ filterValue }) {
       dispatch(setLoading(true));
       try {
         const fetchedData = await getAllPayrollCorrections(); // 서비스 호출
-        
-        // 로딩스피너 노출을 위한 딜레이 추가
-        setTimeout(() => {
-          dispatch(setData(fetchedData)); // 전체 데이터 설정
-          dispatch(setLoading(false));
-        }, 200);
+        dispatch(setData(fetchedData)); // 전체 데이터 설정
       } catch (err) {
         dispatch(setError(err.message));
+      } finally {
         dispatch(setLoading(false));
       }
     };
